@@ -24,26 +24,26 @@ IT行业里这么说，没有反射也就没有框架，现有的框架都是以
 # 三. 使用反射的流程
 根据[官方API](http://www.oracle.com/technetwork/articles/java/javareflection-1536171.html)写就行了，大致流程就是:
 
-* 获取特定类的 **Class**类，即该类对应的字节码，共三种方法：
+- 获取特定类的 **Class**类，即该类对应的字节码，共三种方法：
 1.   类名.class
 2.  对象名.getClass()
 3.  **Class.forName(“要加载的类全名”)**
 
-* 调用 Class 对象的 **getConstructor(Class<?>... parameterTypes)**获取构造方法对象
+- 调用 Class 对象的 **getConstructor(Class<?>... parameterTypes)**获取构造方法对象
 
-* 调用是构造方法类 Constructor  的 ** newInstance(Object... initargs)** 方法新建对象
+- 调用是构造方法类 Constructor  的 ** newInstance(Object... initargs)** 方法新建对象
 
 
-*  调用Class对象的 **getMethod(String name, Class<?>... parameterTypes)**获取方法对象
+- 调用Class对象的 **getMethod(String name, Class<?>... parameterTypes)**获取方法对象
 
-* 调用方法对象类Method 的 **invoke(Object obj, Object... args)** 方法，调用对象上相应方法
+- 调用方法对象类Method 的 **invoke(Object obj, Object... args)** 方法，调用对象上相应方法
 
 # 四. 反射的原理
 本节内容整理自[慕课网教学](https://www.imooc.com/video/3733/0)
 ## Class类 
-#### 类是不是对象?
+### 类是不是对象?
 在面向对象的世界里，一切皆是对象。而在java语言中，有两个东西特殊：static修饰的东西不是对象，但是它属于类；普通的数据类型不是对象，例如：int a = 5;它不是面向对象，但是它有其包装类 Integer 或者分装类来弥补了它。除了以上两种不是面向对象，其余的**包括类也有它的面向对象**，类是 java.lang.Class 的**实例化对象**（注意**C**是大写）。
-#### 可以用new关键字实例化Class对象吗?
+### 可以用new关键字实例化Class对象吗?
 对于普通的对象，我们一般都会这样创建和表示(实例化)：
 
 ``` java
@@ -73,7 +73,7 @@ Class c =new Class();//错误
     }
 ```
 
-#### 类类型
+### 类类型
 虽然我们不能用构造器new一个Class对象，但是却可以通过已有的类得到一个Class的 **实例对象**，共有三种方式，如下：
 
 ``` java
@@ -94,7 +94,7 @@ System.out.println(c1 == c2)? or System.out.println(c1 == c3)?
 答案是肯定的，返回值为ture。这表明不论c1 or c2 or c3都代表了F类的类类型，也就是说一个类只可能是Class类的一个实例对象。
 c1、c2、c3都是Class的对象，叫做**Code这个类的类类型（Class Type）**。
 ***类类型是反射的基础。***
-#### 通过类类型获取该类的对象
+### 通过类类型获取该类的对象
 已经得到了类类型，可以通过类类型的newInstance()方法创建某个类的对象实例以及调用方法，如下：
 
 ``` java
@@ -172,9 +172,9 @@ class Word implements OfficeAble{
 ## 获取类的信息
 一句话，类中有什么信息，它就可以获得什么信息，不过前提是得知道类的名字，否则巧妇难为无米之炊。
 我们都知道一个类包括属性，普通方法和构造方法，这一节我们就学习如何通过类类型得到类的基本信息。
-#### 获取类的成员方法信息
+### 获取类的成员方法信息
 在Java中，类的成员方法也是一个对象，它是java.lang.reflect.Method的一个对象，所以我们通过**java.lang.reflect.Method**里面封装的方法来获取这些信息。
-###### 获取单个方法
+#### 获取单个方法
 单独获取某一个方法是通过**Class**类的以下方法获得的：
 
 ```java
@@ -200,7 +200,7 @@ Class c = a.getClass();
 Method method = c.getDeclaredMethod("print", String.class, int.class);
 ```
 
-###### 调用方法
+#### 调用方法
 得到方法以后通过Method类的以下方法调用该方法：
 
 ```java
@@ -220,9 +220,9 @@ method.invoke(a, "hello", 10);
 a.print("hello", 10);
 ```
 
-#### 获取类的成员变量信息
+### 获取类的成员变量信息
 类的成员变量也是一个对象，它是java.lang.reflect.Field的一个对象，所以我们通过java.lang.reflect.Field里面封装的方法来获取这些信息。
-###### 单独获取某个成员变量
+#### 单独获取某个成员变量
 通过Class类的以下方法实现：
 
 ```java
@@ -246,9 +246,9 @@ Class c = a.getClass();
 Field field = c.getDeclaredField("n");
 ```
 
-#### 获取类的构造函数
+### 获取类的构造函数
 同上，类的成构造函数也是一个对象，它是java.lang.reflect.Constructor的一个对象，所以我们通过**java.lang.reflect.Constructor**里面封装的方法来获取这些信息。
-###### 单独获取某个构造函数
+#### 单独获取某个构造函数
 通过**Class**类的以下方法实现：
 
 ```java
