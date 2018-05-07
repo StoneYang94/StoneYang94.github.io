@@ -76,23 +76,15 @@ Spring是一个开源框架，为了解决企业应用开发的复杂性而创�
 * 对应Java接口即声明，声明了哪些方法对外提供的。
 * 在Java8中，接口可以拥有方法体。
 ### 面向接口编程
-* 结构设计中，分清层次及调用关系，每层只向外（上层）提供一组 
-功能接口，各层间仅依赖接口而非实现类
+* 结构设计中，分清层次及调用关系，每层只向外（上层）提供一组 功能接口，各层间仅依赖接口而非实现类
 * 接口实现的**变动不影响**各层间的调用，这一点在公共服务中尤为重要
 * “面向接口编程”中的“接口”是用于**隐藏**具体实现和实现多态性的组件 
 ## 什么是IOC
 * 站在过程的角度看问题
-IOC：控制反转，控制权的转移，应用本身不负责依赖对象的创建和 
-维护，而是由外部容器负责创建和维护
+IOC：控制反转，控制权的转移，应用本身不负责依赖对象的创建和 维护，而是由外部容器负责创建和维护
 * 站在主体的角度看问题
 DI（依赖注入）是其中一种实现方式
-2004年，Martin Fowler探讨了同一个问题，既然IoC是控制反转，那么 
-到底是“哪些方面被控制反转了呢？”，经过详细的分析和论证后，他得 
-出了答案：“**获得依赖对象的过程**被反转了”。控制被反转之后，获得依赖 
-对象的过程由自身管理变成了由IOC容器的主动注入。于是，他给“控制反转” 
-取了一个更合适的名字“依赖注入（Dependency Injection）”。他的这个 
-答案，实际上给出了实现IoC的方法：注入。所谓依赖注入，就是由IoC容器 
-在运行期间，动态地将某种依赖关系注入到对象之中。
+2004年，Martin Fowler探讨了同一个问题，既然IoC是控制反转，那么 到底是“哪些方面被控制反转了呢？”，经过详细的分析和论证后，他得出了答案：“**获得依赖对象的过程**被反转了”。控制被反转之后，获得依赖 对象的过程由自身管理变成了由IOC容器的主动注入。于是，他给“控制反转” 取了一个更合适的名字“依赖注入（Dependency Injection）”。他的这个答案，实际上给出了实现IoC的方法：注入。所谓依赖注入，就是由IoC容器 在运行期间，动态地将某种依赖关系注入到对象之中。
 * 目的：**创建对象并且组装对象之间的关系**
 （）（）（）（）（）（
 ## IOC简单类比
@@ -335,6 +327,7 @@ AspectJ
 - 运行期间动态代理（JDK动态代理、CGLib动态代理） 
 SpringAOP、JbossAOP
 ### AOP几个关键概念
+
 |名称|	说明|
 |:---:|---|
 |切面（Aspect）|	一个关注点的模块化，这个关注点可能会横切多个对象
@@ -346,6 +339,7 @@ SpringAOP、JbossAOP
 |AOP代理（AOP Proxy）	|AOP框架创建的对象，用来实现切面契约（aspect contract）（包括通知方法执行等功能）
 |织入（Weaving）	|把切面连接到其它的应用程序类型或者对象上，并创建一个被通知的对象，分为：编译时织入、类加载时织入，执行时织入
 ### Advice的类型
+
 |名称	|说明
 |:---:|---|
 |前置通知（Before advcie）|	在某连接点（join point）之前执行的通知，但不能阻止连接点前的执行（除非它抛出一个异常）
@@ -405,7 +399,431 @@ target(com.xyz.service.AccountService)(only in Spring AOP)
 - args用于**匹配**当前执行的方法传入的参数为指定类型的执行方法
 args(java.io.Serializable)(only in Spring AOP) 
 ## Advice应用（上）
-### 
+- Before
+
+```xml
+<aop:aspect id="beforeExample" ref="aBean">
+
+    <aop:before
+        pointcut-ref="dataAccessOperation"
+        method="doAccessCheck"/>
+
+    ...
+
+</aop:aspect>
+```
+
+```xml
+<aop:aspect id="beforeExample" ref="aBean">
+
+    <aop:before
+        pointcut="execution(* com.xyz.myapp.dao..(..))"
+        method="doAccessCheck"/>
+
+    ...
+
+</aop:aspect>
+```
+
+- After returning advice
+
+```xml
+<aop:aspect id="afterReturnExample" ref="aBean">
+
+    <aop:after-returning
+        pointcut-ref="dataAccessOperation"
+        method="doAccessCheck"/>
+
+    ...
+
+</aop:aspect>
+```
+
+```xml
+<aop:aspect id="afterReturningExample" ref="aBean">
+
+    <aop:after-returning
+        pointcut-ref="dataAccessOperation"
+        returing="retVal"
+        method="doAccessCheck"/>
+
+    ...
+
+</aop:aspect>
+```
+
+- After throwing advice
+
+```xml
+<aop:aspect id="afterThrowingExample" ref="aBean">
+
+    <aop:after-throwing
+        pointcut-ref="dataAccessOperation"
+        method="doAccessCheck"/>
+
+    ...
+
+</aop:aspect>
+```
+
+使用throwing属性来指定可被传递的异常的参数名称
+
+```xml
+<aop:aspect id="afterThrowingExample" ref="aBean">
+
+    <aop:after-throwing
+        pointcut-ref="dataAccessOperation"
+        throwing="dataAccessEx"
+        method="doAccessCheck"/>
+
+    ...
+
+</aop:aspect>
+```
+
+- After(finally) advice
+
+```xml
+<aop:aspect id="afterFinallyExample" ref="aBean">
+
+    <aop:after
+        pointcut-ref="dataAccessOperation"
+        method="doAccessCheck"/>
+
+    ...
+
+</aop:aspect>
+```
 
 ## Advice应用（下）
-### 
+- Around advice
+通知方法的第一个参数必须是ProceedingJoinPoint类型
+
+```xml
+<aop:aspect id="aroundExample" ref="aBean">
+
+    <aop:after
+        pointcut-ref="businessService"
+        method="doBasicProfiling"/>
+
+    ...
+
+</aop:aspect>
+```
+
+```java
+public Object doBasicProfiling(ProceedingJoinPoint pjp) throws Throwable{
+    //start stopwatch
+    Object retVal = pjp.proceed();
+    //stop stopwatch
+    return retVal;
+}
+```
+##  Introductions应用
+- 允许一个切面声明一个实现指定接口的通知对象且提供一个接口实现类**来代表**这些对象
+- 由<aop:aspect>中的<aop:declare-parents>元素声明，该元素用于声明所匹配的类型拥有一个新的parent（因此得名）
+- schema-defaulted aspects只支持singleton models
+
+```xml
+<aop:aspect id="usageTrackerAspect" ref="usageTracking">
+
+    <aop:declare-parents
+        types-matching="com.xzy.myapp.service.*+"
+        implements-interface="com.xyz.myapp.service.tracking.UsageTracked"
+        default-impl="com.xyz.myapp.service.tracking.DefaultUsageTracked"/>
+
+    <aop:before
+        pointcut="com.xyz.myapp.SystemArchitecture.businessService()
+        and this(usageTracked)"
+        method="recordUsage"/>  
+
+</aop:aspect>
+```
+
+```java
+public void recordUsage(UsageTracked usageTracked){
+    usageTracked.incrementUseCount();
+}
+```
+
+```java
+UsageTracked usageTracked = (UsageTracked) context.getBean("myService");
+```
+
+## Advisors
+- advisor就像一个小的自包含的方面，**只有一个**advice
+- 切面自身通过一个bean表示，并且必须实现advice接口，同时， advisor也可以很好的利用AspectJ的切入点表达式
+- Spring通过配置文件中<aop:advisor>元素支持advisor 。实际使用中，大多数情况下它会和transaction advice配合使用
+- 为了自定义一个advisor的优先级以便让advice可以有序，可以使用order属性来定义advisor的顺序
+
+```xml
+<aop:config>
+
+    <aop:pointcut id="businessService"
+        expression="execution(* com.xyz.myapp.service..(..))"/>
+
+    <aop:advisor
+        pointcut-ref="businessService"
+        advice-ref="tx-advice"/>
+
+</aop:config>
+
+<tx:advice id="tx-advice">
+    <tx:attribute>
+        <tx:method name="*" propagation="REQUIRED"/>
+    </tx:attribute>
+</tx:advice>
+```
+
+# Spring AOP的API介绍
+## Spring AOP API的Pointcut、advice概念及应用
+### Spring AOP API
+- 这是Spring1.2历史用法，当时（V4.0）仍然支持
+- 这是SpringAOP**基础**，不得不了解
+- 现在的用法也是**基于**历史的，只是更简便了
+### Pointcut
+实现之一：NameMatchMethodPointcut，根据**方法名字**进行匹配
+成员变量：mappedNames，匹配的方法名集合
+
+```xml
+<bean id="pointcutBean" class="org.springframework.aop.support.NameMatchMetchMethodPointcut">
+    <property name="mappedNames">
+        <list>
+            <value>sa*</value>
+        </list>
+    </property>
+</bean>
+```
+
+### Before advice
+- 一个简单的通知类型
+- 只是在进入方法之前被调用，**不需要**MethodInvocation对象
+- 前置通知可以在连接点执行之前插入自定义行为，但**不能改变**返回值
+
+```java
+public interface MethedBeforeAdvice extends BeforeAdvice{
+    void before(Method m,Object[] args,Object target) throws Throwable;
+}
+```
+
+```java
+public class CountingBeforeAdvice implements MethodBeforeAdvice{
+
+    private int count;
+
+    public void before(Method m,Object[] args,Object target) throws Throwable{
+        ++count;
+    }
+
+    public int getCount(){
+        return count;
+    }
+}
+```
+
+### Throws advice
+- 如果连接点抛出异常，throws advice在连接点返回后被调用
+- 如果throws-advice的方法抛出异常，那么它将覆盖原有异常
+- 接口org.springframework.aop.ThrowsAdvice不包含任何方法， 仅仅是一个申明，实现类需要实现下面类似的方法：
+
+  - void afterThrowing([Method,args,target],ThrowableSubclass);
+  - public void afterThrowing(Exception ex);
+  - public void afterThrowing(RemoteException ex);
+  - public void afterThrowing(Method method,Object[] args,Object target,Exception ex);
+  - public void afterThrowing(Methdo method,Object[] args,Object target,ServletException ex);
+### After Returning advice
+- 后置通知**必须**实现org.springframework.aop.AfterReturningAdvcie接口
+
+```java
+public class CountingAfterReturningAdvice implements AfterReturningAdvice{
+    private int count;
+    public void afterReturing(Object returnValue,Method m,Object[] args, Object target) throws Throwable{
+        ++count;
+    }
+    public int getCount(){
+        return count;
+    }
+}
+```
+
+- 可以访问返回值（但不能进行修改）、被调用的方法、方法的参数和目标
+- 如果抛出异常，将会抛出拦截器链，替代返回值
+### Interception around advcie
+- Spring的切入点模型使得切入点可以**独立于advice重用**，以针对不同的advice可以使用想同的切入点
+### Introduction advice
+#### 相关
+- Spring把引入通知作为一种特殊的**拦截器**
+- 需要IntroductionAdvisor和IntroductionInterceptor
+- **仅适用于类**，不能和任何切入点一起使用
+
+```java
+public interface IntroductionInterceptor extends MethodInterceptor{
+    boolean implementsInterface(Class intf);
+}
+```
+
+```java
+public interface IntroductionAdvisor extends Advisor,IntroductionInfo{
+
+    ClassFilter getClassFilter();
+
+    void validateInterfaces() throws IllegalArgumentException;
+}
+
+public interface IntroductionInfo{
+
+    Class[] getInterfaces();
+}
+```
+
+#### 一个Spring test suite的例子
+- 如果调用lock()方法，希望所有的setter方法抛出LockedException异常（如果物体不可变，AOP典型例子）
+
+```java
+public interface  Lockable{
+    void lock();
+    void unlock();
+    boolean locked();
+}
+```
+
+- 需要一个完成繁重任务的IntroductionInterceptor，这种情况下，可以使用org.springframework.aop.support.DelegatingIntroductionInterceptor
+
+```java
+public class LockMixin extends DelegatingIntroductionInterceptor implements Lockable{
+    private boolean locked;
+    public void lock(){
+        this.locked = true;
+    }
+    public void unlock(){
+        this.locked = false;
+    }
+    public boolean locked(){
+        return this.locked;
+    }
+    public Object invoke(MethodInvocation invocation) throws Throwable {
+        if(locked() && invocation.getMethod().getName().indexOf("set") == 0){
+            throw new LockedException();
+        }
+        return super.invoke(invocation);
+    }
+}
+```
+- introduction advisor比较简单，持有独立的LockMixin实例
+### Advisor API in Spring
+- Advisor是**仅包含一个**切入点表达式关联的单个通知的方面
+- 除了introductions，advisor**可用于**任何通知
+- org.springframework.aop.support.DefaultPointcutAdvisor是最常用的advisor类， 它可以与MethodInterceptor，BeforeAdvice或者ThrowsAdvice一起使用
+- 它可以混合在Spring同一个AOP代理的advisor和advice
+## ProxyFactoryBean及相关内容（上）
+### 基本方法
+- 创建Spring AOP代理的基本方法是使用org.springframework.aop.framework.ProxyFactoryBean
+### 好处
+- 这可以完全控制切入点和通知（advice）以及他们的顺序
+- 使用ProxyFactoryBean或者其它IoC相关类来创建AOP代理的最重要好处是通知和切入点也可以**由IoC来管理**
+### JDK还是CGLib
+- 被代理类没有实现任何接口，使用CGLIB代理，否者JDK代理
+- 通过设置proxyTargetClass为true，可以强制使用CGLIB
+- 如果目标类实现一个（或多个）接口，那么创建代理的类型将依赖ProxyFactoryBean的配置
+- 如果ProxyFactoryBean的proxyInterfaces属性被设置为一个或者多个全限定接口名，基于JDK的代理将被创建
+- 如果ProxyFactoryBean的proxyInterfaces属性没有被设置，但是目标类实现了一个（或者更多）接口，那么ProxyFactoryBean将自动检测到这个目标类已经实现了至少一个接口， 创建一个基于JDK的代理。
+## ProxyFactoryBean及相关内容（下）
+### Proxying classes
+- 前面的例子如果没有使用Person接口，这种情况下Spring会使用CGLIB代理，而不是JDK动态代理
+- 如果想，可以在任何情况下使用CGLIB，即使有接口
+- CGLIB代理的工作原理是在运行时生成目标类的子类，Spring配置这个生成的 
+子类委托方法调用到原来的目标
+- 子类是用来实现Decorator模式，织入通知
+- CGLIB的代理**对用户是透明**的，需要注意：
+  - final方法不能被通知，因为它们不能被覆盖
+  - 不用把CGLIB添加到classpath中，在Spring3.2中，CGLIB被重新包装并包含在 Spring核心的JAR（即基于CGLIB的AOP就像JDK动态代理一样“开箱即用”）
+### 使用global advisors
+用*做通配，匹配所有拦截器加入通知链
+
+```xml
+<bean id="proxy" class="org.springframework.aop.framework.ProxyFactoryBean">
+    <property name="target" ref="service"/>
+    <property name="interceptorNames">
+        <list>
+            <value>global*</value>
+        </list>
+    </property>
+</bean>
+
+<bean id="global_debug" class="org.springframework.aop.interceptor.DebugInterceptor" />
+<bean id="global_performance" class="org.springframework.aop.interceptor.PerformanceMonitorInterceptor" />
+```
+
+### 简化的proxy定义
+使用父子bean定义，以及内部bean定义，可能会带来更清洁和更简洁的代理定义（抽象属性标记父bean定义为抽象的这样它不能被实例化）
+
+```xml
+<bean id="txProxyTemplate" abstract="true" 
+    class="org.springframework.transaction.interceptor.TransactionProxyFactoryBean">
+    <property name="transactionManager" ref="transactionManager" />
+    <property name="transactionAttributes">
+        <props>
+            <prop key="*">PROPAGATION_REQUIRED</prop>
+        </props>
+    </property>
+</bean>
+```
+
+### 使用”auto-proxy“
+- Spring也允许使用”自动代理“的bean定义，它可以自动代理选定的bean， 
+这是建立在Spring的”bean post processor“功能基础上的（在加载bean 
+的时候就可以修改）
+- BeanNameAutoProxyCreator
+
+```xml
+<bean class="org.springframework.aop.framework.autoproxy.BeanNameAutoProxyCreator">
+    <property name="beanNames" value="jdk*,onlyJdk" />
+    <property name="interceptorNames">
+        <list>
+            <value>myInterceptor</value>
+        </list>
+    </property>
+</bean>
+```
+
+- DefaultAdvisorAutoProxyCreator，当前IoC容器中自动应用，不用显示声明引用advisor的bean定义
+
+```xml
+<bean class="org.springframework.aop.framework.autoproxy.DefaultAdisorAutoProxyCreator" />
+
+<bean class="org.springframework.transaction.interceptor.TransactionAttributeSourceAdvisor">
+    <property name="transacationInterceptor" ref="transactionInterceptor"/>
+</bean>
+
+<bean id="customAdvisor" class="com.mycompany.MyAdvisor" />
+
+<bean id="businessObject1" class="com.mycompany.BusinessObject1">
+    <!-- Properties omitted -->
+</bean>
+
+<bean id="businessObject2" class="com.mycompany.BusinessObject2"/>
+```
+
+# 第7章 Spring对AspectJ的支持
+## AspectJ介绍及Pointcut注解应用
+### AspectJ
+- @AspectJ的风格类似纯java注解的普通java类
+- Spring可以使用AspectJ来做**切入点解析**
+- AOP的运行时仍旧是纯的Spring AOP，对AspectJ的编译器或者织入**无依赖性**
+### Spring中配置@AspectJ
+- 对@AspectJ支持可以使用XML或者Java风格的配置
+- 确保AspectJ的aspectjweaver.jar库包含在应用程序（版本1.6.8）的classpath中
+
+```java
+@Configuration
+@EnableAspectJAutoProxy
+public class AppConfig{
+}
+```
+
+```xml
+<aop:aspectj-autoproxy/>
+```
+
+
+
