@@ -97,20 +97,20 @@
 
 
 
-<meta name="description" content="题目在一个长度为n的数组里的所有数字都在0到n-1的范围内。数组中某些数字是重复的，但不知道有几个数字重复了，也不知道每个数字重复了几次。请找出数组中任意一个重复的数字。">
+<meta name="description" content="题目 数组中重复的数字在一个长度为n的数组里的所有数字都在0到n-1的范围内。数组中某些数字是重复的，但不知道有几个数字重复了，也不知道每个数字重复了几次。请找出数组中任意一个重复的数字。">
 <meta name="keywords" content="剑指offer">
 <meta property="og:type" content="article">
 <meta property="og:title" content="剑指offer_03">
 <meta property="og:url" content="http://yoursite.com/2018/05/07/剑指offer-03/index.html">
 <meta property="og:site_name" content="Xudong&#39;s blogs">
-<meta property="og:description" content="题目在一个长度为n的数组里的所有数字都在0到n-1的范围内。数组中某些数字是重复的，但不知道有几个数字重复了，也不知道每个数字重复了几次。请找出数组中任意一个重复的数字。">
+<meta property="og:description" content="题目 数组中重复的数字在一个长度为n的数组里的所有数字都在0到n-1的范围内。数组中某些数字是重复的，但不知道有几个数字重复了，也不知道每个数字重复了几次。请找出数组中任意一个重复的数字。">
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="http://upload-images.jianshu.io/upload_images/11861611-c42f2c720e5bbcc2.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
 <meta property="og:image" content="http://upload-images.jianshu.io/upload_images/11861611-276add4370881523.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
-<meta property="og:updated_time" content="2018-05-08T11:41:21.609Z">
+<meta property="og:updated_time" content="2018-05-12T06:24:56.034Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="剑指offer_03">
-<meta name="twitter:description" content="题目在一个长度为n的数组里的所有数字都在0到n-1的范围内。数组中某些数字是重复的，但不知道有几个数字重复了，也不知道每个数字重复了几次。请找出数组中任意一个重复的数字。">
+<meta name="twitter:description" content="题目 数组中重复的数字在一个长度为n的数组里的所有数字都在0到n-1的范围内。数组中某些数字是重复的，但不知道有几个数字重复了，也不知道每个数字重复了几次。请找出数组中任意一个重复的数字。">
 <meta name="twitter:image" content="http://upload-images.jianshu.io/upload_images/11861611-c42f2c720e5bbcc2.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
 
 
@@ -363,7 +363,7 @@
       
 
       
-        <h1 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h1><p>在一个长度为n的数组里的所有数字都在0到n-1的范围内。数组中某些数字是重复的，但不知道有几个数字重复了，也不知道每个数字重复了几次。请找出数组中任意一个重复的数字。<br><a id="more"></a></p>
+        <h1 id="题目-数组中重复的数字"><a href="#题目-数组中重复的数字" class="headerlink" title="题目 数组中重复的数字"></a>题目 数组中重复的数字</h1><p>在一个长度为n的数组里的所有数字都在0到n-1的范围内。数组中某些数字是重复的，但不知道有几个数字重复了，也不知道每个数字重复了几次。请找出数组中任意一个重复的数字。<br><a id="more"></a></p>
 <h1 id="举例说明"><a href="#举例说明" class="headerlink" title="举例说明"></a>举例说明</h1><p>例如，如果输入长度为7的数组{2,3,1,0,2,5,3}，那么对应的输出是重复的数字2或者3。</p>
 <h1 id="思路"><a href="#思路" class="headerlink" title="思路"></a>思路</h1><h2 id="排序"><a href="#排序" class="headerlink" title="排序"></a><strong>排序</strong></h2><p>解决这个问题的一个简单的方法是先把输入的数组排序。从排序的数组中找出重复的数字时间很容易的事情，只需要从头到尾扫描排序后的数组就可以了。排序一个长度为n的数组需要<strong>O(nlogn)的时间</strong>。</p>
 <h2 id="hash-空间换时间"><a href="#hash-空间换时间" class="headerlink" title="hash 空间换时间"></a><strong>hash 空间换时间</strong></h2><p>将每个数映射到哈希表，扫描一遍能统计出所有数字出现的次数。然后扫描哈希表能在O(1)的时间内得到该数据出现的次数。这样便能找到重复的数字了。这个算法的时间复杂度是O(n)，但它提高时间效率是以一个大小为O(n)的哈希表为代价的。我们再看看有没有空间复杂度为O(1)的算法。 </p>
@@ -489,7 +489,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">6</span>
+                  <span class="site-state-item-count">8</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -500,7 +500,7 @@
               
               <div class="site-state-item site-state-categories">
                 <a href="/categories/index.html">
-                  <span class="site-state-item-count">6</span>
+                  <span class="site-state-item-count">4</span>
                   <span class="site-state-item-name">分类</span>
                 </a>
               </div>
@@ -511,7 +511,7 @@
               
               <div class="site-state-item site-state-tags">
                 <a href="/tags/index.html">
-                  <span class="site-state-item-count">7</span>
+                  <span class="site-state-item-count">5</span>
                   <span class="site-state-item-name">标签</span>
                 </a>
               </div>
@@ -560,7 +560,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#题目"><span class="nav-number">1.</span> <span class="nav-text">题目</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#举例说明"><span class="nav-number">2.</span> <span class="nav-text">举例说明</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#思路"><span class="nav-number">3.</span> <span class="nav-text">思路</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#排序"><span class="nav-number">3.1.</span> <span class="nav-text">排序</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#hash-空间换时间"><span class="nav-number">3.2.</span> <span class="nav-text">hash 空间换时间</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#寻找数组规律"><span class="nav-number">3.3.</span> <span class="nav-text">寻找数组规律</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#代码"><span class="nav-number">3.3.1.</span> <span class="nav-text">代码</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#输出"><span class="nav-number">3.3.2.</span> <span class="nav-text">输出</span></a></li></ol></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#题目-数组中重复的数字"><span class="nav-number">1.</span> <span class="nav-text">题目 数组中重复的数字</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#举例说明"><span class="nav-number">2.</span> <span class="nav-text">举例说明</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#思路"><span class="nav-number">3.</span> <span class="nav-text">思路</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#排序"><span class="nav-number">3.1.</span> <span class="nav-text">排序</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#hash-空间换时间"><span class="nav-number">3.2.</span> <span class="nav-text">hash 空间换时间</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#寻找数组规律"><span class="nav-number">3.3.</span> <span class="nav-text">寻找数组规律</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#代码"><span class="nav-number">3.3.1.</span> <span class="nav-text">代码</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#输出"><span class="nav-number">3.3.2.</span> <span class="nav-text">输出</span></a></li></ol></li></ol></li></ol></div>
             
 
           </div>
