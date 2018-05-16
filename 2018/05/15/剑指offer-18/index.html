@@ -1,0 +1,810 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next gemini use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+<!-- 20180426-->
+<script src="//cdn.bootcss.com/pace/1.0.2/pace.min.js"></script>
+<link href="//cdn.bootcss.com/pace/1.0.2/themes/pink/pace-theme-flash.css" rel="stylesheet">
+<style>
+    .pace .pace-progress {
+        background: #1E92FB; /*进度条颜色*/
+        height: 3px;
+    }
+    .pace .pace-progress-inner {
+         box-shadow: 0 0 10px #1E92FB, 0 0 5px     #1E92FB; /*阴影颜色*/
+    }
+    .pace .pace-activity {
+        border-top-color: #1E92FB;    /*上边框颜色*/
+        border-left-color: #1E92FB;    /*左边框颜色*/
+    }
+</style>
+
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon.ico?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="剑指offer," />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="题目：  在O(1)的时间内删除链表节点 删除链表中重复的节点">
+<meta name="keywords" content="剑指offer">
+<meta property="og:type" content="article">
+<meta property="og:title" content="剑指offer_18">
+<meta property="og:url" content="http://yoursite.com/2018/05/15/剑指offer-18/index.html">
+<meta property="og:site_name" content="Xudong&#39;s blogs">
+<meta property="og:description" content="题目：  在O(1)的时间内删除链表节点 删除链表中重复的节点">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/11861611-ec1485e06e13784f.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/11861611-04caa9ff11794509.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:updated_time" content="2018-05-15T12:22:26.216Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="剑指offer_18">
+<meta name="twitter:description" content="题目：  在O(1)的时间内删除链表节点 删除链表中重复的节点">
+<meta name="twitter:image" content="http://upload-images.jianshu.io/upload_images/11861611-ec1485e06e13784f.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2018/05/15/剑指offer-18/"/>
+
+
+
+
+
+  <title>剑指offer_18 | Xudong's blogs</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Xudong's blogs</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">email:2228998096@qq.com    wechat:yxd19940114</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/05/15/剑指offer-18/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="杨旭东">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Xudong's blogs">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">剑指offer_18</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-05-15T19:53:20+08:00">
+                2018-05-15
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/简单算法/" itemprop="url" rel="index">
+                    <span itemprop="name">简单算法</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>题目：</p>
+<ul>
+<li>在O(1)的时间内删除链表节点</li>
+<li>删除链表中重复的节点<a id="more"></a>
+<h1 id="题目1：在O-1-的时间内删除链表节点"><a href="#题目1：在O-1-的时间内删除链表节点" class="headerlink" title="题目1：在O(1)的时间内删除链表节点"></a>题目1：在O(1)的时间内删除链表节点</h1>给定单向链表的头指针和一个节点指针，定义一个函数在O(1)时间内删除该节点。<h1 id="举例说明"><a href="#举例说明" class="headerlink" title="举例说明"></a>举例说明</h1>链表1-&gt;2-&gt;3，输入头结点head和待删除结点n2，输出删除之后的头结点，此时链表1-&gt;2。<h1 id="思路"><a href="#思路" class="headerlink" title="思路"></a>思路</h1><h2 id="常规思路"><a href="#常规思路" class="headerlink" title="常规思路"></a>常规思路</h2></li>
+<li>一般单向列表删除结点，就是从头遍历，找到这个结点之前的结点，指向这个结点之后的结点，就算是删除了这个结点。</li>
+<li>这种方法的时间复杂度为O(n) 。<h2 id="复制结点法"><a href="#复制结点法" class="headerlink" title="复制结点法"></a>复制结点法</h2></li>
+<li>题目要求在O(1)时间内完成，所以应该避免遍历。 </li>
+<li>我们遍历的目的是为了找到这个结点前面的那个结点，所以我们可以 将待删除结点的<strong>下一个结点的值赋给</strong>待删除的结点，然后删除一个结点，就达到了删除结点的目的。</li>
+<li>对于n-1个非尾节点，O(1)时间内可以删除，如果是尾节点则O(n)，平均时间复杂度为[O(1)∗(n−1)+O(n)∗1]/n，时间复杂度还是O(1)。符合要求。不过该方法并没有判断需要删除的节点是否在链表中，为达到时间复杂度为O(1)的要求，将判断节点是否存在的责任推给了该方法的调用者。<h3 id="注意边界条件的特殊处理"><a href="#注意边界条件的特殊处理" class="headerlink" title="注意边界条件的特殊处理"></a>注意边界条件的特殊处理</h3>1)正常, 多个结点，删除的不是尾结点。<br>2)只有一个结点，删除尾结点（也是头结点）<br>3)有多个结点，删除尾结点<h3 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h3></li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">_18_1</span> </span>&#123;</span><br><span class="line">	<span class="keyword">private</span> <span class="keyword">static</span> <span class="class"><span class="keyword">class</span> <span class="title">ListNode</span> </span>&#123;</span><br><span class="line">		<span class="keyword">int</span> val;</span><br><span class="line">		ListNode next;</span><br><span class="line"></span><br><span class="line">		ListNode() &#123;</span><br><span class="line">		&#125;;</span><br><span class="line"></span><br><span class="line">		ListNode(<span class="keyword">int</span> value) &#123;</span><br><span class="line">			<span class="keyword">this</span>.val = value;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="comment">// 这个方法和文本上的不一样，书上的没有返回值，这个因为JAVA值传递的原因， 如果删除的结点是头结点，如果不采用返回值的方式，那么头结点永远删除不了</span></span><br><span class="line">	<span class="function"><span class="keyword">private</span> <span class="keyword">static</span> ListNode <span class="title">deleteNode</span><span class="params">(ListNode head, ListNode nodeToBeDeleted)</span> </span>&#123;</span><br><span class="line">		<span class="keyword">if</span> (head == <span class="keyword">null</span> || nodeToBeDeleted == <span class="keyword">null</span>)</span><br><span class="line">			<span class="keyword">return</span> head;</span><br><span class="line">		<span class="comment">// 要删除的节点不是尾节点 O(1)------------</span></span><br><span class="line">		<span class="keyword">if</span> (nodeToBeDeleted.next != <span class="keyword">null</span>) &#123;</span><br><span class="line">			nodeToBeDeleted.val = nodeToBeDeleted.next.val;</span><br><span class="line">			<span class="comment">// 待删除的结点的下一个指向原先待删除引号的下下个结点，即将待删除的下一个结点删除</span></span><br><span class="line">			nodeToBeDeleted.next = nodeToBeDeleted.next.next;</span><br><span class="line">		&#125; <span class="keyword">else</span> <span class="keyword">if</span> (head == nodeToBeDeleted) &#123; <span class="comment">// 要删除头节点，而且链表只有一个节点 O(1)--------------</span></span><br><span class="line">			<span class="keyword">return</span> head.next;</span><br><span class="line">		&#125; <span class="keyword">else</span> &#123;</span><br><span class="line">			ListNode tmp = head; <span class="comment">// 要删除尾节点，而且链表有多个节点 O(n)----------------</span></span><br><span class="line">			<span class="keyword">while</span> (tmp.next != nodeToBeDeleted) &#123;</span><br><span class="line">				tmp = tmp.next;</span><br><span class="line">			&#125;</span><br><span class="line">			tmp.next = <span class="keyword">null</span>;</span><br><span class="line">			nodeToBeDeleted = <span class="keyword">null</span>;</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="keyword">return</span> head;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="function"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">printList</span><span class="params">(ListNode head)</span> </span>&#123;</span><br><span class="line">		<span class="keyword">while</span> (head != <span class="keyword">null</span>) &#123;</span><br><span class="line">			System.out.print(head.val + <span class="string">"-&gt; "</span>);</span><br><span class="line">			head = head.next;</span><br><span class="line">		&#125;</span><br><span class="line">		System.out.println(<span class="string">"null"</span>);</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">		<span class="comment">// 多个节点，并且删除的不是尾结点</span></span><br><span class="line">		ListNode n1 = <span class="keyword">new</span> ListNode(<span class="number">1</span>);</span><br><span class="line">		ListNode n2 = <span class="keyword">new</span> ListNode(<span class="number">2</span>);</span><br><span class="line">		ListNode n3 = <span class="keyword">new</span> ListNode(<span class="number">3</span>);</span><br><span class="line">		n1.next = n2;</span><br><span class="line">		n2.next = n3;</span><br><span class="line">		System.out.println(<span class="string">"多个节点，并且删除的不是尾结点--------"</span>);</span><br><span class="line">		System.out.println(<span class="string">"调用前"</span>);</span><br><span class="line">		printList(n1);</span><br><span class="line">		System.out.println(<span class="string">"调用后"</span>);</span><br><span class="line">		printList(deleteNode(n1, n2));</span><br><span class="line">		<span class="comment">// 只有一个节点</span></span><br><span class="line">		System.out.println(<span class="string">"只有一个节点----------"</span>);</span><br><span class="line">		ListNode n4 = <span class="keyword">new</span> ListNode(<span class="number">4</span>);</span><br><span class="line">		System.out.println(<span class="string">"调用前"</span>);</span><br><span class="line">		printList(n4);</span><br><span class="line">		System.out.println(<span class="string">"调用后"</span>);</span><br><span class="line">		printList(deleteNode(n4, n4));</span><br><span class="line">		<span class="comment">// 多个节点，删除尾结点</span></span><br><span class="line">		ListNode n5 = <span class="keyword">new</span> ListNode(<span class="number">5</span>);</span><br><span class="line">		ListNode n6 = <span class="keyword">new</span> ListNode(<span class="number">6</span>);</span><br><span class="line">		ListNode n7 = <span class="keyword">new</span> ListNode(<span class="number">7</span>);</span><br><span class="line">		n5.next = n6;</span><br><span class="line">		n6.next = n7;</span><br><span class="line">		System.out.println(<span class="string">"多个节点，删除尾结点------------"</span>);</span><br><span class="line">		System.out.println(<span class="string">"调用前"</span>);</span><br><span class="line">		printList(n5);</span><br><span class="line">		System.out.println(<span class="string">"调用后"</span>);</span><br><span class="line">		printList(deleteNode(n5, n7));</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="输出"><a href="#输出" class="headerlink" title="输出"></a>输出</h3><p><img src="http://upload-images.jianshu.io/upload_images/11861611-ec1485e06e13784f.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image"></p>
+<h1 id="题目2：删除链表中重复的节点"><a href="#题目2：删除链表中重复的节点" class="headerlink" title="题目2：删除链表中重复的节点"></a>题目2：删除链表中重复的节点</h1><p>在一个排序的链表中，存在重复的结点，请删除该链表中重复的结点，重复的结点不保留，返回链表头指针。</p>
+<h1 id="举例说明-1"><a href="#举例说明-1" class="headerlink" title="举例说明"></a>举例说明</h1><p>链表1-&gt;2-&gt;3-&gt;3-&gt;3-&gt;4-&gt;4&gt;5，输入头结点head，输出删除之后的头结点，此时链表1-&gt;2&gt;5。</p>
+<h1 id="思路-1"><a href="#思路-1" class="headerlink" title="思路"></a>思路</h1><ul>
+<li>我们从头遍历整个链表。如果当前结点的值与下一个结点的值相同，那么它们就是重复的结点，都可以被删除。</li>
+<li>为了保证删除之后的链表仍然是相连的而没有中间断开，我们要把<strong>当前的前一个结点和后面值比当前结点的值要大的结点相连</strong>。我们要确保prev要始终与下一个没有重复的结点连接在一起。</li>
+<li>头结点可能与后面的结点重复，也就是说<strong>头结点也可能被删除</strong>，所以在链表头添加一个结点。 <h2 id="代码-1"><a href="#代码-1" class="headerlink" title="代码"></a>代码</h2></li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">_18_2</span> </span>&#123;</span><br><span class="line">	<span class="keyword">private</span> <span class="keyword">static</span> <span class="class"><span class="keyword">class</span> <span class="title">ListNode</span> </span>&#123;</span><br><span class="line">		<span class="keyword">int</span> val;</span><br><span class="line">		ListNode next;</span><br><span class="line"></span><br><span class="line">		ListNode() &#123;</span><br><span class="line">		&#125;</span><br><span class="line"></span><br><span class="line">		ListNode(<span class="keyword">int</span> value) &#123;</span><br><span class="line">			<span class="keyword">this</span>.val = value;</span><br><span class="line">		&#125;</span><br><span class="line"></span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="function"><span class="keyword">private</span> <span class="keyword">static</span> ListNode <span class="title">deleteDuplication</span><span class="params">(ListNode head)</span> </span>&#123;</span><br><span class="line">		<span class="comment">// 为null</span></span><br><span class="line">		<span class="keyword">if</span> (head == <span class="keyword">null</span>) &#123;</span><br><span class="line">			<span class="keyword">return</span> <span class="keyword">null</span>;</span><br><span class="line">		&#125;</span><br><span class="line"></span><br><span class="line">		<span class="comment">// 只有一个结点</span></span><br><span class="line">		<span class="keyword">if</span> (head.next == <span class="keyword">null</span>) &#123;</span><br><span class="line">			<span class="keyword">return</span> head;</span><br><span class="line">		&#125;</span><br><span class="line"></span><br><span class="line">		<span class="comment">// 临时的头结点</span></span><br><span class="line">		ListNode root = <span class="keyword">new</span> ListNode();</span><br><span class="line">		root.next = head;</span><br><span class="line">		<span class="comment">// 记录前驱结点</span></span><br><span class="line">		ListNode prev = root;</span><br><span class="line">		<span class="comment">// 记录当前处理的结点</span></span><br><span class="line">		ListNode node = head;</span><br><span class="line">		<span class="keyword">while</span> (node != <span class="keyword">null</span> &amp;&amp; node.next != <span class="keyword">null</span>) &#123;</span><br><span class="line">			<span class="comment">// 有重复结点，与node值相同的结点都要删除</span></span><br><span class="line">			<span class="keyword">if</span> (node.val == node.next.val) &#123;</span><br><span class="line">				<span class="comment">// 找到下一个不同值的节点，注意其有可能也是重复节点</span></span><br><span class="line">				<span class="keyword">while</span> (node.next != <span class="keyword">null</span> &amp;&amp; node.next.val == node.val) &#123;</span><br><span class="line">					node = node.next;</span><br><span class="line">				&#125;</span><br><span class="line">				<span class="comment">// 指向下一个节点，prev.next也可能是重复结点</span></span><br><span class="line">				<span class="comment">// 所以prev不要移动到下一个结点</span></span><br><span class="line">				prev.next = node.next;</span><br><span class="line">			&#125;</span><br><span class="line">			<span class="comment">// 相邻两个值不同，说明node不可删除，要保留</span></span><br><span class="line">			<span class="keyword">else</span> &#123;</span><br><span class="line">				prev.next = node;</span><br><span class="line">				prev = prev.next;</span><br><span class="line"></span><br><span class="line">			&#125;</span><br><span class="line">			node = node.next;</span><br><span class="line">		&#125;</span><br><span class="line"></span><br><span class="line">		<span class="keyword">return</span> root.next;</span><br><span class="line"></span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="function"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">printList</span><span class="params">(ListNode head)</span> </span>&#123;</span><br><span class="line">		<span class="keyword">while</span> (head != <span class="keyword">null</span>) &#123;</span><br><span class="line">			System.out.print(head.val + <span class="string">"-&gt;"</span>);</span><br><span class="line">			head = head.next;</span><br><span class="line">		&#125;</span><br><span class="line">		System.out.println(<span class="string">"null"</span>);</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">		ListNode n1 = <span class="keyword">new</span> ListNode(<span class="number">1</span>);</span><br><span class="line">		ListNode n2 = <span class="keyword">new</span> ListNode(<span class="number">2</span>);</span><br><span class="line">		ListNode n3 = <span class="keyword">new</span> ListNode(<span class="number">3</span>);</span><br><span class="line">		ListNode n4 = <span class="keyword">new</span> ListNode(<span class="number">3</span>);</span><br><span class="line">		ListNode n5 = <span class="keyword">new</span> ListNode(<span class="number">3</span>);</span><br><span class="line">		ListNode n6 = <span class="keyword">new</span> ListNode(<span class="number">4</span>);</span><br><span class="line">		ListNode n7 = <span class="keyword">new</span> ListNode(<span class="number">4</span>);</span><br><span class="line">		ListNode n8 = <span class="keyword">new</span> ListNode(<span class="number">5</span>);</span><br><span class="line"></span><br><span class="line">		n1.next = n2;</span><br><span class="line">		n2.next = n3;</span><br><span class="line">		n3.next = n4;</span><br><span class="line">		n4.next = n5;</span><br><span class="line">		n5.next = n6;</span><br><span class="line">		n6.next = n7;</span><br><span class="line">		n7.next = n8;</span><br><span class="line">		System.out.println(<span class="string">"调用前"</span>);</span><br><span class="line">		printList(n1);</span><br><span class="line">		System.out.println(<span class="string">"调用后"</span>);</span><br><span class="line">		printList(deleteDuplication(n1));</span><br><span class="line"></span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="输出-1"><a href="#输出-1" class="headerlink" title="输出"></a>输出</h2><p><img src="http://upload-images.jianshu.io/upload_images/11861611-04caa9ff11794509.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image"></p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/剑指offer/" rel="tag"><i class="fa fa-tag"></i> 剑指offer</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/05/14/剑指offer-13/" rel="next" title="剑指offer_13">
+                <i class="fa fa-chevron-left"></i> 剑指offer_13
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/05/16/剑指offer-19/" rel="prev" title="剑指offer_19">
+                剑指offer_19 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">杨旭东</p>
+              <p class="site-description motion-element" itemprop="description">种一棵树最好的时间是十年前，其次是现在</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">11</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">4</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">5</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/stoneyang94" target="_blank" title="GitHub">
+                      
+                        <i class="fa fa-fw fa-github"></i>GitHub</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="https://www.jianshu.com/u/f7b90f4a10ae" target="_blank" title="简书">
+                      
+                        <i class="fa fa-fw fa-book"></i>简书</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#题目1：在O-1-的时间内删除链表节点"><span class="nav-number">1.</span> <span class="nav-text">题目1：在O(1)的时间内删除链表节点</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#举例说明"><span class="nav-number">2.</span> <span class="nav-text">举例说明</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#思路"><span class="nav-number">3.</span> <span class="nav-text">思路</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#常规思路"><span class="nav-number">3.1.</span> <span class="nav-text">常规思路</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#复制结点法"><span class="nav-number">3.2.</span> <span class="nav-text">复制结点法</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#注意边界条件的特殊处理"><span class="nav-number">3.2.1.</span> <span class="nav-text">注意边界条件的特殊处理</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#代码"><span class="nav-number">3.2.2.</span> <span class="nav-text">代码</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#输出"><span class="nav-number">3.2.3.</span> <span class="nav-text">输出</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#题目2：删除链表中重复的节点"><span class="nav-number">4.</span> <span class="nav-text">题目2：删除链表中重复的节点</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#举例说明-1"><span class="nav-number">5.</span> <span class="nav-text">举例说明</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#思路-1"><span class="nav-number">6.</span> <span class="nav-text">思路</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#代码-1"><span class="nav-number">6.1.</span> <span class="nav-text">代码</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#输出-1"><span class="nav-number">6.2.</span> <span class="nav-text">输出</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">杨旭东</span>
+
+  
+</div>
+
+<!-- 20180426 -->
+<div class="powered-by">
+<i class="fa fa-user-md"></i><span id="busuanzi_container_site_uv">
+  本站访客数:<span id="busuanzi_value_site_uv"></span>
+</span>
+</div>
+
+
+<!-- 20180425
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+-->
+
+<!-- 20180425
+
+  <span class="post-meta-divider">|</span>
+
+-->
+
+<!-- 20180425
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Gemini</a> v5.1.4</div>
+
+-->
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+  <!--页面点击小红心 -->
+  <script type="text/javascript" src="/js/src/love.js"></script>>
+    <!--背景动画 -->
+  <script type="text/javascript" src="/js/src/background.js"></script>>
+</body>
+</html>
