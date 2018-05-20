@@ -1,0 +1,828 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next gemini use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+<!-- 20180426-->
+<script src="//cdn.bootcss.com/pace/1.0.2/pace.min.js"></script>
+<link href="//cdn.bootcss.com/pace/1.0.2/themes/pink/pace-theme-flash.css" rel="stylesheet">
+<style>
+    .pace .pace-progress {
+        background: #1E92FB; /*进度条颜色*/
+        height: 3px;
+    }
+    .pace .pace-progress-inner {
+         box-shadow: 0 0 10px #1E92FB, 0 0 5px     #1E92FB; /*阴影颜色*/
+    }
+    .pace .pace-activity {
+        border-top-color: #1E92FB;    /*上边框颜色*/
+        border-left-color: #1E92FB;    /*左边框颜色*/
+    }
+</style>
+
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon.ico?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="Java泛型," />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="将集合中的元素限定为一个特定的类型。">
+<meta name="keywords" content="Java泛型">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Java泛型">
+<meta property="og:url" content="http://yoursite.com/2018/05/20/Java泛型/index.html">
+<meta property="og:site_name" content="Xudong&#39;s blogs">
+<meta property="og:description" content="将集合中的元素限定为一个特定的类型。">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/11861611-4d5f9c72314fc53f.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/11861611-876f00441dc93d12.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:updated_time" content="2018-05-20T15:47:25.831Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Java泛型">
+<meta name="twitter:description" content="将集合中的元素限定为一个特定的类型。">
+<meta name="twitter:image" content="http://upload-images.jianshu.io/upload_images/11861611-4d5f9c72314fc53f.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2018/05/20/Java泛型/"/>
+
+
+
+
+
+  <title>Java泛型 | Xudong's blogs</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Xudong's blogs</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">email:2228998096@qq.com    wechat:yxd19940114</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/05/20/Java泛型/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="杨旭东">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Xudong's blogs">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">Java泛型</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-05-20T23:44:41+08:00">
+                2018-05-20
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/编程语言/" itemprop="url" rel="index">
+                    <span itemprop="name">编程语言</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>将集合中的元素限定为一个特定的类型。<br><a id="more"></a></p>
+<h1 id="一-为什么需要泛型？"><a href="#一-为什么需要泛型？" class="headerlink" title="一. 为什么需要泛型？"></a>一. 为什么需要泛型？</h1><h2 id="泛型出现之前"><a href="#泛型出现之前" class="headerlink" title="泛型出现之前"></a>泛型出现之前</h2><p>远在 JDK 1.4 版本的时候，那时候是没有泛型的概念的。当时 Java 程序员们写集合类的代码都是类似于下面这样：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">List list = <span class="keyword">new</span> ArrayList();</span><br><span class="line">list.add(<span class="string">"www.cnblogs.com"</span>);</span><br><span class="line">list.add(<span class="number">23</span>);</span><br><span class="line">String name = (String)list.get(<span class="number">0</span>);</span><br><span class="line">Integer number = (Integer)list.get(<span class="number">1</span>);</span><br></pre></td></tr></table></figure>
+<p>在代码中声明一个集合，我们可以往集合中放入各种各样的数据，而在<strong>取出来的时候就进行强制类型转换</strong>。但其实这样的代码存在一定隐患，因为可能过了不久我们就会<strong>忘记</strong>到底我们存放的 list 里面到底第几个是 String，第几个是 Integer 了。这样就会出现下面这样的情况：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">List list = <span class="keyword">new</span> ArrayList();</span><br><span class="line">list.add(<span class="string">"www.cnblogs.com"</span>);</span><br><span class="line">list.add(<span class="number">23</span>);</span><br><span class="line">String name = (String)list.get(<span class="number">0</span>);</span><br><span class="line">String number = (String)list.get(<span class="number">1</span>);    <span class="comment">//ClassCastException</span></span><br></pre></td></tr></table></figure>
+<ul>
+<li>编译时正常<br>开始时定义了一个List类型的集合，先向其中加入了一个字符串类型的值和一个Integer类型的值。这是完全允许的，因为此时list默认的类型为Object类型。</li>
+<li>运行时异常<br>代码<strong>编译阶段</strong>正常，而<strong>运行时</strong>会现  <figure class="highlight plain"><figcaption><span>异常。并且，导致此类错误编码过程中不易发现。</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">## 分析问题</span><br><span class="line">- 当我们将一个对象放入集合中，集合**不会记住**此对象的类型，当再次从集合中取出此对象时，改对象的编译类型变成了Object类型，但其运行时类型任然为其本身类型。</span><br><span class="line">- 因此，取出集合元素时需要人为的强制类型转化到具体的目标类型，且很容易出现“java.lang.ClassCastException”异常。</span><br><span class="line">## 寻找解决办法</span><br><span class="line">那么有没有什么办法可以**使集合能够记住集合内元素各类型**，且能够达到只要编译时不出现问题，运行时就不会出现“java.lang.ClassCastException”异常呢？答案就是使用泛型。</span><br><span class="line"># 什么是泛型</span><br><span class="line">## 例子</span><br><span class="line">```java</span><br><span class="line">public class GenericDemo &#123;</span><br><span class="line">	public static void main(String[] args) &#123;</span><br><span class="line">		List&lt;String&gt; list = new ArrayList();</span><br><span class="line">		list.add(&quot;datiangou&quot;);</span><br><span class="line">		list.add(&quot;cimutongzi&quot;);</span><br><span class="line">		for (int i = 0; i &lt; list.size(); i++) &#123;</span><br><span class="line">			String name = list.get(i); </span><br><span class="line">			System.out.println(&quot;name &quot;+i+&quot; is &quot; +name);</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+</ul>
+<p><img src="http://upload-images.jianshu.io/upload_images/11861611-4d5f9c72314fc53f.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="泛型"></p>
+<ul>
+<li>泛型就是将类型参数化，其在<strong>编译时才确定具体的参数</strong>。在上面这个例子中，这个具体的类型就是 String。可以看到我们在创建 List 集合的时候指定了 String 类型，这就意味着我们<strong>只能</strong>往 List 集合中存放 String 类型的数据。</li>
+<li>而当我们指定泛型之后，我们去<strong>取出数据</strong>后就<strong>不再需要进行强制类型转换</strong>了，这样就减少了发生强制类型转换的风险。<h2 id="术语"><a href="#术语" class="headerlink" title="术语"></a>术语</h2></li>
+<li>ArrayList<e> – 泛型类型</e></li>
+<li>ArrayList – 原始类型</li>
+<li>E – 类型参数</li>
+<li>&lt;&gt; – 读作”typeof”</li>
+</ul>
+<ul>
+<li>ArrayList<integer> – 参数化的类型</integer></li>
+<li>Integer – 实际类型参数</li>
+</ul>
+<p>#泛型的特性(擦除)</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">GenericDemo</span> </span>&#123;</span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">		ArrayList&lt;String&gt; a = <span class="keyword">new</span> ArrayList&lt;String&gt;();</span><br><span class="line">		ArrayList&lt;Integer&gt; b = <span class="keyword">new</span> ArrayList&lt;Integer&gt;();</span><br><span class="line">		Class c1 = a.getClass();</span><br><span class="line">		Class c2 = b.getClass();</span><br><span class="line">		System.out.println(c1 == c2);<span class="comment">//true</span></span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>输出的结果是 true。<br>因为无论对于 ArrayList 还是 ArrayList，它们的 Class 类型都是一直的，都是  <figure class="highlight plain"><figcaption><span>。</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line">- 那它们声明时指定的 String 和 Integer 到底体现在哪里呢？</span><br><span class="line">答案是体现在类编译的时候。当 **JVM 进行类编译时**，会进行泛型检查，如果一个集合被声明为 String 类型，那么它往该集合存取数据的时候就会对数据进行判断，从而避免存入或取出错误的数据。</span><br><span class="line">- 也就是说：泛型只存在于编译阶段，而不存在于运行阶段。**在编译后的 class 文件中，是没有泛型这个概念的。**</span><br><span class="line"></span><br><span class="line"># 泛型的应用</span><br><span class="line">泛型有三种使用方式，分别为：泛型类、泛型接口、泛型方法。</span><br><span class="line">##  泛型类</span><br><span class="line">泛型类型用于**类的定义**中，被称为泛型类。通过泛型可以完成对一组类的操作对外开放相同的接口。最典型的就是各种容器类，如：List、Set、Map。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">```java</span><br><span class="line">//定义-----------------</span><br><span class="line">public class GenericDemo&lt;T&gt; &#123;//此处T可以随便写为任意标识，常见的如T、E、K、V等形式的参数常用于表示泛型</span><br><span class="line"></span><br><span class="line">	private T key;// key这个成员变量的类型为T,T的类型由外部指定</span><br><span class="line"></span><br><span class="line">	public GenericDemo(T key) &#123; // 泛型构造方法 形参key的类型也为T，T的类型由外部指定</span><br><span class="line">		this.key = key;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	public T getKey() &#123; // 泛型方法getKey() 的返回值类型为T，T的类型由外部指定</span><br><span class="line">		return key;</span><br><span class="line">	&#125;</span><br><span class="line">//使用---------------------</span><br><span class="line">	//在实例化泛型类时，必须指定T的具体类型</span><br><span class="line">	public static void main(String[] args) &#123;</span><br><span class="line">		GenericDemo&lt;Integer&gt; genericInteger = new GenericDemo&lt;Integer&gt;(6666);</span><br><span class="line">		GenericDemo&lt;String&gt; genericString = new GenericDemo&lt;String&gt;(&quot;datiangou&quot;);</span><br><span class="line">		System.out.println(&quot;key of genericInteger is &quot; + genericInteger.getKey());</span><br><span class="line">		System.out.println(&quot;key of genericString is &quot; + genericString.getKey());</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+</ul>
+<p><img src="http://upload-images.jianshu.io/upload_images/11861611-876f00441dc93d12.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image"></p>
+<h2 id="泛型接口"><a href="#泛型接口" class="headerlink" title="泛型接口"></a>泛型接口</h2><h2 id="泛型方法"><a href="#泛型方法" class="headerlink" title="泛型方法"></a>泛型方法</h2><h1 id="泛型通配符"><a href="#泛型通配符" class="headerlink" title="泛型通配符"></a>泛型通配符</h1><h2 id="”-”通配符"><a href="#”-”通配符" class="headerlink" title="”?”通配符"></a>”?”通配符</h2><p>”?”表示任意类型，使用”?”通配符可以引用各种参数化的类型，可以调用与参数化无关的方法(如size()方法)，不能调用与参数化有关的方法(如add()方法)</p>
+<h2 id="扩展"><a href="#扩展" class="headerlink" title="扩展"></a>扩展</h2><h3 id="extends-限定通配符的上边界"><a href="#extends-限定通配符的上边界" class="headerlink" title="extends 限定通配符的上边界"></a>extends 限定通配符的上边界</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ArrayList&lt;? extends Number &gt; collection1= <span class="keyword">new</span> ArrayList&lt;Integer &gt;();<span class="comment">//编译通过</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ArrayList&lt;? extends Number &gt; collection2= <span class="keyword">new</span> ArrayList&lt;String&gt;();<span class="comment">//编译不通过</span></span><br></pre></td></tr></table></figure>
+<h3 id="super-限定通配符的下边界"><a href="#super-限定通配符的下边界" class="headerlink" title="super 限定通配符的下边界"></a>super 限定通配符的下边界</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ArrayList&lt;? <span class="keyword">super</span> Integer &gt; collection3= <span class="keyword">new</span> ArrayList&lt;Number &gt;();<span class="comment">//编译通过</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ArrayList&lt;? <span class="keyword">super</span> Integer &gt; collection4= <span class="keyword">new</span> ArrayList&lt;String&gt;();<span class="comment">//编译不通过</span></span><br></pre></td></tr></table></figure>
+<h3 id="缺陷"><a href="#缺陷" class="headerlink" title="缺陷"></a>缺陷</h3><ul>
+<li>对于 extends 通配符，我们无法向其中加入任何对象，但是我们可以进行正常的取出。extends 通配符偏向于内容的获取。</li>
+<li>对于 super 通配符，我们可以存入 T 类型对象或 T 类型的子类对象，但是我们取出的时候只能用 Object 类变量指向取出的对象。super 通配符更偏向于内容的存入。</li>
+<li>我们有一个 PECS 原则（Producer Extends Consumer Super）很好的解释了这两个通配符的使用场景。<ul>
+<li>Producer Extends 说的是当你的情景是生产者类型，需要获取资源以供生产时，我们建议使用 extends 通配符，因为使用了 extends 通配符的类型更适合获取资源。</li>
+<li>Consumer Super 说的是当你的场景是消费者类型，需要存入资源以供消费时，我们建议使用 super 通配符，因为使用 super 通配符的类型更适合存入资源。</li>
+</ul>
+</li>
+<li>如果既想存入，又想取出，不要使用 extends 或 super 通配符。</li>
+</ul>
+<p>参考文章<br><a href="http://www.cnblogs.com/chanshuyi/p/deep_insight_java_generic.html" target="_blank" rel="noopener">大白话说Java泛型：入门、使用、原理</a><br><a href="https://blog.csdn.net/s10461/article/details/53941091" target="_blank" rel="noopener">java 泛型详解-绝对是对泛型方法讲解最详细的，没有之一</a><br><a href="https://brianway.github.io/2016/01/08/javase-learn-note-2-Generics/" target="_blank" rel="noopener">java基础巩固笔记(2)-泛型</a></p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Java泛型/" rel="tag"><i class="fa fa-tag"></i> Java泛型</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/05/19/Java多线程入门/" rel="next" title="Java多线程入门">
+                <i class="fa fa-chevron-left"></i> Java多线程入门
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">杨旭东</p>
+              <p class="site-description motion-element" itemprop="description">种一棵树最好的时间是十年前，其次是现在</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">15</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">4</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">7</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/stoneyang94" target="_blank" title="GitHub">
+                      
+                        <i class="fa fa-fw fa-github"></i>GitHub</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="https://www.jianshu.com/u/f7b90f4a10ae" target="_blank" title="简书">
+                      
+                        <i class="fa fa-fw fa-book"></i>简书</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#一-为什么需要泛型？"><span class="nav-number">1.</span> <span class="nav-text">一. 为什么需要泛型？</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#泛型出现之前"><span class="nav-number">1.1.</span> <span class="nav-text">泛型出现之前</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#术语"><span class="nav-number">1.2.</span> <span class="nav-text">术语</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#泛型接口"><span class="nav-number">1.3.</span> <span class="nav-text">泛型接口</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#泛型方法"><span class="nav-number">1.4.</span> <span class="nav-text">泛型方法</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#泛型通配符"><span class="nav-number">2.</span> <span class="nav-text">泛型通配符</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#”-”通配符"><span class="nav-number">2.1.</span> <span class="nav-text">”?”通配符</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#扩展"><span class="nav-number">2.2.</span> <span class="nav-text">扩展</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#extends-限定通配符的上边界"><span class="nav-number">2.2.1.</span> <span class="nav-text">extends 限定通配符的上边界</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#super-限定通配符的下边界"><span class="nav-number">2.2.2.</span> <span class="nav-text">super 限定通配符的下边界</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#缺陷"><span class="nav-number">2.2.3.</span> <span class="nav-text">缺陷</span></a></li></ol></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">杨旭东</span>
+
+  
+</div>
+
+<!-- 20180426 -->
+<div class="powered-by">
+<i class="fa fa-user-md"></i><span id="busuanzi_container_site_uv">
+  本站访客数:<span id="busuanzi_value_site_uv"></span>
+</span>
+</div>
+
+
+<!-- 20180425
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+-->
+
+<!-- 20180425
+
+  <span class="post-meta-divider">|</span>
+
+-->
+
+<!-- 20180425
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Gemini</a> v5.1.4</div>
+
+-->
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+  <!--页面点击小红心 -->
+  <script type="text/javascript" src="/js/src/love.js"></script>>
+    <!--背景动画 -->
+  <script type="text/javascript" src="/js/src/background.js"></script>>
+</body>
+</html>
