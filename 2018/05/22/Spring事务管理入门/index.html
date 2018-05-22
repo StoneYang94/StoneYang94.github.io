@@ -1,0 +1,919 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next gemini use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+<!-- 20180426-->
+<script src="//cdn.bootcss.com/pace/1.0.2/pace.min.js"></script>
+<link href="//cdn.bootcss.com/pace/1.0.2/themes/pink/pace-theme-flash.css" rel="stylesheet">
+<style>
+    .pace .pace-progress {
+        background: #1E92FB; /*进度条颜色*/
+        height: 3px;
+    }
+    .pace .pace-progress-inner {
+         box-shadow: 0 0 10px #1E92FB, 0 0 5px     #1E92FB; /*阴影颜色*/
+    }
+    .pace .pace-activity {
+        border-top-color: #1E92FB;    /*上边框颜色*/
+        border-left-color: #1E92FB;    /*左边框颜色*/
+    }
+</style>
+
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon.ico?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="Spring事务管理," />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="说明：本文主要内容来自慕课网。配合视频食用口味更佳。主要是顺着已经学习的视频顺序总结一遍，以深化理解和方便日后复习。">
+<meta name="keywords" content="Spring事务管理">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Spring事务管理入门">
+<meta property="og:url" content="http://yoursite.com/2018/05/22/Spring事务管理入门/index.html">
+<meta property="og:site_name" content="Xudong&#39;s blogs">
+<meta property="og:description" content="说明：本文主要内容来自慕课网。配合视频食用口味更佳。主要是顺着已经学习的视频顺序总结一遍，以深化理解和方便日后复习。">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2018-05-22T12:59:56.364Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Spring事务管理入门">
+<meta name="twitter:description" content="说明：本文主要内容来自慕课网。配合视频食用口味更佳。主要是顺着已经学习的视频顺序总结一遍，以深化理解和方便日后复习。">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2018/05/22/Spring事务管理入门/"/>
+
+
+
+
+
+  <title>Spring事务管理入门 | Xudong's blogs</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Xudong's blogs</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">email:2228998096@qq.com    wechat:yxd19940114</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/05/22/Spring事务管理入门/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="杨旭东">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Xudong's blogs">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">Spring事务管理入门</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-05-22T20:58:17+08:00">
+                2018-05-22
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Spring/" itemprop="url" rel="index">
+                    <span itemprop="name">Spring</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>说明：本文主要内容来自<a href="http://www.imooc.com/" target="_blank" rel="noopener">慕课网</a>。配合<a href="https://www.imooc.com/learn/478" target="_blank" rel="noopener">视频</a>食用口味更佳。<br>主要是顺着已经学习的视频顺序总结一遍，以深化理解和方便日后复习。<br><a id="more"></a></p>
+<h1 id="概念简析"><a href="#概念简析" class="headerlink" title="概念简析"></a>概念简析</h1><h2 id="事务"><a href="#事务" class="headerlink" title="事务"></a>事务</h2><p>逻辑的一组操作，要么一起成功，要么一起失败。</p>
+<h2 id="事务的特性-ACID"><a href="#事务的特性-ACID" class="headerlink" title="事务的特性 ACID"></a>事务的特性 ACID</h2><ul>
+<li>原子性：事务是一个不可分割的工作单位。事务中的操作要么一起成功，要么一起失败。</li>
+<li>一致性：事务前后数据的完整性必须保持一致。</li>
+<li>隔离性：多个用户并发访问数据库时，一个用户的事务不能被其他用户的事务干扰。可以通过设置隔离级别来实现。</li>
+<li>持久性：一个事务一旦被提交，那么数据库中数据的改变是永久性的。<strong>即使数据库发生故障</strong>也不该对其有影响。<h1 id="spring中事务管理的api"><a href="#spring中事务管理的api" class="headerlink" title="spring中事务管理的api"></a>spring中事务管理的api</h1></li>
+<li>PlatformTransactionManager：事务管理器<br>包含了事务的<strong>提交、回滚</strong>等管理。</li>
+<li>TransactionDefinition：事务定义信息<br>包含了事务的<strong>隔离级别、传播、超时信息</strong>等。</li>
+<li>TransactionStatus：事务具体运行状态<br>包含了事务是否有保存点、是不是新事务等<strong>状态信息</strong>。<h2 id="PlatformTransactionManager"><a href="#PlatformTransactionManager" class="headerlink" title="PlatformTransactionManager"></a>PlatformTransactionManager</h2>是interface，有一些具体的实现类，比如datasourceTransactionManager。<br><strong><em>spring为不同的持久化框架提供了不同的PlatformTransactionManager。</em></strong>以最常用的举例。</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">框架</th>
+<th style="text-align:center">事务</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">spring jdbc或ibatis、mybatis</td>
+<td style="text-align:center">org.springframework.jdbc.datasource.DataSourceTransactionManager</td>
+</tr>
+<tr>
+<td style="text-align:center">Hibernate</td>
+<td style="text-align:center">org.springframework.orm.hibernate3.HibernateTransactionManager</td>
+</tr>
+</tbody>
+</table>
+<h2 id="TransactionDefinition"><a href="#TransactionDefinition" class="headerlink" title="TransactionDefinition"></a>TransactionDefinition</h2><h3 id="隔离级别"><a href="#隔离级别" class="headerlink" title="隔离级别"></a>隔离级别</h3><ul>
+<li>隔离级别相关的常量，以ISOLATION开头。 </li>
+<li><p>数据库在查询数据时,由于种种原因会发生以下三种问题.</p>
+<ul>
+<li>脏读：一个事务读取了另一个事务改写但是还没提交的数据。如果这些数据被回滚，则读到的数据是无效的。</li>
+<li>不可重复读：在同一个事务中，多次读取同一个数据返回的结果不同。</li>
+<li>幻读：一个事务读取了几行数据后，另一个事务插入了一些记录。在后来的查询中，第一个事务就会发现一些原来不存在的记录。</li>
+</ul>
+</li>
+<li><p>事务的隔离级别： 就是为了解决以上问题设定的事务相关的属性</p>
+</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th>隔离级别</th>
+<th>含义</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>DEFAULT</td>
+<td>使用后端数据库默认的隔离级别（spring中得选择项）</td>
+</tr>
+<tr>
+<td>READ_UNCOMMITED</td>
+<td>允许读取还没提交的已改变了的数据，可能导致脏读、幻读、不可重复读。</td>
+</tr>
+<tr>
+<td>READ_COMMITED</td>
+<td>允许在并发事务已经提交后读取，可防止脏读。但不可防止幻读和不可重复读。</td>
+</tr>
+<tr>
+<td>REPEATABLE_READ</td>
+<td>对相同字段的多次读取，结果是一致的，除非数据被事务本身改变。可防止脏读、不可重复读，但不可防止幻读。</td>
+</tr>
+<tr>
+<td>SERIALIZABLE</td>
+<td>完全服从ACID的隔离级别，可防止脏读、幻读、不可重复读。这在所有隔离级别中是最慢的，因为它是通过完全锁定在事务中涉及的数据表来完成的。是不可能出现并发访问的情况。</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li>默认隔离级别举例：<br>mysql：REPEATABLE_READ<br>oracle：READ_COMMITED<br>Spring中默认的隔离级别就是使用的底层数据库的隔离级别<h3 id="传播行为"><a href="#传播行为" class="headerlink" title="传播行为"></a>传播行为</h3></li>
+<li>传播行为相关的常量，以PROPAGATION开头。</li>
+<li>解决<strong>业务层方法之间的相互调用</strong>的问题。</li>
+<li>web层–&gt;业务层–&gt;持久层<br>假设持久层有两个dao，dao1，dao2。业务层有两个service，service1和service2。</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">Dao1&#123;</span><br><span class="line">xxx()&#123;&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">Dao2&#123;</span><br><span class="line">yyy()&#123;&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">Service1&#123;</span><br><span class="line">    aaa()&#123;</span><br><span class="line">        dao1.xxx();</span><br><span class="line">        dao2.yyy();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"> </span><br><span class="line">Service2&#123;</span><br><span class="line">    bbb();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>事务是加在业务层的。若此时业务复杂，需要调用service1和service2的方法来共同完成业务功能。而此时service1和service2都有自己的事务管理，那么事务到底使用service1里的还是service2里的呢？此时就用到了业务的传播行为。</p>
+<table>
+<thead>
+<tr>
+<th>事务的传播行为</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>PROPAGATION_REQUIRED</td>
+<td>支持当前事务，如果不存在，就新建一个。</td>
+</tr>
+<tr>
+<td>PROPAGATION_SUPPORTS</td>
+<td>支持当前事务，如果不存在，就不使用事务。</td>
+</tr>
+<tr>
+<td>PROPAGTION_MANDATORY</td>
+<td>支持当前事务，如果不存在，就抛出异常。</td>
+</tr>
+<tr>
+<td>PROPAGATION_REQUIRES_NEW</td>
+<td>如果有事务存在，挂起当前事务，创建 一个新的事务。</td>
+</tr>
+<tr>
+<td>PROPAGATION_NOT_SUPPORTED</td>
+<td>如果有事务存在，挂起当前事务。以非事务的方式进行。</td>
+</tr>
+<tr>
+<td>PROPAGATION_NEVER</td>
+<td>如果有事务存在，抛出异常。以非事务的方式进行。</td>
+</tr>
+<tr>
+<td>PROPAGATION_NESTED</td>
+<td>如果有事务存在，则嵌套事务执行。</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li>重点记忆这三种：PROPAGATION_REQUIRED，PROPAGATION_REQUIRES_NEW，PROPAGATION_NESTED。<ul>
+<li>PROPAGATION_REQUIRED：保证service1的aaa()和service2的bbb()<strong>在</strong>同一个事务里。</li>
+<li>PROPAGATION_REQUIRES_NEW：保证service1的aaa()和service2的bbb()<strong>不在</strong>同一个事务里。</li>
+<li>PROPAGATION_NESTED：service1的aaa()执行完后可以设置一个保存点，如果service2的bbb()执行时出了问题，可以选择回滚到保存点，也可以选择回滚到最初点。是一种<strong>嵌套</strong>事务。<h2 id="TransactionStatus"><a href="#TransactionStatus" class="headerlink" title="TransactionStatus"></a>TransactionStatus</h2>提供一组方法来获取、设置事务的一些状态信息。比如isCompleted()，isRollBackOnly()。<h2 id="三个接口直接的关系"><a href="#三个接口直接的关系" class="headerlink" title="三个接口直接的关系"></a>三个接口直接的关系</h2>Spring中DepaltformTransactionManager根据TransactionDefinition中设置的事务隔离级别和传播行为,来管理事务，将信息保存到TransactionStatus中。<h1 id="Spring的编程式事务管理"><a href="#Spring的编程式事务管理" class="headerlink" title="Spring的编程式事务管理"></a>Spring的编程式事务管理</h1>需手动编写代码，在需要用到事务的方法中编写代码（一般不使用）</li>
+</ul>
+</li>
+</ul>
+<ol>
+<li>配置事务管理器platformTransactionManager。<br>对于jdbc 需要datasourceTransactionManager 其中必须定义数据源属性dataSource，jdbc中是c3p0的连接池</li>
+<li>事务管理的<strong>模板</strong>(注意和sql模板不同) transactionTemplate 事务管理模板,其属性就是上面对应的事务管理器。</li>
+<li>在需要事务管理的代码处使用<strong>内部匿名类</strong>来执行运行sql的代码，这样将所有的操作后台的sql都会放在同一个事务中。<h1 id="Spring的声明式事务管理"><a href="#Spring的声明式事务管理" class="headerlink" title="Spring的声明式事务管理"></a>Spring的声明式事务管理</h1></li>
+<li>首先还是要配置事务管理器</li>
+<li>配置事务管理具体方法</li>
+</ol>
+<ul>
+<li>经典ProxyFactoryBean(使用动态代理的技术,用法已经渐渐废弃)<br>需要配置TransactionProxyFactoryBean 属性包括target(标注哪个Bean需要事务管理) 和 事务管理器(上面配置的),在bean的配置中通过property来配置事务的传播行为和隔离级别。(只能对一个目标进行配置,就是那个target,不好用)</li>
+<li>使用aop来进行事务管理<br>使用基于AspectJ的Spring AOP来管理<br>xml配置:<br>配置通知  <code>&lt;tx:advice&gt;</code><br>配置切面  <code>&lt;aop:aspect&gt;</code> ,在切面中配置通知和切点。</li>
+<li>注解配置:<br>@Transactional即可配置;对需要的类配置,同时也可配置相关的隔离级别和传播行为属性。</li>
+</ul>
+<p>参考文章<br><a href="http://www.cnblogs.com/lyh421/p/6726319.html" target="_blank" rel="noopener">http://www.cnblogs.com/lyh421/p/6726319.html</a></p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Spring事务管理/" rel="tag"><i class="fa fa-tag"></i> Spring事务管理</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/05/20/Java泛型/" rel="next" title="Java泛型">
+                <i class="fa fa-chevron-left"></i> Java泛型
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">杨旭东</p>
+              <p class="site-description motion-element" itemprop="description">种一棵树最好的时间是十年前，其次是现在</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">16</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">4</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">8</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/stoneyang94" target="_blank" title="GitHub">
+                      
+                        <i class="fa fa-fw fa-github"></i>GitHub</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="https://www.jianshu.com/u/f7b90f4a10ae" target="_blank" title="简书">
+                      
+                        <i class="fa fa-fw fa-book"></i>简书</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#概念简析"><span class="nav-number">1.</span> <span class="nav-text">概念简析</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#事务"><span class="nav-number">1.1.</span> <span class="nav-text">事务</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#事务的特性-ACID"><span class="nav-number">1.2.</span> <span class="nav-text">事务的特性 ACID</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#spring中事务管理的api"><span class="nav-number">2.</span> <span class="nav-text">spring中事务管理的api</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#PlatformTransactionManager"><span class="nav-number">2.1.</span> <span class="nav-text">PlatformTransactionManager</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#TransactionDefinition"><span class="nav-number">2.2.</span> <span class="nav-text">TransactionDefinition</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#隔离级别"><span class="nav-number">2.2.1.</span> <span class="nav-text">隔离级别</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#传播行为"><span class="nav-number">2.2.2.</span> <span class="nav-text">传播行为</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#TransactionStatus"><span class="nav-number">2.3.</span> <span class="nav-text">TransactionStatus</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#三个接口直接的关系"><span class="nav-number">2.4.</span> <span class="nav-text">三个接口直接的关系</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Spring的编程式事务管理"><span class="nav-number">3.</span> <span class="nav-text">Spring的编程式事务管理</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Spring的声明式事务管理"><span class="nav-number">4.</span> <span class="nav-text">Spring的声明式事务管理</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">杨旭东</span>
+
+  
+</div>
+
+<!-- 20180426 -->
+<div class="powered-by">
+<i class="fa fa-user-md"></i><span id="busuanzi_container_site_uv">
+  本站访客数:<span id="busuanzi_value_site_uv"></span>
+</span>
+</div>
+
+
+<!-- 20180425
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+-->
+
+<!-- 20180425
+
+  <span class="post-meta-divider">|</span>
+
+-->
+
+<!-- 20180425
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Gemini</a> v5.1.4</div>
+
+-->
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+  <!--页面点击小红心 -->
+  <script type="text/javascript" src="/js/src/love.js"></script>>
+    <!--背景动画 -->
+  <script type="text/javascript" src="/js/src/background.js"></script>>
+</body>
+</html>
