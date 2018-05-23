@@ -1,0 +1,625 @@
+---
+title: MySQL入门
+date: 2018-05-23 19:02:49
+tags: MySQL
+categories: 数据库 
+---
+- 本文主要内容来自[慕课网](http://www.imooc.com/)。配合[视频](https://www.imooc.com/learn/122)食用口味更佳
+- 主要是顺着已经学习的视频顺序总结一遍，以深化理解和方便日后复习
+- 添加了自己的实践和理解
+<!-- more -->
+#  第一章：初涉MySQL 
+##  MySQL概述
+MySQL是一个开源的关系型数据库管理系统，由瑞典MySQL AB公司开发，后被Oracle收购，主要分为社区版和企业版。
+MySQL由于性能高、成本低、可靠性好，已经成为最流行的开源数据库，因此被广泛地应用在Internet上的中小型网站中。随着MySQL的不断成熟，它也逐渐用于更多大规模网站和应用，比如维基百科、Google和Facebook等网站。非常流行的开源软件组合LAMP中的“M”指的就是MySQL。
+##  MySQL目录结构
+-  bin：存储可执行文件
+-  data：存储数据文件（以后创建的数据库和索引文件都可以放在这里）
+-   docs：文档
+-   include：存储包含的头文件
+-   lib：存储库文件
+-  share：错误消息和字符集文集
+##  启动与停止MySQL服务
+利用cmd开启和关闭MySQL服务
+1. 用管理员的身份打开cmd（必须是管理员是身份打开，否则会报错）
+2.  启动Mysql服务
+
+```
+net start mysql
+```
+
+3.  停止Mysql服务
+
+```
+net stop mysql
+```
+
+##  Mysql的常用参数
+
+
+|语法| 含义|
+|---|---|
+|-p, --password[=name]       |   密码
+|-P, --port=#                 |          端口号
+|-h, --host=name           |         服务器名称
+|-D, --database=name     |       打开指定数据库
+|--delimiter = name         |       指定分隔符
+|--prompt=name              |      设置提示符
+|-V,--version                   |         输出版本信息并退出（必须是大写V）
+|-u, --user=name           |         用户名
+
+## 登录与退出
+### 登陆
+
+```
+mysql -uroot -pmima -P3306 -h127.0.0.1
+```
+
+-u后面是用户名
+-p后面是密码
+-P后面是端口号
+-h后面是服务器名称，127.0.0.1是本地服务器
+如果没有修改端口号，而且是本地服务器，则可以省略-P3306 -h127.0.0.1这两个参数
+在-p后面直接输入密码会显示在当前窗口的标题栏中，这样是不安全的，我们可以直接输入mysql -uroot -p
+后回车，就可以在密码框中输入密码了。
+### 退出
+主要有三种退出方式：
+
+1. 
+
+```
+mysql  >  exit;
+```
+
+2. 
+
+```
+mysql  >  quit;
+```
+
+3. 
+
+```
+mysql > \q;
+```
+
+
+##  MySQL常用命令
+显示当前服务器版本
+
+```mysql
+SELECT VERSION();
+```
+
+显示当前日期时间
+
+
+```mysql
+SELECT NOW();
+```
+
+显示当前用户
+
+```mysql
+SELECT USER();
+```
+
+![SELECT USER();](http://p7vxw6hv7.bkt.clouddn.com/18-5-23/70603506.jpg)
+
+##  MySQL语句规范
+- 关键字与函数名称全部大写
+- 数据库名称、表名称、字段名称全部小写
+- SQL语句必须以分号结尾
+##  操作数据库
+### 创建数据库--CREATE
+
+创建数据库的语法结构：
+
+```mysql
+CREATE {DATABASE | SCHEMA} [IF NOT EXISTS] db_name 
+[DEFAULT] CHARACTER SET [=] charset_name
+```
+
+{}是必选项，[]是可选项，|是做选择项
+比如创建一个名为test1的数据库：
+
+```mysql
+CREATE DATABASE test1;
+```
+
+### 查看数据库列表--SHOW
+
+查看当前服务器下的数据库列表语法结构：
+
+```mysql
+SHOW {DATABASES | SCHEMAS}    
+[LIKE 'pattern' | WHERE expr]
+```
+
+比如，查看上面创建的test1数据库是否成功
+
+```mysql
+SHOW DATABASES;
+```
+
+![SHOW DATABASES](http://p7vxw6hv7.bkt.clouddn.com/18-5-23/45561703.jpg)
+
+### 修改数据库--ALTER
+
+修改数据库的语法结构：
+
+```mysql
+ALTER {DATABASE | SCHEMA}  [db_name]        
+[DEFAULT]  CHARACTER SET [=] charset_name
+```
+
+比如将刚刚创建的test2的编码方式修改为utf8
+
+```mysql
+ALTER DATABASE test2 CHARACTER SET utf8;
+```
+
+### 删除数据库--DROP
+
+```mysql
+DROP {DATABASE | SCHEMA} [IF EXISTS] db_name
+```
+
+比如删除我们上面创建的test2数据库
+
+```mysql
+ DROP  DATABASE test2;
+```
+
+### 忽略错误产生
+- 有ERROR
+我们创建了一个名为test1数据库后，如果再次创建一个同名的数据库：
+
+```mysql
+CREATE DATABASE test1;
+```
+
+会提示ERROR 1007 (HY000): Can't create database 'test1'; database exists错误
+- ERROR转换成WARNINGS
+但是如果加上IF NOT EXISTS，将忽略错误的产生，并产生一个警告。
+
+```mysql
+CREATE DATABASE IF NOT EXISTS test1;
+```
+
+- 查看WARNINGS
+
+```mysql
+SHOW WARNINGS;
+```
+
+### 编码信息--SHOW CREATE DATABASE
+- 查看
+
+```mysql
+SHOW CREATE DATABASE 数据库名字;
+```
+
+![SHOW CREATE DATABASE](http://p7vxw6hv7.bkt.clouddn.com/18-5-23/8239695.jpg)
+
+- 也可以在创建数据的时候，指定相应的编码方式
+
+```mysql
+CREATE DATABASE test2 CHARACTER SET 编码方式;
+```
+
+# 第二章：数据类型与操作数据表 
+## 数据类型
+- 整型
+![整型](http://p7vxw6hv7.bkt.clouddn.com/18-5-22/59717294.jpg)
+- 浮点型
+![浮点型](http://p7vxw6hv7.bkt.clouddn.com/18-5-22/63434388.jpg)
+- 日期时间型
+![日期时间型](http://p7vxw6hv7.bkt.clouddn.com/18-5-22/48811540.jpg)
+- 字符型
+![字符型](http://p7vxw6hv7.bkt.clouddn.com/18-5-22/68047806.jpg)
+## 创建数据表---CREATE 
+### 数据表
+数据表又称表，是数据库最重要的组成部分之一，是其他对象的基础
+行称之为记录，列称之为字段
+### 创建数据表
+创建数据表
+
+1.  打开数据库--USE
+
+```mysql
+USE 数据库名;
+```
+
+2.  检查打开的数据库是否正确--SELECT
+
+```mysql
+SELECT DATABASE();
+```
+
+3.  创建数据表的语法结构--CREATE 
+
+```mysql
+CREATE TABLE [IF NOT EXISTS] table_name (
+column_name  data_type,   ……）
+```
+
+column_name是列名称，数据表有多少列需要根据项目分析事先规划好
+data_types是数据类型, 逗号是两个字段之间的分隔符，最后一个字段不用加逗号
+### 举例
+我们创建一个简单是数据表，包含以下几项信息：
+
+用户名：username ，用户名一般是字符型
+
+年龄：age ，年龄一般是整型，另外年龄不可能是负值，所以常设置无符号位
+
+工资：salary，工资一般设置为浮点型
+
+```mysql
+mysql> CREATE TABLE tb1(
+    -> username VARCHAR(20),
+    -> age TINYINT UNSIGNED,
+    -> salary FLOAT(8,2) UNSIGNED
+    -> );
+```
+
+## 查看数据表
+### 查看数据表列表--SHOW TABLES
+- 看的是**名字**
+查看数据表列表语法结构
+
+```mysql
+SHOW TABLES [FROM db_name]
+[LIKE 'pattern' | WHERE expr]
+```
+
+![SHOW TABLES](http://p7vxw6hv7.bkt.clouddn.com/18-5-23/66318358.jpg)
+
+- 查看当前数据库的数据表列表：
+
+```mysql
+SHOW TABLES;
+```
+
+- 不仅可以查看当前数据库下的数据表列表，还可以查看其它数据库的数据表列表，比如查看MySQL数据库中所有的数据表列表
+
+```mysql
+SHOW TABLES FROM mysql;
+```
+
+### 查看数据表结构--SHOW COLUMNS...FROM 
+- 看的是**具体信息**
+查看数据表结构
+
+```mysql
+SHOW COLUMNS FROM tbl_name
+```
+
+比如查看名为tb1这个列的数据表结构
+
+```
+SHOW COLUMNS FROM tb1;
+```
+
+![SHOW COLUMNS ](http://p7vxw6hv7.bkt.clouddn.com/18-5-23/37637774.jpg)
+
+## 记录的插入与查找
+### 插入记录--INSERT...VALUES
+- 插入记录语法结构
+
+```mysql
+INSERT [INTO] tbl_name[(col_name,...)] VALUES(val,...)
+```
+
+tbl_name：表名字。  col_name：列名字。  VALUES：值
+
+- 如果省略列名，需要对所有的字段都赋值
+
+```mysql
+INSERT tb1 VALUES('datiangou',24,4000);
+```
+
+- 也可以只给部分字段赋值，比如
+```mysql
+INSERT tb1(username,salary) VALUES('cimutongzi',14000);
+```
+
+### 记录查找---SELECT ...FROM 
+
+记录查找语句
+
+```mysql
+SELECT expr,... FROM tbl_name
+```
+
+比如：（这里的*是字段的过滤）
+
+```mysql
+SELECT * FROM tb1;
+```
+
+显示如下：
+![SELECT * FROM](http://p7vxw6hv7.bkt.clouddn.com/18-5-23/72281528.jpg)
+
+## 空值与非空
+- NULL，字段值可以为空
+- NOT NULL，字段值禁止为空
+
+1. 我们首先创建一个字段，**设置username 为NOT NULL**
+
+```mysql
+mysql> CREATE TABLE tb2(
+    -> username VARCHAR(20) NOT NULL,
+    -> age TINYINT UNSIGNED NULL
+    -> );
+```
+
+2. 然后查看这个字段的结构，看到**username 为NOT NULL**
+3. 我们插入一条数据，尝试使得该数据username为NULL：
+
+```mysql
+mysql> INSERT tb2 VALUES(NULL,26);
+```
+
+4. ERROR 1048 (23000): Column 'username' cannot be null。可以看到报错提示不允许username为NULL
+
+![不允许插入NULL到NULL值处](http://p7vxw6hv7.bkt.clouddn.com/18-5-23/98589114.jpg)
+
+## 自动编号 AUTO_INCREMENT
+
+
+- 自动编号，且必须与主键组合使用
+
+- 默认情况下，起始值为1，每次的增量为1，依次递增。
+
+所以该字段数据类型一定是数值型：整数，浮点数都可以，浮点数小数位数必须为0
+
+举例：
+
+```mysql
+mysql> CREATE TABLE tb3(
+    -> id SMALLINT UNSIGNED AUTO_INCREMENT,
+    -> username VARCHAR(30) NOT NULL
+    -> );
+```
+
+ERROR 1075 (42000): Incorrect table definition; there can be only one auto column and it must be defined as a key
+- 可以看到报错了，这是因为这里的id，作为自动编号字段**必须**设置成主键才可以
+## 初涉约束
+### 主键约束
+本节参考[MySQL 为什么需要一个主键](https://ruby-china.org/topics/26352) 
+####  主键原则
+- 主键（primary key） ：**唯一**标识表中每行的这个列（或这组列）称为主键。其值能够唯一区分表中的每个行。 
+- 虽然并不总是都需要主键，但大多数数据库设计人员都应保证他们创建的每个表有一个主键，以便于以后数据操纵和管理。没有主键，更新或删除表中特定行很困难，因为没有安全的方法保证只设计相关的行。
+- 表中的任何列都可以作为主键，只要它满足一下条件：
+     - 唯一
+任何两行都不具有相同的主键值 
+     - 非NULL
+每个行都必须具有一个主键值（主键列不允许NULL值）
+- AUTO_INCREMENT必须和主键一起使用，但是主键不一定必须和AUTO_INCREMENT使用
+#### 几个好习惯
+- **不更新**主键列的值
+- **不重用**主键列的值
+-  在主键列中**不使用**可能会更改的值（例如，如果使用一个名字作为主键以标识某个供应商，应该供应商合并和更改其名字时，必须更改这个主键）
+- 总之：不应该使用一个具有意义的column（id 本身并不保存表 有意义信息） 作为主键，并且一个表必须要有一个主键，为方便扩展、松耦合，高可用的系统做铺垫。
+#### 主键其他作用
+- 磁盘存储
+- 无特殊需求下Innodb建议使用与业务无关的自增ID作为主键
+- InnoDB 存储引擎采用了聚集（clustered）的方式，因此每张表的存储都是按主键的顺序进行存放。如果没有显式地在表定义时指定主键，InnoDB存储引擎会为每一行生成一个6字节的ROWID，并一次作为主键。
+#### 设置主键--PRIMARY KEY
+我们将上节中的id定义成主键
+
+```mysql
+mysql> CREATE TABLE tb3(
+    -> id SMALLINT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+    -> username VARCHAR(30) NOT NULL
+    -> );
+```
+
+Query OK, 0 rows affected (0.01 sec)
+可以看到，创建成功了，主键**可以写PRIMARY KEY,也可以直接写KEY**
+
+现在再来看一下数据表结构：
+
+```mysql
+mysql> SHOW COLUMNS FROM tb3;
++----------+----------------------+------+-----+---------+----------------+
+| Field    | Type                 | Null | Key | Default | Extra          |
++----------+----------------------+------+-----+---------+----------------+
+| id       | smallint(5) unsigned | NO   | PRI | NULL    | auto_increment |
+| username | varchar(30)          | NO   |     | NULL    |                |
++----------+----------------------+------+-----+---------+----------------+
+```
+
+2 rows in set (0.01 sec)
+可以看到，id不能为空，因为主键自动为NOT NULL，Key被定义成了PRI，Extra被定义成了自动编号，**则写入记录的时候id不需要专门赋值了**，我们插入三条记录：
+
+```mysql
+mysql> INSERT tb3(username) VALUES('Tom');
+Query OK, 1 row affected (0.01 sec)
+ 
+mysql> INSERT tb3(username) VALUES('John');
+Query OK, 1 row affected (0.00 sec)
+ 
+mysql> INSERT tb3(username) VALUES('Zoro');
+Query OK, 1 row affected (0.00 sec)
+```
+
+然后查看一下记录：
+
+```mysql
+mysql> SElECT * FROM tb3;
++----+----------+
+| id | username |
++----+----------+
+|  1 | Tom      |
+|  2 | John     |
+|  3 | Zoro     |
++----+----------+
+3 rows in set (0.00 sec)
+```
+
+可以看到id被设计AUTO_INCREMENT 的主键，被自动编号成了123
+### 唯一约束  
+#### 唯一约束原则
+- 因为主键一张表只有一个，如果想保证**值的（记录）**唯一性，可以使用UNIQUE KEY（唯一约束）
+- 唯一约束的字段可以为空值(NULL)（存储的时候，多个空值只会保存一个空值，所以并不违背唯一性）
+- 每张数据表可以存在**多个**唯一约束
+#### 创建唯一约束-- UNIQUE KEY
+
+我们创建一个既有主键约束，又有唯一约束的数据表：
+
+```mysql
+mysql> CREATE TABLE tb5(
+    -> id SMALLINT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+    -> username VARCHAR(30) NOT NULL UNIQUE KEY,
+    -> age TINYINT UNSIGNED
+    -> );
+Query OK, 0 rows affected (0.01 sec)
+```
+
+查看一下数据表的结构：
+
+```mysql
+mysql> SHOW COLUMNS FROM tb5;
++----------+----------------------+------+-----+---------+----------------+
+| Field    | Type                 | Null | Key | Default | Extra          |
++----------+----------------------+------+-----+---------+----------------+
+| id       | smallint(5) unsigned | NO   | PRI | NULL    | auto_increment |
+| username | varchar(30)          | NO   | UNI | NULL    |                |
+| age      | tinyint(3) unsigned  | YES  |     | NULL    |                |
++----------+----------------------+------+-----+---------+----------------+
+3 rows in set (0.01 sec)
+```
+
+可以看到，id为主键约束，username为唯一约束，我们写入一些记录：
+
+```mysql
+mysql> INSERT tb5(username,age) VALUES('TOM',22);
+Query OK, 1 row affected (0.01 sec)
+ 
+mysql> INSERT tb5(username,age) VALUES('TOM',22);
+ERROR 1062 (23000): Duplicate entry 'TOM' for key 'username'
+```
+
+可以发现username不能重复
+### 默认约束--DEFAULT 
+当插入记录时，如果没有明确为字段赋值，则自动赋予默认值
+
+我们创建一个数据表：
+
+```mysql
+mysql> CREATE TABLE tb61(
+    -> id SMALLINT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+    -> username VARCHAR(20) NOT NULL UNIQUE KEY,
+    -> sex ENUM('1','2','3') DEFAULT '3'
+    -> );
+```
+
+查看一下数据表结构：
+
+```mysql
+mysql> SHOW COLUMNS FROM tb61;
++----------+----------------------+------+-----+---------+----------------+
+| Field    | Type                 | Null | Key | Default | Extra          |
++----------+----------------------+------+-----+---------+----------------+
+| id       | smallint(5) unsigned | NO   | PRI | NULL    | auto_increment |
+| username | varchar(20)          | NO   | UNI | NULL    |                |
+| sex      | enum('1','2','3')    | YES  |     | 3       |                |
++----------+----------------------+------+-----+---------+----------------+
+3 rows in set (0.01 sec)
+```
+
+可以看到sex字段的默认值为3
+
+我们插入一条记录，仅设置username，不设置sex
+
+```mysql
+mysql> INSERT tb61(username) VALUES('Tom');
+```
+
+然后查看一下记录：
+
+```mysql
+mysql> SELECT * FROM tb61;
++----+----------+------+
+| id | username | sex  |
++----+----------+------+
+|  1 | Tom      | 3    |
++----+----------+------+
+1 row in set (0.00 sec)
+```
+
+发现即使我们没有设置Tom的性别，但是sex**默认被赋值成了**3(DEFAULT 值)
+# 第三章：约束以及修改数据表 
+## 约束意义和分类
+- 约束保证数据的完整性和一致性。
+- 约束分为表级约束和列级约束。
+- 分类
+NOT NULL(非空约束)
+PRIMARY KEY(主键约束)
+UNIQUE KEY(唯一约束)
+DEFAULT(默认约束)
+FOREIGN KEY(外键约束)
+## 外键约束-- FOREIGN KEY...REFERENCES
+外键是表中的一列，其值必须在另一表的主键中。
+### 目的
+- 外键约束是为了保持数据一致性和完整性。外键是保证引用完整性的极其重要的部分。
+- 防止意外删除
+### 要求
+- 父表和子表必须使用相同的存储引擎，而且禁止使用临时表。
+- 数据表的存储引擎只能为InnoDB
+- 外键列和参照列必须具有相似的数据类型。**其中数字的长度或是否有符号位必须相同**，而字符的长度则可以不同。
+- 外键列和参照列必须创建索引。如果外键列不存在索引的话，MySQL将自动创建索引( 如果参照列不存在索引的话，mysql不会自动创建索引。但如果参照列为主键的话，则会自动创建索引。主键在创建的同时会自动创建索引，所以参照列其实已经有了索引。)
+## 表级约束与列级约束
+### 定义
+- 表级约束
+对多个数据列建立的约束，称为表级约束表级约束只能在列定义后声明
+- 列级约束
+对一个数据列建立的约束，称为列级约束列级约束既可以在列定义时声明，也可以在列定义后声明
+### 使用情况
+- 我们在平常的开发中，多用到列级约束，表级约束很少用到在所有的约束中
+- 另外并不是每一种约束，都存在列级约束和表级约束比如 NOT NULL ，DEFAULT 就没有表级约束，只有列级约束。而PRIMARY KEY， UNIQUE KEY，FOREIGN KEY都可以存在表级约束和列级约束。
+
+
+
+## 修改数据表
+### 添加/删除列
+#### 添加列--ALTER TABLE...ADD
+添加**单列**的语法结构：
+
+```mysql
+ALTER TABLE tbl_name ADD [COLUMN]   col_name column_definition [FIRST | AFTER col_name ]
+```
+
+- FRIST指的是添加的列置于最前面
+- AFTER指的是添加列置于指定列的后面
+- 如果不写FRIST或者AFTER，则默认添加到所有列的最下面
+
+
+- **多列**的添加不能指定位置关系，只能默认添加到最下面。
+```mysql
+ALTER TABLE tbl_name ADD [COLUMN]   (col_name column_definition,...) 
+```
+
+#### 删除列--ALTER TABLE...DROP
+删除列的语法结构：
+
+```mysql
+ALTER TABLE tbl_name DROP [COLUMN] col_name
+```
+
+### 添加/删除约束
+
+### 修改列定义和更名数据表
+
+
+
+
+
+
+
+参考文章
+[慕课网：《与MySQL的零距离接触》笔记目录](https://zhangjia.tv/682.html)
+[MySQL 为什么需要一个主键](https://ruby-china.org/topics/26352) 
+[慕课网与MySQL的零距离接触](https://www.imooc.com/learn/122)
