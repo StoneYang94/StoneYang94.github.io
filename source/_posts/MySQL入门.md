@@ -84,7 +84,7 @@ mysql > \q;
 ```
 
 
-##  MySQL常用命令
+##  MySQL常用命令--SELECT
 显示当前服务器版本
 
 ```mysql
@@ -219,7 +219,7 @@ CREATE DATABASE test2 CHARACTER SET 编码方式;
 - 字符型
 ![字符型](http://p7vxw6hv7.bkt.clouddn.com/18-5-22/68047806.jpg)
 ## 创建数据表---CREATE 
-### 数据表
+### 数据表TABLE
 数据表又称表，是数据库最重要的组成部分之一，是其他对象的基础
 行称之为记录，列称之为字段
 ### 创建数据表
@@ -404,8 +404,8 @@ ERROR 1075 (42000): Incorrect table definition; there can be only one auto colum
 - 总之：不应该使用一个具有意义的column（id 本身并不保存表 有意义信息） 作为主键，并且一个表必须要有一个主键，为方便扩展、松耦合，高可用的系统做铺垫。
 #### 主键其他作用
 - 磁盘存储
-- 无特殊需求下Innodb建议使用与业务无关的自增ID作为主键
 - InnoDB 存储引擎采用了聚集（clustered）的方式，因此每张表的存储都是按主键的顺序进行存放。如果没有显式地在表定义时指定主键，InnoDB存储引擎会为每一行生成一个6字节的ROWID，并一次作为主键。
+无特殊需求下Innodb建议使用**与业务无关的自增ID**作为主键
 #### 设置主键--PRIMARY KEY
 我们将上节中的id定义成主键
 
@@ -421,43 +421,15 @@ Query OK, 0 rows affected (0.01 sec)
 
 现在再来看一下数据表结构：
 
-```mysql
-mysql> SHOW COLUMNS FROM tb3;
-+----------+----------------------+------+-----+---------+----------------+
-| Field    | Type                 | Null | Key | Default | Extra          |
-+----------+----------------------+------+-----+---------+----------------+
-| id       | smallint(5) unsigned | NO   | PRI | NULL    | auto_increment |
-| username | varchar(30)          | NO   |     | NULL    |                |
-+----------+----------------------+------+-----+---------+----------------+
-```
+![设置主键](http://p7vxw6hv7.bkt.clouddn.com/18-5-24/94624722.jpg)
 
-2 rows in set (0.01 sec)
-可以看到，id不能为空，因为主键自动为NOT NULL，Key被定义成了PRI，Extra被定义成了自动编号，**则写入记录的时候id不需要专门赋值了**，我们插入三条记录：
+可以看到，id不能为空，因为**主键自动为NOT NULL**，Key被定义成了PRI，Extra被定义成了自动编号，**则写入记录的时候id不需要专门赋值了**，我们插入三条记录：
 
-```mysql
-mysql> INSERT tb3(username) VALUES('Tom');
-Query OK, 1 row affected (0.01 sec)
- 
-mysql> INSERT tb3(username) VALUES('John');
-Query OK, 1 row affected (0.00 sec)
- 
-mysql> INSERT tb3(username) VALUES('Zoro');
-Query OK, 1 row affected (0.00 sec)
-```
+![测试主键](http://p7vxw6hv7.bkt.clouddn.com/18-5-24/18737645.jpg)
 
 然后查看一下记录：
 
-```mysql
-mysql> SElECT * FROM tb3;
-+----+----------+
-| id | username |
-+----+----------+
-|  1 | Tom      |
-|  2 | John     |
-|  3 | Zoro     |
-+----+----------+
-3 rows in set (0.00 sec)
-```
+![主键自增](http://p7vxw6hv7.bkt.clouddn.com/18-5-24/19797907.jpg)
 
 可以看到id被设计AUTO_INCREMENT 的主键，被自动编号成了123
 ### 唯一约束  
@@ -475,36 +447,19 @@ mysql> CREATE TABLE tb5(
     -> username VARCHAR(30) NOT NULL UNIQUE KEY,
     -> age TINYINT UNSIGNED
     -> );
-Query OK, 0 rows affected (0.01 sec)
 ```
 
 查看一下数据表的结构：
 
-```mysql
-mysql> SHOW COLUMNS FROM tb5;
-+----------+----------------------+------+-----+---------+----------------+
-| Field    | Type                 | Null | Key | Default | Extra          |
-+----------+----------------------+------+-----+---------+----------------+
-| id       | smallint(5) unsigned | NO   | PRI | NULL    | auto_increment |
-| username | varchar(30)          | NO   | UNI | NULL    |                |
-| age      | tinyint(3) unsigned  | YES  |     | NULL    |                |
-+----------+----------------------+------+-----+---------+----------------+
-3 rows in set (0.01 sec)
-```
+![加入唯一约束](http://p7vxw6hv7.bkt.clouddn.com/18-5-24/22854663.jpg)
 
 可以看到，id为主键约束，username为唯一约束，我们写入一些记录：
 
-```mysql
-mysql> INSERT tb5(username,age) VALUES('TOM',22);
-Query OK, 1 row affected (0.01 sec)
- 
-mysql> INSERT tb5(username,age) VALUES('TOM',22);
-ERROR 1062 (23000): Duplicate entry 'TOM' for key 'username'
-```
+![测试唯一约束](http://p7vxw6hv7.bkt.clouddn.com/18-5-24/99929570.jpg)
 
 可以发现username不能重复
 ### 默认约束--DEFAULT 
-当插入记录时，如果没有明确为字段赋值，则自动赋予默认值
+当插入记录时，**如果没有明确为字段赋值，则自动赋予默认值**
 
 我们创建一个数据表：
 
@@ -518,39 +473,22 @@ mysql> CREATE TABLE tb61(
 
 查看一下数据表结构：
 
-```mysql
-mysql> SHOW COLUMNS FROM tb61;
-+----------+----------------------+------+-----+---------+----------------+
-| Field    | Type                 | Null | Key | Default | Extra          |
-+----------+----------------------+------+-----+---------+----------------+
-| id       | smallint(5) unsigned | NO   | PRI | NULL    | auto_increment |
-| username | varchar(20)          | NO   | UNI | NULL    |                |
-| sex      | enum('1','2','3')    | YES  |     | 3       |                |
-+----------+----------------------+------+-----+---------+----------------+
-3 rows in set (0.01 sec)
-```
+![加入默认值](http://p7vxw6hv7.bkt.clouddn.com/18-5-24/12573762.jpg)
 
 可以看到sex字段的默认值为3
 
 我们插入一条记录，仅设置username，不设置sex
 
 ```mysql
-mysql> INSERT tb61(username) VALUES('Tom');
+mysql> INSERT tb6(username) VALUES('jiutuntongzi');
 ```
 
 然后查看一下记录：
 
-```mysql
-mysql> SELECT * FROM tb61;
-+----+----------+------+
-| id | username | sex  |
-+----+----------+------+
-|  1 | Tom      | 3    |
-+----+----------+------+
-1 row in set (0.00 sec)
-```
+![测试默认约束](http://p7vxw6hv7.bkt.clouddn.com/18-5-24/70353474.jpg)
 
-发现即使我们没有设置Tom的性别，但是sex**默认被赋值成了**3(DEFAULT 值)
+发现即使我们没有设置 jiutuntongzi 的性别，但是其sex**默认被赋值成了**3(DEFAULT 值)
+
 # 第三章：约束以及修改数据表 
 ## 约束意义和分类
 - 约束保证数据的完整性和一致性。
@@ -562,14 +500,14 @@ UNIQUE KEY(唯一约束)
 DEFAULT(默认约束)
 FOREIGN KEY(外键约束)
 ## 外键约束-- FOREIGN KEY...REFERENCES
-外键是表中的一列，其值必须在另一表的主键中。
+外键是表中的一列，其值必须在另一表的主键中。即一个表中的 FOREIGN KEY 指向另一个表中的 PRIMARY KEY。
 ### 目的
 - 外键约束是为了保持数据一致性和完整性。外键是保证引用完整性的极其重要的部分。
 - 防止意外删除
 ### 要求
-- 父表和子表必须使用相同的存储引擎，而且禁止使用临时表。
+- 父表和子表必须使用相同的存储**引擎**，而且禁止使用临时表。
 - 数据表的存储引擎只能为InnoDB
-- 外键列和参照列必须具有相似的数据类型。**其中数字的长度或是否有符号位必须相同**，而字符的长度则可以不同。
+- 外键列和参照列必须具有相似的**数据类型，其中数字的长度或是否有符号位必须相同**，而字符的长度则可以不同。
 - 外键列和参照列必须创建索引。如果外键列不存在索引的话，MySQL将自动创建索引( 如果参照列不存在索引的话，mysql不会自动创建索引。但如果参照列为主键的话，则会自动创建索引。主键在创建的同时会自动创建索引，所以参照列其实已经有了索引。)
 ## 表级约束与列级约束
 ### 定义
@@ -579,39 +517,113 @@ FOREIGN KEY(外键约束)
 对一个数据列建立的约束，称为列级约束列级约束既可以在列定义时声明，也可以在列定义后声明
 ### 使用情况
 - 我们在平常的开发中，多用到列级约束，表级约束很少用到在所有的约束中
-- 另外并不是每一种约束，都存在列级约束和表级约束比如 NOT NULL ，DEFAULT 就没有表级约束，只有列级约束。而PRIMARY KEY， UNIQUE KEY，FOREIGN KEY都可以存在表级约束和列级约束。
+- 并不是每一种约束，都存在列级约束和表级约束
+比如 NOT NULL ，DEFAULT 就没有表级约束，只有列级约束。而PRIMARY KEY， UNIQUE KEY，FOREIGN KEY都可以存在表级约束和列级约束。
 
 
 
 ## 修改数据表
 ### 添加/删除列
 #### 添加列--ALTER TABLE...ADD
-添加**单列**的语法结构：
+##### 语法
+- 添加**单列**的语法结构：
 
 ```mysql
 ALTER TABLE tbl_name ADD [COLUMN]   col_name column_definition [FIRST | AFTER col_name ]
 ```
 
-- FRIST指的是添加的列置于最前面
-- AFTER指的是添加列置于指定列的后面
+- 其中， FRIST指的是添加的列置于最前面，AFTER指的是添加列置于**指定列的后面**
 - 如果不写FRIST或者AFTER，则默认添加到所有列的最下面
-
-
 - **多列**的添加不能指定位置关系，只能默认添加到最下面。
 ```mysql
 ALTER TABLE tbl_name ADD [COLUMN]   (col_name column_definition,...) 
 ```
 
+##### 例子
+用之前的tb6做例子：
+
+![插入列之前的tb6](http://p7vxw6hv7.bkt.clouddn.com/18-5-24/12573762.jpg)
+
+- 不写FRIST或者AFTER，则默认添加到所有列的最下面
+
+```mysql
+mysql> ALTER TABLE tb6 ADD age TINYINT UNSIGNED NOT NULL DEFAULT 18;
+```
+
+结果
+
+![新列插在列尾](http://p7vxw6hv7.bkt.clouddn.com/18-5-24/10842982.jpg)
+
+- 接来下我们再来加一个password字段，并置于username后面，则需要用到AFTER：
+
+```mysql
+mysql> ALTER TABLE users1 ADD password VARCHAR(32) NOT NULL AFTER username;
+```
+
+结果
+
+![在指定列后添加新列](http://p7vxw6hv7.bkt.clouddn.com/18-5-24/86272896.jpg)
+
 #### 删除列--ALTER TABLE...DROP
+##### 语法
 删除列的语法结构：
 
 ```mysql
 ALTER TABLE tbl_name DROP [COLUMN] col_name
 ```
 
+##### 例子
+删除刚才给tb6添加的age字段
+
+```mysql
+mysql> ALTER TABLE tb6 DROP age;
+```
+
+结果
+
+![删除列](http://p7vxw6hv7.bkt.clouddn.com/18-5-24/17558038.jpg)
+
 ### 添加/删除约束
+#### 添加主键约束--ALTER TABLE...ADD PRIMARY KEY
+##### 语法
+
+```mysql
+ALTER TABLE tbl_name ADD [CONSTRAINT [symbol]]
+PRIMARY KEY [index_type](index_col_name,...)
+```
+
+##### 例子
+创建一个测试用的数据表users2：
+
+```mysql
+mysql> CREATE TABLE users2(
+    -> username VARCHAR(10) NOT NULL,
+    -> pid SMALLINT UNSIGNED
+    -> );
+```
+
+首先增加一列：
+
+```mysql
+mysql> AlTER TABLE users2 ADD id SMALLINT UNSIGNED;
+```
 
 ### 修改列定义和更名数据表
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
