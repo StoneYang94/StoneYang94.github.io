@@ -320,6 +320,7 @@ INSERT tb1 VALUES('datiangou',24,4000);
 ```
 
 - 也可以只给部分字段赋值，比如
+
 ```mysql
 INSERT tb1(username,salary) VALUES('cimutongzi',14000);
 ```
@@ -593,10 +594,10 @@ PRIMARY KEY [index_type](index_col_name,...)
 ```
 
 ##### 例子
-创建一个测试用的数据表users2：
+创建一个测试用的数据表user2：
 
 ```mysql
-mysql> CREATE TABLE users2(
+mysql> CREATE TABLE user2(
     -> username VARCHAR(10) NOT NULL,
     -> pid SMALLINT UNSIGNED
     -> );
@@ -605,22 +606,358 @@ mysql> CREATE TABLE users2(
 首先增加一列：
 
 ```mysql
-mysql> AlTER TABLE users2 ADD id SMALLINT UNSIGNED;
+mysql> AlTER TABLE user2 ADD id SMALLINT UNSIGNED;
 ```
 
-### 修改列定义和更名数据表
+此时表的结构：
+
+![添加主键前](http://p7vxw6hv7.bkt.clouddn.com/18-5-25/64941405.jpg)
+
+给id列添加主键约束：
+
+```mysql
+mysql> ALTER TABLE user2 ADD CONSTRAINT  PRIMARY KEY(id);
+```
+
+此时表的结构：
+
+![添加id为主键](http://p7vxw6hv7.bkt.clouddn.com/18-5-25/23908217.jpg)
+
+#### 添加唯一约束--ALTER TABLE...ADD UNIQUE
+##### 语法
+
+```mysql
+ALTER TABLE tbl_name ADD [CONSTRAINT [symbol]]
+UNIQUE [INDEX|KEY] [index_name] [index_type]
+(index_col_nam,...)
+```
+
+##### 例子
+唯一约束可以有多个，我们给usersname添加唯一约束：
+
+```mysql
+mysql> ALTER TABLE user2 ADD UNIQUE (username);
+```
+
+此时表的结构：
+
+![插入唯一约束](http://p7vxw6hv7.bkt.clouddn.com/18-5-25/72009401.jpg)
+
+#### 添加外键约束-ALTER TABLE..ADD FOREIGN KEY REFERENCES..
+##### 语法
+
+```mysql
+ALTER TABLE tbl_name ADD [CONSTRAINT [symbol]]
+FOREIGN KEY [index_name] (index_col_name,...)
+reference_definition
+```
+
+##### 例子
+将users2中的pid参照tb6中id，则需要给users2中的pid设置外键约束：
+
+```mysql
+mysql> ALTER TABLE user2 ADD FOREIGN KEY(pid) REFERENCES tb6(id);
+```
+
+此时表的结构：
+
+![添加外键约束](http://p7vxw6hv7.bkt.clouddn.com/18-5-25/95500836.jpg)
 
 
+#### 添加/删除默认约束-ALTER TABLE..ALTER..SET|DROP DEFAULT
+##### 语法
+添加/删除默认约束的语法结构：
+
+```mysql
+ALTER TABLE tbl_name ALTER [COLUMN] col_name
+{SET DEFAULT literal| DROP DEFAULT}
+```
+
+##### 例子
+在user2表中添加一个age字段：
+
+```mysql
+mysql> ALTER TABLE  user2 ADD age TINYINT UNSIGNED NOT NULL;
+```
+
+此时表的结构：
+
+![添加默认约束前](http://p7vxw6hv7.bkt.clouddn.com/18-5-25/68226904.jpg)
+
+可以看到age字段并没有默认值，接下来添加默认约束：
+
+```mysql
+mysql> ALTER TABLE user2 ALTER age SET DEFAULT 18;
+```
+
+此时表的结构：
+
+![添加age默认约束值18](http://p7vxw6hv7.bkt.clouddn.com/18-5-25/57242040.jpg)
+
+接下来删除默认约束
+
+```mysql
+mysql> ALTER TABLE user2 ALTER age DROP DEFAULT;
+```
+
+此时表的结构：
+
+![删除age的默认约束](http://p7vxw6hv7.bkt.clouddn.com/18-5-25/89424665.jpg)
 
 
+### 修改列定义,列名称，表名称
+#### 修改列定义--ALTER TABLE...MODIFY...
+- 数据类型
+- 列的位置
+##### 语法
+
+```mysql
+ALTER TABLE tbl_name MODIFY [COLUMN] col_name
+column_definition  [FIRST| AFTER col_name]
+```
+
+##### 例子
+比如users2表中的id并没有处于第一位置，虽然没有什么影响，但是不符合我们平常的习惯，可以将id字段修改为第一位置：
+
+```mysql
+mysql> ALTER TABLE user2 MODIFY id SMALLINT UNSIGNED NOT NULL FIRST;
+```
+ 
+可以看到id：
+- 类型变成了MEDIUMINT UNSIGNED 
+- 处在了第一列
+
+![修改了id列的定义](http://p7vxw6hv7.bkt.clouddn.com/18-5-25/72970555.jpg)
+
+修改数据类型时，**将大类型修改为小类型，有可能造成数据丢失。**
+
+#### 修改列名称--ALTER TABLE...CHANGE...
+##### 语法
+
+```mysql
+ALTER TABLE tbl_name CHANGE [COLUMN] old_col_name
+new_col_name column_definition  [FIRST| AFTER col_name]
+```
+
+##### 例子
+我们修改一下pid的数据类型和名字：
+
+```mysql
+mysql> ALTER TABLE user2 CHANGE pid p_id TINYINT UNSIGNED NOT NULL;
+```
+
+可以看到pid已经被修改为new_pid：
+
+![修改列名字](http://p7vxw6hv7.bkt.clouddn.com/18-5-25/52347327.jpg)
+
+#### 修改数据表名称--...RENAME TO...
+尽量不要随意修改数据表名。
+##### 语法
+修改数据表名称方法一：
+
+```mysql
+ALTER TABLE tbl_name RENAME [TO|AS] new_tbl_name
+```
+
+修改数据表名称方法二（可以修改多个数据表）：
+
+```mysl
+RENAME TABLE tbl_name TO new_tbl_name
+[, tbl_name2 TO new_tbl_name2]...
+```
+
+##### 例子
+我们用方法一将user2名字修改为new_user2：
+
+```mysql
+mysql> ALTER TABLE users2 RENAME users3;
+```
+
+查看表名：
+
+![修改表名](http://p7vxw6hv7.bkt.clouddn.com/18-5-25/74713696.jpg)
+
+再用方法二将tb1,tb2分别改为new_tb1,new_tb2：
+
+```mysql
+mysql> RENAME TABLE users3 TO users2;
+```
+
+查看表名：
+
+![修改表名](http://p7vxw6hv7.bkt.clouddn.com/18-5-25/79481377.jpg)
+
+# 第四章：操作数据表中的记录 
+本章内容在前几章有部分体现，这里做一个补充与总结。
+##  插入记录--INSERT...VALUES...
+### 语法
+
+```mysql
+INSERT [INTO] tbl_name [(col_name,...)] {VALUES| VALUE}
+({expr | DEFAULT},...),(...),...
+```
+
+- col_name是列名称，**省略**不写则代表**所有**的字段需要依次赋值
+- 对于自动编号的字段，赋值为NULL或者DEFAULT
+### 例子
+首先创建一个用于测试的数据表：
+
+```mysql
+mysql> CREATE TABLE users(
+    -> id SMALLINT UNSIGNED PRIMARY KEY AUTO_INCREMENT,
+    -> username VARCHAR(20) NOT NULL,
+    -> password VARCHAR(32) NOT NULL,
+    -> age TINYINT UNSIGNED NOT NULL DEFAULT 10,
+    -> sex BOOLEAN
+    -> );
+```
+
+现在我们省略col_name，则插入记录的时候需要依次为所有字段赋值，自动编号的id字段可以NULL或者DEFAULT 
+
+```mysql
+mysql> INSERT users VALUES(NULL,'datiangou','123456',18,1);
+mysql> INSERT users VALUES(DEFAULT,'cimutongzi','123456',24,1);
+```
+
+查看表中记录：
+
+![插入记录](http://p7vxw6hv7.bkt.clouddn.com/18-5-25/79735183.jpg)
+
+接下来一次性写入多条记录，只需要**用逗号分隔即可**，这里以两条记录为例：
+
+```mysql
+mysql> INSERT users VALUES(DEFAULT,'yuzaoqian','098765',25,1),
+(NULL,'xuetongzi',098765,DEFAULT,0);
+```
 
 
+~~## 插入记录--INSERT SET-SELECT~~
 
 
+## 单表更新记录--UPDATE...SET...
+### 语法
+
+```mysql
+UPDATE [LOW_PRIORITY] [IGNORE] table_reference SET
+col_name1={expr1 | DEFAULT} [,col_name2={expr2 | DEFAULT}]...
+[WHERE where_condition]
+```
+
+expr1 | DEFAULT 是指表达式或者默认值
+- WHERE where_condition如果省略，则会更新所有记录
+### 例子
+
+```mysql
+mysql> UPDATE users set age=age+5;
+```
+
+查看表中记录：
+
+## 单表删除记录--DELETE
+### 语法
+
+```mysql
+
+```
+
+### 例子
 
 
+```mysql
+
+```
+
+查看表中记录：
+## 查询表达式解析
+### 语法
+
+```mysql
+
+```
+
+### 例子
 
 
+```mysql
+
+```
+
+查看表中记录：
+## 条件查询--where
+### 语法
+
+```mysql
+
+```
+
+### 例子
+
+
+```mysql
+
+```
+
+查看表中记录：
+## 语句对查询结果分组--group by
+### 语法
+
+```mysql
+
+```
+
+### 例子
+
+
+```mysql
+
+```
+
+查看表中记录：
+## 语句设置分组条件--having
+### 语法
+
+```mysql
+
+```
+
+### 例子
+
+
+```mysql
+
+```
+
+查看表中记录：
+## 语句对查询结果排序--order by
+### 语法
+
+```mysql
+
+```
+
+### 例子
+
+
+```mysql
+
+```
+
+查看表中记录：
+## 语句限制查询数量--limit
+### 语法
+
+```mysql
+
+```
+
+### 例子
+
+
+```mysql
+
+```
+
+查看表中记录：
 
 
 
