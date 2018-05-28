@@ -67,19 +67,18 @@ mysql -uroot -pmima -P3306 -h127.0.0.1
 
 1. 
 
-```
+```mysql  
 mysql  >  exit;
 ```
 
 2. 
 
-```
+```mysql  
 mysql  >  quit;
 ```
 
 3. 
-
-```
+```mysql  
 mysql > \q;
 ```
 
@@ -334,7 +333,6 @@ SELECT expr,... FROM tbl_name
 ```
 
 比如：（这里的*是字段的过滤）
-
 
 ```mysql
 SELECT * FROM tb1;
@@ -828,9 +826,12 @@ mysql> INSERT users VALUES(DEFAULT,'cimutongzi','123456',24,1);
 
 ```mysql
 mysql> INSERT users VALUES(DEFAULT,'yuzaoqian','098765',25,1),
-(NULL,'xuetongzi',098765,DEFAULT,0);
+(NULL,'xuetongzi','098765',DEFAULT,0);
 ```
 
+查看表中记录：
+
+![](http://p7vxw6hv7.bkt.clouddn.com/18-5-28/11249367.jpg)
 
 ~~## 插入记录--INSERT SET-SELECT~~
 
@@ -848,62 +849,108 @@ expr1 | DEFAULT 是指表达式或者默认值
 - WHERE where_condition如果省略，则会更新所有记录
 ### 例子
 
+-  WHERE 语句省略，则更新所有记录
+比如给所有用户年龄加5岁：
+
 ```mysql
 mysql> UPDATE users set age=age+5;
 ```
 
 查看表中记录：
+可以看到，表中每一条记录的age值都被更新了。
 
-## 单表删除记录--DELETE
-### 语法
+![不限定范围更新数据](http://p7vxw6hv7.bkt.clouddn.com/18-5-28/35223447.jpg)
 
-```mysql
-
-```
-
-### 例子
-
+- 有WHERE语句，则特定条件的记录被更新
+比如给所有偶数id用户年龄加10岁：
 
 ```mysql
-
+mysql> UPDATE users SER age = age + 10 WHERE id % 2 == 0 ;
 ```
 
 查看表中记录：
-## 查询表达式解析
+可以看到，表中id为偶数记录的age值都被更新了。
+
+![特定范围更新数据](http://p7vxw6hv7.bkt.clouddn.com/18-5-28/63492586.jpg)
+
+
+## 单表删除记录--DELETE FROM...
 ### 语法
 
 ```mysql
-
+DELETE FROM tbl_name [WHERE where_condition]
 ```
 
 ### 例子
-
+比如删除id为2的用户记录：
 
 ```mysql
-
+mysql> DELETE FROM users WHERE id = 2;
 ```
 
 查看表中记录：
+
+![删除记录](http://p7vxw6hv7.bkt.clouddn.com/18-5-28/94997700.jpg)
+
+可以看到id为2的用户已经被删除，如果此时再插入一条记录，id会为5，而不是2：
+
+```mysql
+mysql> INSERT users VALUES(NULL,'huiyeji','1234',12,NULL);
+```
+查看表中记录：
+
+![删除之后，主键不会“自动填充”](http://p7vxw6hv7.bkt.clouddn.com/18-5-28/82824666.jpg)
+
+## 查询表达式解析--SELECT...FROM...
+### 语法
+
+```mysql
+SELECT select_expr [,select_expr...]
+[
+FROM table_references
+[WHERE where_condition]
+[GROUP BY {col_name | position} [ASC| DESC],...]
+[HAVING where_condition]
+[ORDER BY {col_name | expr | position} [ASC | DESC],...]
+[LIMIT {[offset,] row_count | row_count OFFSET offset}]
+]
+```
+
+每一个表达式表示想要的一列，**必须有至少一个**。多个列之间以英文逗号分隔。
+### 例子
+-  查询指定列
+比如我想查找id和username这两列的记录：
+
+```mysql
+mysql> SELECT id, username FROM users;
+```
+
+查看表中记录：
+
+![查询指定列](http://p7vxw6hv7.bkt.clouddn.com/18-5-28/73871525.jpg)
+
+-  星号(*)表示所有列。
+
+- “表名字.列名字” 级联结构，在使用多表链接时，该方法可以用于区别不同数据表的同名字段。
+
+-   查询表达式可以使用[AS] alias_name为其赋予别名。**本名AS别名**
+比如有时候一些字段的名字非常长，或者为了体现数据的意义，就可以赋予别名：
+
+```mysql
+mysql> SELECT id AS userID,username AS uname FROM users;
+```
+
+查看表中记录：
+
+![别名](http://p7vxw6hv7.bkt.clouddn.com/18-5-28/20000588.jpg)
+
 ## 条件查询--where
-### 语法
-
-```mysql
-
-```
-
-### 例子
-
-
-```mysql
-
-```
-
-查看表中记录：
+条件表达式用于对记录进行过滤，如果没有指定WHERE子句，则显示所有的记录，在WHERE表达式中，可以用MysSQL支持的**函数或运算符**
 ## 语句对查询结果分组--group by
 ### 语法
 
 ```mysql
-
+[GROUP BY {col_name | position}] [ASC | DESC],...]
 ```
 
 ### 例子
@@ -914,6 +961,8 @@ mysql> UPDATE users set age=age+5;
 ```
 
 查看表中记录：
+
+
 ## 语句设置分组条件--having
 ### 语法
 
