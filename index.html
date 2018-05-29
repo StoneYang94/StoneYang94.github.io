@@ -362,7 +362,10 @@
 
       
         
-          <h1 id="指标"><a href="#指标" class="headerlink" title="指标"></a>指标</h1><p>时间复杂度 O(n²)<br>空间复杂度O(1)<br>
+          <h1 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h1><ol>
+<li><strong>开始交换的区间是0~N-1</strong>，即数组整体：<br>6 3 5 7 0 4 1 2—&gt;第一个数和第二个数比较，哪个大哪个就放在后面，第二个数和第三个数比较，哪个大哪个放在后面，这样一次冒泡以后，最大的数就排在了数组的最后面。</li>
+<li><strong>再对0~N-2的区间进行同样的操作：</strong><br>3 5 6 0 4 1 2 7—&gt;</li>
+<li>依次进行，直到区间只有一个元素的时候，整个数组就变得有序了。
           <!--noindex-->
           <div class="post-button text-center">
             <a class="btn" href="/2018/05/26/冒泡排序/#more" rel="contents">
