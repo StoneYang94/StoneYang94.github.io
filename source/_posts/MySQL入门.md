@@ -944,9 +944,12 @@ mysql> SELECT id AS userID,username AS uname FROM users;
 
 ![别名](http://p7vxw6hv7.bkt.clouddn.com/18-5-28/20000588.jpg)
 
-## 条件查询--where
+## 条件查询--WHERE
 条件表达式用于对记录进行过滤，如果没有指定WHERE子句，则显示所有的记录，在WHERE表达式中，可以用MysSQL支持的**函数或运算符**
-## 语句对查询结果分组--group by
+## 语句对查询结果分组--GRUOP BY
+- GROUP BY关键字可以将查询结果按照某个字段或多个字段进行分组。字段值**相等的为一组。**
+- 分组就是将一个数据集划分成若干个小区域，然后再针对若干个小区域进行数据处理。本文将介绍mysql使用group by分组时，实现组内排序的方法。
+- 单独使用group by没有任何意义，它的真正作用在于与各种组合函数配合
 ### 语法
 
 ```mysql
@@ -954,62 +957,242 @@ mysql> SELECT id AS userID,username AS uname FROM users;
 ```
 
 ### 例子
-
+比如对性别进行分组：
 
 ```mysql
-
+mysql> SELECT sex FROM users GROUP BY sex;
 ```
 
 查看表中记录：
 
+![分组](http://p7vxw6hv7.bkt.clouddn.com/18-5-30/7956689.jpg)
 
-## 语句设置分组条件--having
+## 语句设置分组条件--HAVING
+WHERE过滤行， HAVING过滤分组
 ### 语法
 
 ```mysql
-
+[HAVING where_condition]
 ```
 
+- HAVING后面的条件只能为聚合函数（比如SUM，MIN，MAX等）
+- 否则该条件必须出现在SELECT中
 ### 例子
-
+比如对年龄大于35岁的用于进行性别分组：
 
 ```mysql
-
+mysql> SELECT sex,age FROM users GROUP BY sex HAVING age > 35;
 ```
 
 查看表中记录：
-## 语句对查询结果排序--order by
+
+![](http://p7vxw6hv7.bkt.clouddn.com/18-5-30/49138731.jpg)
+
+## 语句对查询结果排序--ORDER BY
 ### 语法
 
 ```mysql
-
+[ORDER BY {col_name | expr | position}[ASC | DESC],...]
 ```
 
+- ASC：升序（默认）
+- DESC：降序
 ### 例子
+- 如果对多个字段进行排序时，如果第一个字段可以排出想要的结果，则忽略其他字段，如果不能，则遵守第二个字段，依次类推。
 
+1. 首先按照年龄默认排序：
 
 ```mysql
-
+mysql> SELECT * FROM users ORDER BY age;
 ```
 
 查看表中记录：
-## 语句限制查询数量--limit
+
+
+
+
+2. 插入一条同age数据，当有同龄的用户，我们可以设置如果同龄，则按照id降序排列：
+
+```mysql
+mysql> INSERT users VALUES (DEFAULT,'shanfeng','123456',23,1);
+mysql> SELECT * FROM users ORDER BY age,id DESC;
+```
+
+查看表中记录：
+
+![对结果排序](http://p7vxw6hv7.bkt.clouddn.com/18-5-30/20323468.jpg)
+
+## 语句限制查询数量--LIMIT...
 ### 语法
 
 ```mysql
-
+[LIMIT {[offset,] row_count | row_count OFFSET offset}]
 ```
 
 ### 例子
-
+- 比如查询前两条记录:
 
 ```mysql
+mysql> SELECT * FROM users LIMIT 2;
+```
 
+- 查询第3和4两条记录：
+值得注意的是，SELECT语句记录是从0开始，所以想查询3和4两条记录，不能写LIMIT 3,2, 而需要写LIMIT 2,2；
+
+```mysql
+mysql> SELECT * FROM users LIMIT 2,2;
 ```
 
 查看表中记录：
 
+![限制查询数量](http://p7vxw6hv7.bkt.clouddn.com/18-5-30/54843287.jpg)
 
+# 第五章：子查询与连接 
+
+## 数据准备
+
+1. 创建并打开数据库
+
+```mysql
+CREATE DATABASE study01;
+USE study01;
+```
+
+2. 创建数据表
+
+```mysql
+  CREATE TABLE IF NOT EXISTS tdb_goods(
+    goods_id    SMALLINT UNSIGNED PRIMARY KEY AUTO_INCREMENT,
+    goods_name  VARCHAR(150) NOT NULL,
+    goods_cate  VARCHAR(40)  NOT NULL,
+    brand_name  VARCHAR(40)  NOT NULL,
+    goods_price DECIMAL(15,3) UNSIGNED NOT NULL DEFAULT 0,
+    is_show     BOOLEAN NOT NULL DEFAULT 1,
+    is_saleoff  BOOLEAN NOT NULL DEFAULT 0
+  );
+```
+
+3. 插入记录
+
+```mysql
+ INSERT tdb_goods (goods_name,goods_cate,brand_name,goods_price,is_show,is_saleoff) 
+VALUES('R510VC 15.6英寸笔记本','笔记本','华硕','3399',DEFAULT,DEFAULT);
+  
+ INSERT tdb_goods (goods_name,goods_cate,brand_name,goods_price,is_show,is_saleoff) 
+VALUES('Y400N 14.0英寸笔记本电脑','笔记本','联想','4899',DEFAULT,DEFAULT);
+  
+ INSERT tdb_goods (goods_name,goods_cate,brand_name,goods_price,is_show,is_saleoff) 
+VALUES('G150TH 15.6英寸游戏本','游戏本','雷神','8499',DEFAULT,DEFAULT);
+  
+ INSERT tdb_goods (goods_name,goods_cate,brand_name,goods_price,is_show,is_saleoff) 
+VALUES('X550CC 15.6英寸笔记本','笔记本','华硕','2799',DEFAULT,DEFAULT);
+  
+ INSERT tdb_goods (goods_name,goods_cate,brand_name,goods_price,is_show,is_saleoff)
+ VALUES('X240(20ALA0EYCD) 12.5英寸超极本','超级本','联想','4999',DEFAULT,DEFAULT);
+  
+ INSERT tdb_goods (goods_name,goods_cate,brand_name,goods_price,is_show,is_saleoff) 
+VALUES('U330P 13.3英寸超极本','超级本','联想','4299',DEFAULT,DEFAULT);
+  
+ INSERT tdb_goods (goods_name,goods_cate,brand_name,goods_price,is_show,is_saleoff) 
+VALUES('SVP13226SCB 13.3英寸触控超极本','超级本','索尼','7999',DEFAULT,DEFAULT);
+  
+ INSERT tdb_goods (goods_name,goods_cate,brand_name,goods_price,is_show,is_saleoff) 
+VALUES('iPad mini MD531CH/A 7.9英寸平板电脑','平板电脑','苹果','1998',DEFAULT,DEFAULT);
+  
+ INSERT tdb_goods (goods_name,goods_cate,brand_name,goods_price,is_show,is_saleoff)
+ VALUES('iPad Air MD788CH/A 9.7英寸平板电脑 （16G WiFi版）','平板电脑','苹果','3388',DEFAULT,DEFAULT);
+  
+ INSERT tdb_goods (goods_name,goods_cate,brand_name,goods_price,is_show,is_saleoff) 
+VALUES(' iPad mini ME279CH/A 配备 Retina 显示屏 7.9英寸平板电脑 （16G WiFi版）','平板电脑','苹果','2788',DEFAULT,DEFAULT);
+  
+ INSERT tdb_goods (goods_name,goods_cate,brand_name,goods_price,is_show,is_saleoff) 
+VALUES('IdeaCentre C340 20英寸一体电脑 ','台式机','联想','3499',DEFAULT,DEFAULT);
+  
+ INSERT tdb_goods (goods_name,goods_cate,brand_name,goods_price,is_show,is_saleoff) 
+
+VALUES('Vostro 3800-R1206 台式电脑','台式机','戴尔','2899',DEFAULT,DEFAULT);
+  
+ INSERT tdb_goods (goods_name,goods_cate,brand_name,goods_price,is_show,is_saleoff)
+VALUES('iMac ME086CH/A 21.5英寸一体电脑','台式机','苹果','9188',DEFAULT,DEFAULT);
+  
+ INSERT tdb_goods (goods_name,goods_cate,brand_name,goods_price,is_show,is_saleoff) 
+VALUES('AT7-7414LP 台式电脑 （i5-3450四核 4G 500G 2G独显 DVD 键鼠 Linux ）','台式机','宏碁','3699',DEFAULT,DEFAULT);
+  
+ INSERT tdb_goods (goods_name,goods_cate,brand_name,goods_price,is_show,is_saleoff) 
+VALUES('Z220SFF F4F06PA工作站','服务器/工作站','惠普','4288',DEFAULT,DEFAULT);
+  
+ INSERT tdb_goods (goods_name,goods_cate,brand_name,goods_price,is_show,is_saleoff) 
+VALUES('PowerEdge T110 II服务器','服务器/工作站','戴尔','5388',DEFAULT,DEFAULT);
+  
+ INSERT tdb_goods (goods_name,goods_cate,brand_name,goods_price,is_show,is_saleoff) 
+VALUES('Mac Pro MD878CH/A 专业级台式电脑','服务器/工作站','苹果','28888',DEFAULT,DEFAULT);
+  
+ INSERT tdb_goods (goods_name,goods_cate,brand_name,goods_price,is_show,is_saleoff) 
+VALUES(' HMZ-T3W 头戴显示设备','笔记本配件','索尼','6999',DEFAULT,DEFAULT);
+  
+ INSERT tdb_goods (goods_name,goods_cate,brand_name,goods_price,is_show,is_saleoff) 
+VALUES('商务双肩背包','笔记本配件','索尼','99',DEFAULT,DEFAULT);
+  
+ INSERT tdb_goods (goods_name,goods_cate,brand_name,goods_price,is_show,is_saleoff) 
+VALUES('X3250 M4机架式服务器 2583i14','服务器/工作站','IBM','6888',DEFAULT,DEFAULT);
+  
+ INSERT tdb_goods (goods_name,goods_cate,brand_name,goods_price,is_show,is_saleoff) 
+VALUES('玄龙精英版 笔记本散热器','笔记本配件','九州风神','',DEFAULT,DEFAULT);
+  
+ INSERT tdb_goods (goods_name,goods_cate,brand_name,goods_price,is_show,is_saleoff) 
+VALUES(' HMZ-T3W 头戴显示设备','笔记本配件','索尼','6999',DEFAULT,DEFAULT);
+  
+ INSERT tdb_goods (goods_name,goods_cate,brand_name,goods_price,is_show,is_saleoff) 
+VALUES('商务双肩背包','笔记本配件','索尼','99',DEFAULT,DEFAULT);
+```
+
+|字段|解释|
+|--|--|
+|goods_id|商品id，主键，自动编号
+|goods_name|商品名称，禁止为空
+|goods_cate|商品分类
+|brand_name|品牌名称
+|goods_price|商品价格
+|is_show|是否上架，布尔类型，默认为1上架，0为下架
+|is_saleoff|是否已经全部销售，默认为0可以继续销售
+
+## 子查询简介
+- 子查询（Subquery）是指出现在其他SQL语句内的SELECT子句。
+- 子查询返回的结果可以返回标量、一行、一列或子查询
+
+```mysql
+SELECT * FROM t1 WHERE column1 = (SELECT column1 FROM t2);
+```
+
+- SELECT * FROM t1 WHERE column1称为Outer Query[外查询]
+- SELECT column1 FROM t2 称为Sub Query[子查询]
+- 子查询必须出现在圆括号内。
+- 子查询可以包含多个关键字或者条件，比如DISTINCT、GROUP BY、 ORDER BY，LIMIT，函数等。
+- 子查询返回的结果可以返回标量、一行、一列或子查询
+
+## 由比较运算符引发的子查询
+
+## 由[NOT] IN/EXISTS引发的子查询
+
+## 使用INSERT...SELECT插入记录
+
+## 多表更新
+
+## 多表更新之一步到位
+
+## 连接的语法结构
+
+## 内连接INNER JOIN
+
+## 外连接OUTER JOIN
+
+## 多表连接
+
+## 关于连接的几点说明
+
+## 无限级分类表设计
+
+## 多表删除
 
 
 
