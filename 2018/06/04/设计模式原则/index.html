@@ -86,7 +86,7 @@
 
 
 
-  <meta name="keywords" content="排序," />
+  <meta name="keywords" content="设计原则," />
 
 
 
@@ -97,20 +97,18 @@
 
 
 
-<meta name="description" content="介绍 开始交换的区间是0~N-1，即数组整体：6 3 5 7 0 4 1 2—&amp;gt;第一个数和第二个数比较，哪个大哪个就放在后面，第二个数和第三个数比较，哪个大哪个放在后面，这样一次冒泡以后，最大的数就排在了数组的最后面。 再对0~N-2的区间进行同样的操作：3 5 6 0 4 1 2 7—&amp;gt; 依次进行，直到区间只有一个元素的时候，整个数组就变得有序了。">
-<meta name="keywords" content="排序">
+<meta name="description" content="设计模式（Design Pattern） 是什么是一套被反复使用、多数人知晓的、经过反复编写的、代码设计经验的总结 目的：使用设计模式是为了可重用代码、让代码更容易被他人理解、保证代码可靠性  设计模式的六大原则：总原则－开闭原则对扩展开放，对修改封闭。在程序需要进行拓展的时候，不能去修改原有的代码，而是要扩展原有代码，实现一个热插拔的效果。所以一句话概括就是：为了使程序的扩展性好，易于维护和升级">
+<meta name="keywords" content="设计原则">
 <meta property="og:type" content="article">
-<meta property="og:title" content="冒泡排序">
-<meta property="og:url" content="http://yoursite.com/2018/05/26/冒泡排序/index.html">
+<meta property="og:title" content="设计模式原则">
+<meta property="og:url" content="http://yoursite.com/2018/06/04/设计模式原则/index.html">
 <meta property="og:site_name" content="Xudong&#39;s blogs">
-<meta property="og:description" content="介绍 开始交换的区间是0~N-1，即数组整体：6 3 5 7 0 4 1 2—&amp;gt;第一个数和第二个数比较，哪个大哪个就放在后面，第二个数和第三个数比较，哪个大哪个放在后面，这样一次冒泡以后，最大的数就排在了数组的最后面。 再对0~N-2的区间进行同样的操作：3 5 6 0 4 1 2 7—&amp;gt; 依次进行，直到区间只有一个元素的时候，整个数组就变得有序了。">
+<meta property="og:description" content="设计模式（Design Pattern） 是什么是一套被反复使用、多数人知晓的、经过反复编写的、代码设计经验的总结 目的：使用设计模式是为了可重用代码、让代码更容易被他人理解、保证代码可靠性  设计模式的六大原则：总原则－开闭原则对扩展开放，对修改封闭。在程序需要进行拓展的时候，不能去修改原有的代码，而是要扩展原有代码，实现一个热插拔的效果。所以一句话概括就是：为了使程序的扩展性好，易于维护和升级">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/11861611-aea485d1e9c40e69.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
-<meta property="og:updated_time" content="2018-05-29T13:34:08.437Z">
+<meta property="og:updated_time" content="2018-06-04T10:36:24.488Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="冒泡排序">
-<meta name="twitter:description" content="介绍 开始交换的区间是0~N-1，即数组整体：6 3 5 7 0 4 1 2—&amp;gt;第一个数和第二个数比较，哪个大哪个就放在后面，第二个数和第三个数比较，哪个大哪个放在后面，这样一次冒泡以后，最大的数就排在了数组的最后面。 再对0~N-2的区间进行同样的操作：3 5 6 0 4 1 2 7—&amp;gt; 依次进行，直到区间只有一个元素的时候，整个数组就变得有序了。">
-<meta name="twitter:image" content="http://upload-images.jianshu.io/upload_images/11861611-aea485d1e9c40e69.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta name="twitter:title" content="设计模式原则">
+<meta name="twitter:description" content="设计模式（Design Pattern） 是什么是一套被反复使用、多数人知晓的、经过反复编写的、代码设计经验的总结 目的：使用设计模式是为了可重用代码、让代码更容易被他人理解、保证代码可靠性  设计模式的六大原则：总原则－开闭原则对扩展开放，对修改封闭。在程序需要进行拓展的时候，不能去修改原有的代码，而是要扩展原有代码，实现一个热插拔的效果。所以一句话概括就是：为了使程序的扩展性好，易于维护和升级">
 
 
 
@@ -140,13 +138,13 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/2018/05/26/冒泡排序/"/>
+  <link rel="canonical" href="http://yoursite.com/2018/06/04/设计模式原则/"/>
 
 
 
 
 
-  <title>冒泡排序 | Xudong's blogs</title>
+  <title>设计模式原则 | Xudong's blogs</title>
   
 
 
@@ -273,7 +271,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/05/26/冒泡排序/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/06/04/设计模式原则/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="杨旭东">
@@ -290,7 +288,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">冒泡排序</h1>
+          <h1 class="post-title" itemprop="name headline">设计模式原则</h1>
         
 
         <div class="post-meta">
@@ -302,8 +300,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-05-26T14:18:51+08:00">
-                2018-05-26
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-06-04T18:33:37+08:00">
+                2018-06-04
               </time>
             
 
@@ -325,8 +323,8 @@
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/简单算法/" itemprop="url" rel="index">
-                    <span itemprop="name">简单算法</span>
+                  <a href="/categories/设计模式/" itemprop="url" rel="index">
+                    <span itemprop="name">设计模式</span>
                   </a>
                 </span>
 
@@ -362,15 +360,63 @@
       
 
       
-        <h1 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h1><ol>
-<li><strong>开始交换的区间是0~N-1</strong>，即数组整体：<br>6 3 5 7 0 4 1 2—&gt;第一个数和第二个数比较，哪个大哪个就放在后面，第二个数和第三个数比较，哪个大哪个放在后面，这样一次冒泡以后，最大的数就排在了数组的最后面。</li>
-<li><strong>再对0~N-2的区间进行同样的操作：</strong><br>3 5 6 0 4 1 2 7—&gt;</li>
-<li>依次进行，直到区间只有一个元素的时候，整个数组就变得有序了。<a id="more"></a>
-</li>
+        <h1 id="设计模式（Design-Pattern）"><a href="#设计模式（Design-Pattern）" class="headerlink" title="设计模式（Design Pattern）"></a>设计模式（Design Pattern）</h1><ul>
+<li>是什么<br>是一套被反复使用、多数人知晓的、经过反复编写的、代码设计<strong>经验的总结</strong></li>
+<li>目的：<br>使用设计模式是为了可重用代码、让代码更容易被他人理解、保证代码可靠性</li>
+</ul>
+<h1 id="设计模式的六大原则："><a href="#设计模式的六大原则：" class="headerlink" title="设计模式的六大原则："></a>设计模式的六大原则：</h1><h2 id="总原则－开闭原则"><a href="#总原则－开闭原则" class="headerlink" title="总原则－开闭原则"></a>总原则－开闭原则</h2><p>对扩展开放，对修改封闭。<br><strong>在程序需要进行拓展的时候，不能去修改原有的代码，而是要扩展原有代码，实现一个热插拔的效果</strong>。所以一句话概括就是：为了使程序的扩展性好，易于维护和升级。<br>想要达到这样的效果，我们需要使用接口和抽象类等，后面的具体设计中我们会提到这点。<br><a id="more"></a></p>
+<h2 id="1、单一职责原则—一个类只负责一项职责"><a href="#1、单一职责原则—一个类只负责一项职责" class="headerlink" title="1、单一职责原则—一个类只负责一项职责"></a>1、单一职责原则—一个类只负责一项职责</h2><ul>
+<li>定义：不要存在多于一个导致类变更的原因。通俗的说，即一个类只负责一项职责。 </li>
+<li>问题由来：类T负责两个不同的职责：职责P1，职责P2。当由于职责P1需求发生改变而需要修改类T时，有可能会导致原本运行正常的职责P2功能发生故障。</li>
+<li>解决方案：遵循单一职责原则。分别建立两个类T1、T2，使T1完成职责P1功能，T2完成职责P2功能。这样，当修改类T1时，不会使职责P2发生故障风险；同理，当修改T2时，也不会使职责P1发生故障风险。</li>
+</ul>
+<h2 id="2、里氏替换原则—子类对父类的方法尽量不要重写和重载"><a href="#2、里氏替换原则—子类对父类的方法尽量不要重写和重载" class="headerlink" title="2、里氏替换原则—子类对父类的方法尽量不要重写和重载"></a>2、里氏替换原则—子类对父类的方法尽量不要重写和重载</h2><ul>
+<li>定义：所有引用基类的地方必须能透明地使用其子类的对象。</li>
+</ul>
+<p>任何基类可以出现的地方，子类一定可以出现。里氏替换原则是继承复用的基石，只有当衍生类可以替换基类，软件单位的功能不受到影响时，基类才能真正被复用，而衍生类也能够在基类的基础上增加新的行为。</p>
+<ul>
+<li>问题由来：有一功能P1，由类A完成。现需要将功能P1进行扩展，扩展后的功能为P，其中P由原有功能P1与新功能P2组成。新功能P由类A的子类B来完成，则子类B在完成新功能P2的同时，有可能会导致原有功能P1发生故障。</li>
+<li>解决方案：当使用继承时，遵循里氏替换原则。类B继承类A时，除添加新的方法完成新增功能P2外，尽量不要重写父类A的方法，也尽量不要重载父类A的方法。里氏替换原则中，子类对父类的方法尽量不要重写和重载。因为父类代表了定义好的结构，通过这个规范的接口与外界交互，子类不应该随便破坏它。</li>
+</ul>
+<ul>
+<li>里氏替换原则通俗的来讲就是：子类可以扩展父类的功能，但不能改变父类原有的功能。它包含以下4层含义：</li>
+</ul>
+<ol>
+<li>子类可以实现父类的抽象方法，但不能覆盖父类的非抽象方法。 </li>
+<li>子类中可以增加自己特有的方法。 </li>
+<li>当子类的方法重载父类的方法时，方法的前置条件（即方法的形参）要比父类方法的输入参数更宽松。 </li>
+<li>当子类的方法实现父类的抽象方法时，方法的后置条件（即方法的返回值）要比父类更严格。</li>
 </ol>
-<h1 id="指标"><a href="#指标" class="headerlink" title="指标"></a>指标</h1><p>时间复杂度 O(n²)<br>空间复杂度O(1)</p>
-<h1 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h1><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">BubbleSort</span> </span>&#123;</span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">bubbleSort</span><span class="params">(<span class="keyword">int</span>[] arr)</span> </span>&#123;</span><br><span class="line">		<span class="keyword">if</span> (arr == <span class="keyword">null</span> || arr.length &lt; <span class="number">2</span>) &#123;</span><br><span class="line">			<span class="keyword">return</span>;</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="comment">//每次都是0，1换；然后1，2换；然后2，3……类推。最大的数换到最后面----</span></span><br><span class="line">		<span class="keyword">for</span> (<span class="keyword">int</span> e = arr.length - <span class="number">1</span>; e &gt; <span class="number">0</span>; e--) &#123;</span><br><span class="line">			<span class="comment">//终点前移--------------------</span></span><br><span class="line">			<span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; e; i++) &#123;</span><br><span class="line">				<span class="keyword">if</span> (arr[i] &gt; arr[i + <span class="number">1</span>]) &#123;</span><br><span class="line">					swap(arr, i, i + <span class="number">1</span>);</span><br><span class="line">				&#125;</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="function"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">swap</span><span class="params">(<span class="keyword">int</span>[] arr, <span class="keyword">int</span> i, <span class="keyword">int</span> j)</span> </span>&#123;</span><br><span class="line">		<span class="keyword">int</span> tmp = arr[i];</span><br><span class="line">		arr[i] = arr[j];</span><br><span class="line">		arr[j] = tmp;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="function"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">printArray</span><span class="params">(<span class="keyword">int</span>[] arr)</span> </span>&#123;</span><br><span class="line">		<span class="keyword">if</span> (arr == <span class="keyword">null</span>) &#123;</span><br><span class="line">			<span class="keyword">return</span>;</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; arr.length; i++) &#123;</span><br><span class="line">			System.out.print(arr[i] + <span class="string">" "</span>);</span><br><span class="line">		&#125;</span><br><span class="line">		System.out.println();</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">		<span class="keyword">int</span>[] arr = <span class="keyword">new</span> <span class="keyword">int</span>[] &#123;<span class="number">3</span>,<span class="number">5</span>,<span class="number">4</span>,<span class="number">2</span>,<span class="number">6</span>,<span class="number">7</span>,<span class="number">1</span>,<span class="number">9</span>,<span class="number">8</span>&#125;;</span><br><span class="line">		bubbleSort(arr);</span><br><span class="line">		printArray(arr);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h2 id="输出"><a href="#输出" class="headerlink" title="输出"></a>输出</h2><p><img src="http://upload-images.jianshu.io/upload_images/11861611-aea485d1e9c40e69.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image"></p>
+<h2 id="3、依赖倒转原则—面向接口编程"><a href="#3、依赖倒转原则—面向接口编程" class="headerlink" title="3、依赖倒转原则—面向接口编程"></a>3、依赖倒转原则—面向接口编程</h2><p>面向接口编程，依赖于抽象而不依赖于具体。写代码时用到具体类时，不与具体类交互，而与具体类的上层接口交互。</p>
+<ul>
+<li>定义：高层模块不应该依赖低层模块，二者都应该依赖其抽象；抽象不应该依赖细节；细节应该依赖抽象。 </li>
+<li>问题由来：类A直接依赖类B(B给A发消息)，假如要将类A改为依赖类C，则必须通过修改类A的代码来达成。这种场景下，类A一般是高层模块，负责复杂的业务逻辑；类B和类C是低层模块，负责基本的原子操作；假如修改类A，会给程序带来不必要的风险。</li>
+<li>解决方案：将类A修改为依赖接口I，类B和类C各自实现接口I，类A通过接口I间接与类B或者类C发生联系，则会大大降低修改类A的几率。</li>
+</ul>
+<h2 id="4、接口隔离原则—客户端不应该依赖它不需要的接口"><a href="#4、接口隔离原则—客户端不应该依赖它不需要的接口" class="headerlink" title="4、接口隔离原则—客户端不应该依赖它不需要的接口"></a>4、接口隔离原则—客户端不应该依赖它不需要的接口</h2><p>每个接口中不存在子类用不到却必须实现的方法，如果不然，就要将接口拆分。使用多个隔离的接口，比使用单个接口（多个接口方法集合到一个的接口）要好。</p>
+<ul>
+<li>定义：客户端不应该依赖它不需要的接口；一个类对另一个类的依赖应该建立在最小的接口上。 </li>
+<li>问题由来：类A通过接口I依赖类B，类C通过接口I依赖类D，如果接口I对于类A和类B来说不是最小接口，则类B和类D必须去实现他们不需要的方法。</li>
+<li>解决方案：将臃肿的接口I拆分为独立的几个接口，类A和类C分别与他们需要的接口建立依赖关系。也就是采用接口隔离原则。</li>
+<li>与单一职责原则区别：<ol>
+<li>单一职责原则原注重的是职责；而接口隔离原则注重对接口依赖的隔离</li>
+<li>单一职责原则主要是约束类，其次才是接口和方法，它针对的是程序中的实现和细节；而接口隔离原则主要约束接口接口，主要针对抽象，针对程序整体框架的构建</li>
+</ol>
+</li>
+<li>需注意：<ol>
+<li>接口尽量小，但是要有限度。对接口进行细化可以提高程序设计灵活性，但是如果过小，则会造成接口数量过多，使设计复杂化。所以一定要适度</li>
+<li>提高内聚，减少对外交互。使接口用最少的方法去完成最多的事情</li>
+<li>为依赖接口的类定制服务。只暴露给调用的类它需要的方法，它不需要的方法则隐藏起来。只有专注地为一个模块提供定制服务，才能建立最小的依赖关系。</li>
+</ol>
+</li>
+</ul>
+<h2 id="5、迪米特法则—最少知道"><a href="#5、迪米特法则—最少知道" class="headerlink" title="5、迪米特法则—最少知道"></a>5、迪米特法则—最少知道</h2><ul>
+<li>定义：一个对象应该对其他对象保持最少的了解。<br>一个类对自己依赖的类知道的越少越好。无论被依赖的类多么复杂，都应该将逻辑封装在方法的内部，通过public方法提供给外部。这样当被依赖的类变化时，才能最小的影响该类。</li>
+<li>问题由来：类与类之间的关系越密切，耦合度越大，当一个类发生改变时，对另一个类的影响也越大。</li>
+<li>解决方案：尽量降低类与类之间的耦合。</li>
+</ul>
+<p>最少知道原则的另一个表达方式是：只与直接的朋友通信。类之间只要有耦合关系，就叫朋友关系。耦合分为依赖、关联、聚合、组合等。我们称出现为成员变量、方法参数、方法返回值中的类为直接朋友。局部变量、临时变量则不是直接的朋友。我们要求<strong>陌生的类不要作为局部变量出现在类中</strong>。</p>
+<p>参考文章<br><a href="http://www.uml.org.cn/sjms/201211023.asp" target="_blank" rel="noopener">设计模式六大原则</a><br><a href="https://blog.csdn.net/jason0539/article/details/44956775" target="_blank" rel="noopener">23种设计模式汇总整理</a></p>
 
       
     </div>
@@ -388,7 +434,7 @@
       
         <div class="post-tags">
           
-            <a href="/tags/排序/" rel="tag"><i class="fa fa-tag"></i> 排序</a>
+            <a href="/tags/设计原则/" rel="tag"><i class="fa fa-tag"></i> 设计原则</a>
           
         </div>
       
@@ -401,8 +447,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2018/05/23/MySQL入门/" rel="next" title="MySQL入门">
-                <i class="fa fa-chevron-left"></i> MySQL入门
+              <a href="/2018/05/31/单例模式/" rel="next" title="单例模式">
+                <i class="fa fa-chevron-left"></i> 单例模式
               </a>
             
           </div>
@@ -410,10 +456,6 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2018/05/30/选择排序/" rel="prev" title="选择排序">
-                选择排序 <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -561,7 +603,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#介绍"><span class="nav-number">1.</span> <span class="nav-text">介绍</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#指标"><span class="nav-number">2.</span> <span class="nav-text">指标</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#代码"><span class="nav-number">3.</span> <span class="nav-text">代码</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#输出"><span class="nav-number">3.1.</span> <span class="nav-text">输出</span></a></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#设计模式（Design-Pattern）"><span class="nav-number">1.</span> <span class="nav-text">设计模式（Design Pattern）</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#设计模式的六大原则："><span class="nav-number">2.</span> <span class="nav-text">设计模式的六大原则：</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#总原则－开闭原则"><span class="nav-number">2.1.</span> <span class="nav-text">总原则－开闭原则</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#1、单一职责原则—一个类只负责一项职责"><span class="nav-number">2.2.</span> <span class="nav-text">1、单一职责原则—一个类只负责一项职责</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2、里氏替换原则—子类对父类的方法尽量不要重写和重载"><span class="nav-number">2.3.</span> <span class="nav-text">2、里氏替换原则—子类对父类的方法尽量不要重写和重载</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3、依赖倒转原则—面向接口编程"><span class="nav-number">2.4.</span> <span class="nav-text">3、依赖倒转原则—面向接口编程</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4、接口隔离原则—客户端不应该依赖它不需要的接口"><span class="nav-number">2.5.</span> <span class="nav-text">4、接口隔离原则—客户端不应该依赖它不需要的接口</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#5、迪米特法则—最少知道"><span class="nav-number">2.6.</span> <span class="nav-text">5、迪米特法则—最少知道</span></a></li></ol></li></ol></div>
             
 
           </div>
