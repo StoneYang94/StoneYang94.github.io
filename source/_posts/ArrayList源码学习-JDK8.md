@@ -4,8 +4,8 @@ date: 2018-06-08 20:17:19
 tags: ArrayList
 categories: Java集合
 ---
-
-# 1. ArrayList定义
+按照从构造方法->常用API（增、删、改、查）的顺序来阅读源码，并会讲解阅读方法中涉及的一些变量的意义。
+# 1. 定义
 
 ```java
 public class ArrayList<E> extends AbstractList<E>
@@ -27,9 +27,9 @@ implements List<E>, RandomAccess, Cloneable, java.io.Serializable
 - 比数组的优势
 ArrayList 是一个数组队列，相当于动态数组。与Java中的数组相比，它的容量能**动态增长**
 - 比Vector的优势
-和Vector不同，ArrayList中的操作不是线程安全的
+和Vector不同，ArrayList中的操作不是线程安全的，但是开销小，在单线程环境性能优于Vector
 
-# 2 .ArrayList属性
+# 2 .属性
 底层用数组来保存数据
 
 ```java
@@ -41,7 +41,7 @@ private int size;
 - elementData：存放数组的对象的数组
 - modCount：ArrayList集合的修改次数
 
-# 3. ArrayList构造函数
+# 3. 构造函数
 
 ##  无参构造函数
 不传入参数，则使用默认无参构建方法创建ArrayList对象
@@ -279,7 +279,9 @@ public boolean addAll(int index, Collection<? extends E> c) {
 ```
 
 # 5. 删除---remove
+
 ## 根据索引位置删除元素
+### remove(int index)
 > Removes the element at the specified position in this list.
 
 ```java
@@ -301,11 +303,12 @@ public E remove(int index) {
 ```
 
 ## 根据元素内容删除，只删除匹配的第一个
+### remove(Object o)
 >  Removes the first occurrence of the specified element from this list, if it is present.  If the list does not contain the element, it is unchanged.
 
 循环遍历所有对象，得到对象所在索引位置，然后调用fastRemove方法，执行remove操作
 
--  null值要用==比较。
+-  null值要用==比较
 
 ```java
     public boolean remove(Object o) {
@@ -326,7 +329,7 @@ public E remove(int index) {
     }
 ```
 
-## fastRemove()
+### fastRemove()
 > Private remove method that skips bounds checking and does not return the value removed.
 
 定位到需要remove的元素索引，先将index后面的元素往前面移动一位（调用System.arraycooy实现），然后将最后一个元素置空。
@@ -342,7 +345,7 @@ private void fastRemove(int index) {
 }
 ```
 
-##  数组越界检查
+###  数组越界检查
 
 ```java
 private void rangeCheck(int index) {
@@ -384,7 +387,7 @@ public E set(int index, E element) {
 }
 ```
 
-# 9. contains方法
+# 9. contains(Object o) 
 调用indexOf方法，遍历数组中的每一个元素作对比，如果找到对于的元素，则返回true，没有找到则返回false
 
 ```java
