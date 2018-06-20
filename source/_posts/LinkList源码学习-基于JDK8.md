@@ -1,7 +1,9 @@
 ---
 title: LinkList源码学习-基于JDK8
 date: 2018-06-11 19:41:04
-tags: LinkedList
+tags:
+- Java集合
+- 源码
 categories: Java集合
 ---
 

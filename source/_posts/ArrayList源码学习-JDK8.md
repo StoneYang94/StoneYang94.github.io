@@ -1,7 +1,9 @@
 ---
 title: ArrayList源码学习-JDK8
 date: 2018-06-08 20:17:19
-tags: ArrayList
+tags:
+- Java集合
+- 源码
 categories: Java集合
 ---
 按照从构造方法->常用API（增、删、改、查）的顺序来阅读源码，并会讲解阅读方法中涉及的一些变量的意义。
