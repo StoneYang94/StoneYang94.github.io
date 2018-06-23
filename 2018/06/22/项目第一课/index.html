@@ -106,7 +106,7 @@
 <meta property="og:description" content="用python语言开发类似instagram网站的项目，写博客以整理思路形成系统的认知，加深印象和方便日后复习。如发现问题，欢迎随时留言讨论。本文主要介绍项目需要用到的python基础入门例子和一个小爬虫，python的系统理论知识不是本文重点。">
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="http://upload-images.jianshu.io/upload_images/11861611-74444fa02417ebb6.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
-<meta property="og:updated_time" content="2018-06-21T16:27:15.115Z">
+<meta property="og:updated_time" content="2018-06-23T08:19:04.854Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="项目第一课">
 <meta name="twitter:description" content="用python语言开发类似instagram网站的项目，写博客以整理思路形成系统的认知，加深印象和方便日后复习。如发现问题，欢迎随时留言讨论。本文主要介绍项目需要用到的python基础入门例子和一个小爬虫，python的系统理论知识不是本文重点。">
@@ -721,7 +721,7 @@
 </tbody>
 </table>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line">str = <span class="string">'abc123def12gh15'</span>  </span><br><span class="line"><span class="comment"># 创建，正则表达式的模式——pattern  </span></span><br><span class="line">p1 = re.compile(<span class="string">'[\d]+'</span>)   <span class="comment"># 匹配1个或多个数字</span></span><br><span class="line">p2 = re.compile(<span class="string">'\d'</span>)      <span class="comment"># 匹配1个数字  </span></span><br><span class="line"><span class="comment"># 匹配，以列表的形式返回匹配的子串  </span></span><br><span class="line"><span class="keyword">print</span> p1.findall(str)     <span class="comment"># 输出：['123', '12', '15']</span></span><br><span class="line"><span class="keyword">print</span> p2.findall(str)     <span class="comment"># 输出：['1', '2', '3', '1', '2', '1', '5']</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment"># email的正则表达式    </span></span><br><span class="line">str = <span class="string">'a@163.com;b@gmail.com;c@qq.com;e0@163.com;z@qq.com'</span>  </span><br><span class="line">p3 = re.compile(<span class="string">'[\w]+@[163|qq]+\.com'</span>)                     </span><br><span class="line"><span class="keyword">print</span> p3.findall(str)   </span><br><span class="line"><span class="comment"># 输出： ['[a@163.com]', '[c@qq.com], '[e0@163.com', '[z@qq.com]']</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">str = <span class="string">'&lt;html&gt;&lt;h&gt;title&lt;/h&gt;&lt;body&gt;xxx&lt;/body&gt;&lt;/html&gt;'</span>  </span><br><span class="line">p4 = re.compile(<span class="string">'&lt;h&gt;[^&lt;]+&lt;/h&gt;'</span>)   </span><br><span class="line"><span class="keyword">print</span> p4.findall(str)      <span class="comment"># 输出：['&lt;h&gt;title&lt;/h&gt;']</span></span><br><span class="line"></span><br><span class="line">p4 = re.compile(<span class="string">'&lt;h&gt;([^&lt;]+)&lt;/h&gt;'</span>)        <span class="comment"># 加()匹配输出括号内的字符串</span></span><br><span class="line"><span class="keyword">print</span> p4.findall(str)          <span class="comment"># 输出：['title']</span></span><br><span class="line"></span><br><span class="line">p4 = re.compile(<span class="string">'&lt;h&gt;([^&lt;]+)&lt;/h&gt;&lt;body&gt;([^&lt;]+)&lt;/body&gt;'</span>)  <span class="comment"># 运用()提取多个  </span></span><br><span class="line"><span class="keyword">print</span> p4.findall(str)      <span class="comment"># 输出：[('title', 'xxx')]</span></span><br><span class="line">  </span><br><span class="line"></span><br><span class="line">str = <span class="string">'xx2016-06-11yy'</span>  </span><br><span class="line">p5 = re.compile(<span class="string">'\d\d\d\d-\d\d-\d\d'</span>)  </span><br><span class="line"><span class="keyword">print</span> p5.findall(str)   <span class="comment"># 输出：['2016-06-11']</span></span><br><span class="line"></span><br><span class="line">p5 = re.compile(<span class="string">'\d&#123;4&#125;-\d&#123;2&#125;-\d&#123;2&#125;'</span>)           <span class="comment"># 用&#123;&#125;表示次数  </span></span><br><span class="line"><span class="keyword">print</span> p5.findall(str)  <span class="comment"># 输出：['2016-06-11']</span></span><br></pre></td></tr></table></figure>
-<h1 id="实战"><a href="#实战" class="headerlink" title="实战"></a>实战</h1><h2 id="搭环境"><a href="#搭环境" class="headerlink" title="搭环境"></a>搭环境</h2><p>使用python版本是2.7，IDE是PyCharm，版本管理工具是git，代码放在github上<a href="https://github.com/FzhangSpace/python_newcoder_lower.git" target="_blank" rel="noopener">https://github.com/FzhangSpace/python_newcoder_lower.git</a></p>
+<h1 id="实战"><a href="#实战" class="headerlink" title="实战"></a>实战</h1><h2 id="搭环境"><a href="#搭环境" class="headerlink" title="搭环境"></a>搭环境</h2><p>使用python版本是2.7，IDE是PyCharm，版本管理工具是git</p>
 <p>PyCharm需要进行简单的配置<br>    在File&gt;Settings&gt;Version Control&gt;GitHub里面进行设置项目地址，github账号<br>    在File&gt;Settings&gt;Version Control&gt;Git里面设置git.exe所在地址，一般在安装git路径的bin文件夹里面</p>
 <p>pip安装包的命令<code>pip install XXXX</code></p>
 <h2 id="简单抓取网页内容-c1-01-py"><a href="#简单抓取网页内容-c1-01-py" class="headerlink" title="简单抓取网页内容 c1_01.py"></a>简单抓取网页内容 c1_01.py</h2><h3 id="第一步"><a href="#第一步" class="headerlink" title="第一步"></a>第一步</h3><p>这里用到python的两个包，需要使用pip安装一下<br>    <code>pip install requests</code><br>    <code>pip install bs4</code><br>    <code>pip install BeautifulSoup</code></p>
@@ -771,6 +771,10 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/06/23/数据库理论（一）/" rel="prev" title="数据库理论（一）">
+                数据库理论（一） <i class="fa fa-chevron-right"></i>
+              </a>
             
           </div>
         </div>
@@ -847,7 +851,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">34</span>
+                  <span class="site-state-item-count">35</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -869,7 +873,7 @@
               
               <div class="site-state-item site-state-tags">
                 <a href="/tags/index.html">
-                  <span class="site-state-item-count">19</span>
+                  <span class="site-state-item-count">20</span>
                   <span class="site-state-item-name">标签</span>
                 </a>
               </div>
