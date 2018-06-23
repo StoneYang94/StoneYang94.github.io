@@ -7,7 +7,9 @@ categories: 数据库
 - 本文主要内容来自[慕课网](http://www.imooc.com/)。配合[视频](https://www.imooc.com/learn/122)食用口味更佳
 - 主要是顺着已经学习的视频顺序总结一遍，以深化理解和方便日后复习
 - 添加了自己的实践和理解
+
 <!-- more -->
+
 #  第一章：初涉MySQL 
 ##  MySQL概述
 MySQL是一个开源的关系型数据库管理系统，由瑞典MySQL AB公司开发，后被Oracle收购，主要分为社区版和企业版。
