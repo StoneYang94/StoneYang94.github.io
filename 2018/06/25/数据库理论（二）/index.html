@@ -1,0 +1,908 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next gemini use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+<!-- 20180426-->
+<script src="//cdn.bootcss.com/pace/1.0.2/pace.min.js"></script>
+<link href="//cdn.bootcss.com/pace/1.0.2/themes/pink/pace-theme-flash.css" rel="stylesheet">
+<style>
+    .pace .pace-progress {
+        background: #1E92FB; /*进度条颜色*/
+        height: 3px;
+    }
+    .pace .pace-progress-inner {
+         box-shadow: 0 0 10px #1E92FB, 0 0 5px     #1E92FB; /*阴影颜色*/
+    }
+    .pace .pace-activity {
+        border-top-color: #1E92FB;    /*上边框颜色*/
+        border-left-color: #1E92FB;    /*左边框颜色*/
+    }
+</style>
+
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon.ico?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="数据库理论," />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="本文在学习了数据库库理论后的一个总结，以加深理解、形成知识架构和方便日后复习 本文主要包括ER图与五大约束">
+<meta name="keywords" content="数据库理论">
+<meta property="og:type" content="article">
+<meta property="og:title" content="数据库理论（二）">
+<meta property="og:url" content="http://yoursite.com/2018/06/25/数据库理论（二）/index.html">
+<meta property="og:site_name" content="Xudong&#39;s blogs">
+<meta property="og:description" content="本文在学习了数据库库理论后的一个总结，以加深理解、形成知识架构和方便日后复习 本文主要包括ER图与五大约束">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/11861611-d71c970d77b76917.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:updated_time" content="2018-06-25T12:06:18.646Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="数据库理论（二）">
+<meta name="twitter:description" content="本文在学习了数据库库理论后的一个总结，以加深理解、形成知识架构和方便日后复习 本文主要包括ER图与五大约束">
+<meta name="twitter:image" content="http://upload-images.jianshu.io/upload_images/11861611-d71c970d77b76917.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2018/06/25/数据库理论（二）/"/>
+
+
+
+
+
+  <title>数据库理论（二） | Xudong's blogs</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Xudong's blogs</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">email:2228998096@qq.com    wechat:yxd19940114</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/06/25/数据库理论（二）/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="杨旭东">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Xudong's blogs">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">数据库理论（二）</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-06-25T20:04:23+08:00">
+                2018-06-25
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/数据库/" itemprop="url" rel="index">
+                    <span itemprop="name">数据库</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <ul>
+<li>本文在学习了数据库库理论后的一个总结，以加深理解、形成知识架构和方便日后复习</li>
+<li>本文主要包括ER图与五大约束</li>
+</ul>
+<a id="more"></a>
+<h1 id="一、ER-图"><a href="#一、ER-图" class="headerlink" title="一、ER 图"></a>一、ER 图</h1><h2 id="一个例子"><a href="#一个例子" class="headerlink" title="一个例子"></a>一个例子</h2><p><img src="http://upload-images.jianshu.io/upload_images/11861611-d71c970d77b76917.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="ER 图例子"></p>
+<p><a href="https://blog.csdn.net/belen_xue/article/details/52763629" target="_blank" rel="noopener">图片转自</a></p>
+<h2 id="组成元素"><a href="#组成元素" class="headerlink" title="组成元素"></a>组成元素</h2><ul>
+<li>ER图分为实体、属性、关系三个核心部分<ul>
+<li>实体：长方形</li>
+<li>属性：椭圆形</li>
+<li>关系：菱形</li>
+</ul>
+</li>
+</ul>
+<h3 id="实体（entity）"><a href="#实体（entity）" class="headerlink" title="实体（entity）"></a>实体（entity）</h3><ul>
+<li>即数据模型中的数据对象<br>例如人、学生、音乐都可以作为一个数据对象，用长方体来表示。每个实体都有自己的实体成员（entity member）或者说实体对象（entity instance），例如学生实体里包括张三、李四等，实体成员（entity member）/实体实例（entity instance） <strong>不需要出现在ER图中</strong>。</li>
+</ul>
+<h3 id="属性（attribute）"><a href="#属性（attribute）" class="headerlink" title="属性（attribute）"></a>属性（attribute）</h3><ul>
+<li>即数据对象所具有的属性<br>例如学生具有姓名、学号、年级等属性，用椭圆形表示，属性分为唯一属性（ unique attribute）和非唯一属性，唯一属性指的是唯一可用来标识该实体实例或者成员的属性，用下划线表示，一般来讲实体都至少有一个唯一属性。</li>
+</ul>
+<h3 id="关系（relationship）"><a href="#关系（relationship）" class="headerlink" title="关系（relationship）"></a>关系（relationship）</h3><ul>
+<li>用来表现数据对象与数据对象之间的联系<br>例如学生的实体和成绩表的实体之间有一定的联系，每个学生都有自己的成绩表，这就是一种关系，关系用菱形来表示。</li>
+</ul>
+<h2 id="关联关系"><a href="#关联关系" class="headerlink" title="关联关系"></a>关联关系</h2><h3 id="1对1关系（1-1）"><a href="#1对1关系（1-1）" class="headerlink" title="1对1关系（1:1）"></a>1对1关系（1:1）</h3><ol>
+<li>实体集A中的每一个实体<strong>至多</strong>与实体集B中一个实体有关系</li>
+<li>在实体集B中的每个实体<strong>至多</strong>与实体集A中一个实体有关系</li>
+</ol>
+<h3 id="1对多关系（1-N）"><a href="#1对多关系（1-N）" class="headerlink" title="1对多关系（1:N）"></a>1对多关系（1:N）</h3><ol>
+<li>实体集A与实体集B中<strong>至少</strong>有N(N&gt;0)个实体有关系</li>
+<li>实体集B中每一个实体<strong>至多</strong>与实体集A中一个实体有关系</li>
+</ol>
+<h3 id="多对多关系（M-N）"><a href="#多对多关系（M-N）" class="headerlink" title="多对多关系（M:N）"></a>多对多关系（M:N）</h3><ol>
+<li>实体集A中的每一个实体与实体集B中<strong>至少</strong>有M(M&gt;0)个实体有关系</li>
+<li>实体集B中的每一个实体与实体集A中<strong>至少</strong>有N(N&gt;0）个实体有关系</li>
+</ol>
+<h1 id="二、约束-CONSTRAINT"><a href="#二、约束-CONSTRAINT" class="headerlink" title="二、约束(CONSTRAINT)"></a>二、约束(CONSTRAINT)</h1><h2 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h2><h3 id="作用"><a href="#作用" class="headerlink" title="作用"></a>作用</h3><p>约束主要完成对数据的<strong>检验和限制</strong>，从而保证数据库的<strong>完整性</strong>。</p>
+<p>关系型数据库有三大完整性：</p>
+<ul>
+<li>实体完整性<br>实体属性中的标识属性不能为空、不能重复，该约束通过制定的主键实现，其约束有系统强制实施</li>
+<li>参照完整性<br>实体中的外键可以为空，但不能是错的</li>
+<li>用户定义完整性<br>某一具体的实际数据库的约束条件，由应用环境所决定，反映某一具体应用所涉及的数据必须满足的要求。(例如定义某一行不能为空)</li>
+</ul>
+<h3 id="基本语法"><a href="#基本语法" class="headerlink" title="基本语法"></a>基本语法</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">alter table 表名称 add constraint 约束名称 增加的约束类型 （列名）</span><br></pre></td></tr></table></figure>
+<h2 id="分类"><a href="#分类" class="headerlink" title="分类"></a>分类</h2><p>约束主要有五类：</p>
+<h3 id="1-主键约束-PRIMARY-KEY"><a href="#1-主键约束-PRIMARY-KEY" class="headerlink" title="1.主键约束(PRIMARY KEY)"></a>1.主键约束(PRIMARY KEY)</h3><ul>
+<li>每行都具有一个主键值</li>
+<li>任意两行的主键值都不相同</li>
+<li>不允许出现空值</li>
+</ul>
+<h4 id="单列主键"><a href="#单列主键" class="headerlink" title="单列主键"></a>单列主键</h4><p>创建有两种方式：</p>
+<h5 id="添加关键字"><a href="#添加关键字" class="headerlink" title="添加关键字"></a>添加关键字</h5><p>一种是直接对字段加<code>primary key</code>关键字：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">CREATE TABLE student(</span><br><span class="line">          id INT PRIMARY KEY,         </span><br><span class="line">          name VARCHAR(20),          </span><br><span class="line">          )</span><br></pre></td></tr></table></figure>
+<h5 id="添加额外约束"><a href="#添加额外约束" class="headerlink" title="添加额外约束"></a>添加额外约束</h5><p>另外一种是通过额外加约束的方式：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">CREATE TABLE student(</span><br><span class="line">          id INT NOT NULL,         </span><br><span class="line">          name VARCHAR(20), </span><br><span class="line">         CONSTRAINT PK_STUD_ID PRIMARY KEY(id)</span><br><span class="line">         //PK_STUD_ID为约束的名字          </span><br><span class="line">          )</span><br></pre></td></tr></table></figure>
+<h4 id="联合主键"><a href="#联合主键" class="headerlink" title="联合主键"></a>联合主键</h4><p>有时候一个列的字段可能有重复，可以联合多个列设为主键。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">CREATE TABLE student(       </span><br><span class="line">          name VARCHAR(20),</span><br><span class="line">          class VARCHAR(20),</span><br><span class="line">         CONSTRAINT PK_STUD_ID PRIMARY KEY(name,class)       </span><br><span class="line">          )</span><br></pre></td></tr></table></figure>
+<h4 id="增删改"><a href="#增删改" class="headerlink" title="增删改"></a>增删改</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">//添加主键  </span><br><span class="line">ALTER TABLE 表名 ADD PRIMARY KEY(列名);    </span><br><span class="line"></span><br><span class="line">//删除主键约束  </span><br><span class="line">ALTER TABLE 表名 DROP PRIMARY KEY;    </span><br><span class="line"></span><br><span class="line">//修改列为主键</span><br><span class="line">ALTER TABLE 表名 MODIFY 列名 数据类型 PRIMARY KEY;</span><br></pre></td></tr></table></figure>
+<h3 id="2-外键约束-FOREIGN-KEY"><a href="#2-外键约束-FOREIGN-KEY" class="headerlink" title="2.外键约束(FOREIGN KEY)"></a>2.外键约束(FOREIGN KEY)</h3><ul>
+<li>外键约束是保证一个或两个表之间的参照完整性,保持数据一致性</li>
+<li>表的外键可以是另一表的主键（也可以是唯一索引，详情看<a href="http://stackoverflow.com/questions/2895219/can-we-have-a-foreign-key-which-is-not-a-primary-key-in-any-other-table" target="_blank" rel="noopener">这里</a>）, 外键可以有重复的, 可以是空值</li>
+<li>实现一对一或一对多关系</li>
+</ul>
+<h4 id="创建外键约束"><a href="#创建外键约束" class="headerlink" title="创建外键约束"></a>创建外键约束</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">CREATE TABLE classes(</span><br><span class="line">          id INT AUTO_INCREMENT PRIMARY KEY,</span><br><span class="line">          name VARCHAR(20) </span><br><span class="line">          );</span><br></pre></td></tr></table></figure>
+<p>创建有两种方式：</p>
+<h5 id="添加关键字-1"><a href="#添加关键字-1" class="headerlink" title="添加关键字"></a>添加关键字</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">CREATE TABLE student(</span><br><span class="line">          id INT AUTO_INCREMENT,         </span><br><span class="line">          name VARCHAR(20),          </span><br><span class="line">          CONSTRAINT PK_ID PRIMARY KEY(id),                        </span><br><span class="line">          class_id INT REFERENCES classes(id) </span><br><span class="line">          )</span><br></pre></td></tr></table></figure>
+<h5 id="额外声明"><a href="#额外声明" class="headerlink" title="额外声明"></a>额外声明</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">CREATE TABLE student(</span><br><span class="line">          id INT AUTO_INCREMENT,         </span><br><span class="line">          name VARCHAR(20),          </span><br><span class="line">          CONSTRAINT PK_ID PRIMARY KEY(id),                        </span><br><span class="line">          class_id INT,</span><br><span class="line">          CONSTRAINT fk_class_id FOREIGN KEY(classe_id) REFERENCES classes(id)</span><br><span class="line">          )</span><br></pre></td></tr></table></figure>
+<h4 id="外键约束的要求"><a href="#外键约束的要求" class="headerlink" title="外键约束的要求"></a>外键约束的要求</h4><ul>
+<li>父表和子表必须使用相同的存储引擎，而且禁止使用临时表</li>
+<li>数据表的存储引擎只能为InnoDB,<code>default-storage-engine-INNODB</code></li>
+<li>外键列和参照列必须具有相似的数据类型<ul>
+<li>数字的长度或是有符号位必须相同</li>
+<li>字符 的长度可以不同</li>
+</ul>
+</li>
+<li>外键列和参照列必须创建索引，如果外键列不存在索引的话，MySQL将自动创建索引。</li>
+</ul>
+<h4 id="外键约束的参照操作"><a href="#外键约束的参照操作" class="headerlink" title="外键约束的参照操作"></a>外键约束的参照操作</h4><table>
+<thead>
+<tr>
+<th>参照</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>CASCADE</td>
+<td>从父表删除或更新且自动删除或更新子表中匹配的行</td>
+</tr>
+<tr>
+<td>SET NULL</td>
+<td>从父表删除或更新行，并设置子表中的外键列为NULL，如果使用该选项，必须保证子表列没有指定NOT NULL</td>
+</tr>
+<tr>
+<td>RESTRICT</td>
+<td>拒绝对父表的删除或更新操作</td>
+</tr>
+<tr>
+<td>NO ACTION</td>
+<td>标准SQL的关键字，在MySQL中与RESTRICT相同</td>
+</tr>
+</tbody>
+</table>
+<h4 id="增删"><a href="#增删" class="headerlink" title="增删"></a>增删</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">//删除外键约束</span><br><span class="line"> ALTER TABLE 表名 DROP FOREIGN KEY 外键约束名;</span><br><span class="line">(创建外键的方法没有指定约束名称，系统会默认给外键约束分配外键约束名称，命名为student_ibfk_n)</span><br><span class="line"></span><br><span class="line">//增加外键约束 </span><br><span class="line"> ALTER TABLE 表名 ADD FOREIGN KEY 列名 REFERENCES 父表(对应列名);</span><br></pre></td></tr></table></figure>
+<h3 id="3-唯一约束-UNIQUE"><a href="#3-唯一约束-UNIQUE" class="headerlink" title="3.唯一约束(UNIQUE)"></a>3.唯一约束(UNIQUE)</h3><p>指定表中某一列或多个列不能有相同的两行或者两行以上的数据存在，保证记录的唯一性。主要是用来防止数据插入的时候重复。</p>
+<ul>
+<li>唯一约束的字段可以为空值(允许的空值有多个，但是最终存储的只有一个)</li>
+<li>每张数据表可以存在多个唯一约束</li>
+</ul>
+<p>创建有两种方式：</p>
+<h4 id="添加关键字-2"><a href="#添加关键字-2" class="headerlink" title="添加关键字"></a>添加关键字</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">CREATE TABLE student(</span><br><span class="line">  name CHAR(20) UNIQUE KEY</span><br><span class="line"> );</span><br></pre></td></tr></table></figure>
+<h4 id="额外声明-1"><a href="#额外声明-1" class="headerlink" title="额外声明"></a>额外声明</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ALTER TABLE student MODIFY CHAR(20) UNIQUE KEY;</span><br></pre></td></tr></table></figure>
+<h3 id="4-非空约束-NOT-NULL"><a href="#4-非空约束-NOT-NULL" class="headerlink" title="4.非空约束(NOT NULL)"></a>4.非空约束(NOT NULL)</h3><p>输入值必须是非空的，需要注意的是允许控制尽量不要太多，太多会更消耗数据库性能。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">CREATE TABLE student(</span><br><span class="line">  name CHAR(20) NOT NULL</span><br><span class="line"> );</span><br></pre></td></tr></table></figure>
+<h3 id="5-默认约束-DEFAULT"><a href="#5-默认约束-DEFAULT" class="headerlink" title="5.默认约束(DEFAULT)"></a>5.默认约束(DEFAULT)</h3><p>默认约束有以下的要求：</p>
+<ul>
+<li>定义的常量必须与该列的数据类型、精度等匹配</li>
+<li>每个列只能定义一个DEFAULT约束</li>
+</ul>
+<p>这里需要说明的是，DEFAULT后面不能像SQL Server那样使用函数，后面只能是一个常量。官方文档原文：</p>
+<blockquote>
+<p>With one exception, the default value must be a constant; it cannot be a function or an expression.</p>
+</blockquote>
+<h3 id="6-CHECK约束"><a href="#6-CHECK约束" class="headerlink" title="6.CHECK约束"></a>6.CHECK约束</h3><p>CHECK约束，验证数据，比如性别中只能为女或男，而不能为其它。MySQL不支持check约束，但可以使用check约束，就是没有任何效果。</p>
+<h1 id="参考文章"><a href="#参考文章" class="headerlink" title="参考文章"></a>参考文章</h1><p><a href="https://www.bookstack.cn/read/Interview-Notebook/notes-%E6%95%B0%E6%8D%AE%E5%BA%93%E7%B3%BB%E7%BB%9F%E5%8E%9F%E7%90%86.md" target="_blank" rel="noopener">数据库系统原理</a><br><a href="https://blog.csdn.net/belen_xue/article/details/52763629" target="_blank" rel="noopener">数据库ER图基础概念整理</a><br><a href="https://segmentfault.com/a/1190000006671061" target="_blank" rel="noopener">MySQL——约束</a></p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/数据库理论/" rel="tag"><i class="fa fa-tag"></i> 数据库理论</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/06/24/InputStream源码学习-基于JDK8/" rel="next" title="InputStream源码学习-基于JDK8">
+                <i class="fa fa-chevron-left"></i> InputStream源码学习-基于JDK8
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">杨旭东</p>
+              <p class="site-description motion-element" itemprop="description">种一棵树最好的时间是十年前，其次是现在</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">37</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">9</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">20</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/stoneyang94" target="_blank" title="GitHub">
+                      
+                        <i class="fa fa-fw fa-github"></i>GitHub</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="https://www.jianshu.com/u/f7b90f4a10ae" target="_blank" title="简书">
+                      
+                        <i class="fa fa-fw fa-book"></i>简书</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#一、ER-图"><span class="nav-number">1.</span> <span class="nav-text">一、ER 图</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#一个例子"><span class="nav-number">1.1.</span> <span class="nav-text">一个例子</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#组成元素"><span class="nav-number">1.2.</span> <span class="nav-text">组成元素</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#实体（entity）"><span class="nav-number">1.2.1.</span> <span class="nav-text">实体（entity）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#属性（attribute）"><span class="nav-number">1.2.2.</span> <span class="nav-text">属性（attribute）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#关系（relationship）"><span class="nav-number">1.2.3.</span> <span class="nav-text">关系（relationship）</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#关联关系"><span class="nav-number">1.3.</span> <span class="nav-text">关联关系</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1对1关系（1-1）"><span class="nav-number">1.3.1.</span> <span class="nav-text">1对1关系（1:1）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1对多关系（1-N）"><span class="nav-number">1.3.2.</span> <span class="nav-text">1对多关系（1:N）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#多对多关系（M-N）"><span class="nav-number">1.3.3.</span> <span class="nav-text">多对多关系（M:N）</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#二、约束-CONSTRAINT"><span class="nav-number">2.</span> <span class="nav-text">二、约束(CONSTRAINT)</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#简介"><span class="nav-number">2.1.</span> <span class="nav-text">简介</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#作用"><span class="nav-number">2.1.1.</span> <span class="nav-text">作用</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#基本语法"><span class="nav-number">2.1.2.</span> <span class="nav-text">基本语法</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#分类"><span class="nav-number">2.2.</span> <span class="nav-text">分类</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-主键约束-PRIMARY-KEY"><span class="nav-number">2.2.1.</span> <span class="nav-text">1.主键约束(PRIMARY KEY)</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#单列主键"><span class="nav-number">2.2.1.1.</span> <span class="nav-text">单列主键</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#添加关键字"><span class="nav-number">2.2.1.1.1.</span> <span class="nav-text">添加关键字</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#添加额外约束"><span class="nav-number">2.2.1.1.2.</span> <span class="nav-text">添加额外约束</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#联合主键"><span class="nav-number">2.2.1.2.</span> <span class="nav-text">联合主键</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#增删改"><span class="nav-number">2.2.1.3.</span> <span class="nav-text">增删改</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-外键约束-FOREIGN-KEY"><span class="nav-number">2.2.2.</span> <span class="nav-text">2.外键约束(FOREIGN KEY)</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#创建外键约束"><span class="nav-number">2.2.2.1.</span> <span class="nav-text">创建外键约束</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#添加关键字-1"><span class="nav-number">2.2.2.1.1.</span> <span class="nav-text">添加关键字</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#额外声明"><span class="nav-number">2.2.2.1.2.</span> <span class="nav-text">额外声明</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#外键约束的要求"><span class="nav-number">2.2.2.2.</span> <span class="nav-text">外键约束的要求</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#外键约束的参照操作"><span class="nav-number">2.2.2.3.</span> <span class="nav-text">外键约束的参照操作</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#增删"><span class="nav-number">2.2.2.4.</span> <span class="nav-text">增删</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-唯一约束-UNIQUE"><span class="nav-number">2.2.3.</span> <span class="nav-text">3.唯一约束(UNIQUE)</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#添加关键字-2"><span class="nav-number">2.2.3.1.</span> <span class="nav-text">添加关键字</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#额外声明-1"><span class="nav-number">2.2.3.2.</span> <span class="nav-text">额外声明</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-非空约束-NOT-NULL"><span class="nav-number">2.2.4.</span> <span class="nav-text">4.非空约束(NOT NULL)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5-默认约束-DEFAULT"><span class="nav-number">2.2.5.</span> <span class="nav-text">5.默认约束(DEFAULT)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#6-CHECK约束"><span class="nav-number">2.2.6.</span> <span class="nav-text">6.CHECK约束</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#参考文章"><span class="nav-number">3.</span> <span class="nav-text">参考文章</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">杨旭东</span>
+
+  
+</div>
+
+<!-- 20180426 -->
+<div class="powered-by">
+<i class="fa fa-user-md"></i><span id="busuanzi_container_site_uv">
+  本站访客数:<span id="busuanzi_value_site_uv"></span>
+</span>
+</div>
+
+
+<!-- 20180425
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+-->
+
+<!-- 20180425
+
+  <span class="post-meta-divider">|</span>
+
+-->
+
+<!-- 20180425
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Gemini</a> v5.1.4</div>
+
+-->
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+  <!--页面点击小红心 -->
+  <script type="text/javascript" src="/js/src/love.js"></script>>
+    <!--背景动画 -->
+  <script type="text/javascript" src="/js/src/background.js"></script>>
+</body>
+</html>
