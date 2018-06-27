@@ -1,7 +1,9 @@
 ---
 title: Python装饰器
 date: 2018-06-26 19:24:48
-tags: Python
+tags:
+- Python
+- AOP
 categories: Python 
 ---
 - Python 中的函数和 Java、C++不太一样，Python 中的函数可以像普通变量一样当做参数传递给另外一个函数
@@ -311,6 +313,8 @@ test()
 test2()
 ```
 
+![输出](http://upload-images.jianshu.io/upload_images/11861611-4129e0affc7fc14e.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+
 上面的 `log()` 是允许带参数的装饰器。它实际上是对原有装饰器的一个函数封装，并返回一个装饰器。我们可以将它理解为一个含有参数的闭包。当我们用`@log(level="warn")`调用的时候，Python 能够发现这一层的封装，并把参数传递到装饰器的环境中。
 
 ### 四. 类装饰器
@@ -342,6 +346,8 @@ def test():
 test()
 ```
 
+![输出](http://upload-images.jianshu.io/upload_images/11861611-ed2f835fde983e74.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+
 ###  五. functools模块
 
 functools模块提供了两个装饰器，主要用 `functools.wraps`
@@ -363,9 +369,7 @@ test()
 print test.__name__
 ```
 
-wrapper
-
-=-==-=-
+![改变了函数元信息](http://upload-images.jianshu.io/upload_images/11861611-bf016aaece9a1938.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
 
 ```python
 import functools
@@ -384,9 +388,7 @@ def test():
 test()
 print test.__name__
 ```
-
-test
-=-=-=-
+![ @functools.wraps(func)](http://upload-images.jianshu.io/upload_images/11861611-e22ee5e7e7ad18be.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
 
 ### 六. 多个装饰器
 装饰器顺序
@@ -434,7 +436,7 @@ def test():
 test()
 ```
 
-
+![多个装饰器](http://upload-images.jianshu.io/upload_images/11861611-f551d8a874c15c2b.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
 
 参考文章：
 [Python装饰器由浅入深](https://blog.csdn.net/qq_37267015/article/details/71190979)
