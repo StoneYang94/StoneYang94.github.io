@@ -8,7 +8,7 @@ categories: 前端
 ---
 博主在使用Flask过程，预在项目中使用中Jinja模板。学习Jinja模板离不开基础的HTML的知识。
 本文是学习笔记性质的，主要为了形成对HTML的相对全面的认识和为日后复习备忘。
-推荐学习的网站[W3School的HTML教程](http://www.w3school.com.cn/html/index.asp)，本文大部分内容和例子来自学习的内容，但对其进行了整理、筛选和补充，并附上了自己的运行截图。
+推荐学习的网站[W3School的HTML教程](http://www.w3school.com.cn/html/index.asp)，本文部分内容和例子来自学习的内容，但对其进行了整理、筛选和补充，并附上了自己的运行截图。
 
 <!-- more -->
 
@@ -37,7 +37,7 @@ HTML 标签通常是**成对出现**的，比如` <b>` 和 `</b>`，标签对中
 </html>
 ```
 
-![查看结果](http://p7vxw6hv7.bkt.clouddn.com/18-6-28/80088362.jpg)
+![查看结果](http://upload-images.jianshu.io/upload_images/11861611-89a513f190c17b93.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
 
 解释:
 <html> 与 </html> 之间的文本描述网页
@@ -59,6 +59,9 @@ HTML 标题（Heading）是通过 <h1> - <h6> 等标签进行定义的。
 <h2>This is a heading</h2>
 <h3>This is a heading</h3>
 ```
+
+![标题](http://upload-images.jianshu.io/upload_images/11861611-0042d201059085c2.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+
 ### HTML 段落--<p>…</p>
 - 由于HTML文档会忽略空白符，所以要想保证正常的分段换行的话，必须指出哪些文字是属于同一段落的
 - HTML 段落是通过` <p>` 标签进行定义的
@@ -70,6 +73,8 @@ HTML 标题（Heading）是通过 <h1> - <h6> 等标签进行定义的。
 <p>This is another paragraph.</p>
 ```
 
+![段落](http://upload-images.jianshu.io/upload_images/11861611-1c7d7d08f282abda.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+
 ### 容器--- <div>
 HTML的 <div> 元素是可用于组合其他 HTML 元素的容器，它没有特定的含义，浏览器会在其前后显示折行。
 - 样式属性
@@ -78,8 +83,9 @@ HTML的 <div> 元素是可用于组合其他 HTML 元素的容器，它没有特
 它取代了使用表格定义布局的老式方法
 不应该使用 <table> 元素进行文档布，<table> 元素的作用是显示表格化的数据
 
-#### 例子
-如果与 CSS 一同使用，<div> 元素可用于对大的内容块设置样式属性
+#### HTML+CSS
+- 层叠样式表CSS（Cascading Style Sheets），用来控制HTML里的所有元素如何展现
+- 如果与 CSS 一同使用，<div> 元素可用于对大的内容块设置样式属性
 
 ```html
 <body>
@@ -113,8 +119,9 @@ Copyright W3School.com.cn
 </body>
 ```
 
+![仅有HTML](http://upload-images.jianshu.io/upload_images/11861611-c77e0485744585d4.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
 
-```css
+```
 <style>
 #header {
     background-color:black;
@@ -125,7 +132,7 @@ Copyright W3School.com.cn
 #nav {
     line-height:30px;
     background-color:#eeeeee;
-    height:300px;
+    height:250px;
     width:100px;
     float:left;
     padding:5px; 
@@ -145,6 +152,87 @@ Copyright W3School.com.cn
 </style>
 ```
 
+![HTML+CSS](http://upload-images.jianshu.io/upload_images/11861611-a7c8b16fbc156e44.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+
+#### 使用 HTML5 的网站布局
+HTML5 提供的新语义元素定义了网页的不同部分：
+
+|HTML5 |语义元素|
+|---|---|
+|header |定义文档或节的页眉
+|nav(navigation)|定义导航链接的容器
+|section    |定义文档中的节
+|article    |定义独立的自包含文章
+|aside  |定义内容之外的内容（比如侧栏）
+|footer |定义文档或节的页脚
+|details|   定义额外的细节
+|summary    |定义 details 元素的标题
+
+
+```HTML
+<body>
+
+<header>
+<h1>City Gallery</h1>
+</header>
+
+<nav>
+London<br>
+Paris<br>
+Tokyo<br>
+</nav>
+
+<section>
+<h1>London</h1>
+<p>
+London is the capital city of England. It is the most populous city in the United Kingdom,
+with a metropolitan area of over 13 million inhabitants.
+</p>
+<p>
+Standing on the River Thames, London has been a major settlement for two millennia,
+its history going back to its founding by the Romans, who named it Londinium.
+</p>
+</section>
+
+<footer>
+Copyright W3School.com.cn
+</footer>
+
+</body>
+```
+
+CSS代码也做了细微调整
+
+```
+<style>
+header {
+    background-color:black;
+    color:white;
+    text-align:center;
+    padding:5px; 
+}
+nav {
+    line-height:30px;
+    background-color:#eeeeee;
+    height:250px;
+    width:100px;
+    float:left;
+    padding:5px; 
+}
+section {
+    width:350px;
+    float:left;
+    padding:10px; 
+}
+footer {
+    background-color:black;
+    color:white;
+    clear:both;
+    text-align:center;
+    padding:5px; 
+}
+```
+
 
 ### 分隔线---\<hr>
 - `<hr>`标签用于在页面上添加横线。
@@ -154,7 +242,10 @@ Copyright W3School.com.cn
 
 ```html
 <hr width="80%" color="yellow" />
+<hr width="60%" color="red" />
 ```
+
+![分隔线](http://upload-images.jianshu.io/upload_images/11861611-1550c09d000612a4.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
 
 ### 切换行---\<br/>
 - 希望在不产生一个新段落的情况下进行换行（新行）
@@ -166,6 +257,8 @@ Copyright W3School.com.cn
 <h1>This is a <br/> heading</h1>
 ```
 
+![切换行](http://upload-images.jianshu.io/upload_images/11861611-5f56509917142a76.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+
 ### 注释---`<!-- 注释 -->`
 可以将注释插入 HTML 代码中，这样可以提高其可读性，使代码更易被人理解。浏览器会忽略注释，也不会显示它们。
 
@@ -175,6 +268,8 @@ Copyright W3School.com.cn
 <h1>This is a heading</h1>
 <!-- This is a comment -->
 ```
+
+![注释](http://upload-images.jianshu.io/upload_images/11861611-a1d031f45df15ed3.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
 
 ## 二. 外链
 
@@ -188,7 +283,9 @@ HTML 链接是通过 <a> 标签进行定义的。
 <a href="http://www.w3school.com.cn">This is a link</a>
 ```
 
-在 href 属性中指定链接的地址。
+![链接](http://upload-images.jianshu.io/upload_images/11861611-a82cff249fe66b5a.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+
+在 href （Hypertext Reference）属性中指定链接的地址。
 
 ### 图像---<img src="url" width=" " height=" " />
 
@@ -200,18 +297,22 @@ HTML 图像是通过 <img> 标签进行定义的，图像的**名称和尺寸等
 #### 实例
 
 ```html
-<img src="http://p7vxw6hv7.bkt.clouddn.com/18-6-28/80088362.jpg"
+<img src="http://p7vxw6hv7.bkt.clouddn.com/18-6-27/12426781.jpg"
 width="300" height="142" />
 ```
 
-#### 替换文本属性
+![图像](http://upload-images.jianshu.io/upload_images/11861611-480a6d7fea24de8d.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+
+#### 替换文本属性---alt="des"
 alt 属性用来为图像定义一串预备的可替换的文本。替换文本属性的值是用户定义的。
 
 例子：
 
 ```html
 <img src="random.gif" alt="Big Boat">
-````
+```
+
+![alt](http://upload-images.jianshu.io/upload_images/11861611-22be632a6943949c.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
 
 在浏览器无法载入图像时，替换文本属性告诉读者她们失去的信息。此时，浏览器将显示这个替代性的文本而不是图像。为页面上的图像都加上替换文本属性是个好习惯，这样有助于更好的显示信息，并且对于那些使用纯文本浏览器的人来说是非常有用的。
 
@@ -234,8 +335,8 @@ alt 属性用来为图像定义一串预备的可替换的文本。替换文本�
 # 四. 样式---style
 当浏览器读到一个样式表，它就会按照这个样式表来对文档进行格式化。有三种方式来插入样式表
 
-## 外部样式表---<head><link rel=" " type=" " href=" s"></head>
-当样式需要被应用到很多页面的时候，外部样式表将是理想的选择。使用外部样式表，你就可以通过更改一个文件来改变整个站点的外观。
+## 外部样式表---<head><link rel=" "  type=" "  href=" "></head>
+当样式需要被应用到**很多页面**的时候，外部样式表将是理想的选择。使用外部样式表，你就可以通过更改一个文件来改变整个站点的外观。
 
 ```html
 <head>
@@ -244,7 +345,7 @@ alt 属性用来为图像定义一串预备的可替换的文本。替换文本�
 ```
 
 ## 内部样式表---<head>  <style type
-当单个文件需要特别样式时，就可以使用内部样式表。你可以在 head 部分通过 <style> 标签定义内部样式表。
+当**单个文件**需要特别样式时，就可以使用内部样式表。你可以在 head 部分通过 `<style> `标签定义内部样式表。
 
 ```html
 <head>
@@ -256,8 +357,10 @@ p {margin-left: 20px}
 </head>
 ```
 
+![内部样式表](http://upload-images.jianshu.io/upload_images/11861611-924c404ca68b8621.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+
 ## 内联样式---<p style=
-当特殊的样式需要应用到个别元素时，就可以使用内联样式。 使用内联样式的方法是在相关的标签中使用样式属性。样式属性可以包含任何 CSS 属性。以下实例显示出如何改变段落的颜色和左外边距。
+当特殊的样式需要应用到**个别元素**时，就可以使用内联样式。 使用内联样式的方法是在相关的标签中使用样式属性。样式属性可以包含任何 CSS 属性。以下实例显示出如何改变段落的颜色和左外边距。
 
 ```html
 <p style="color: red; margin-left: 20px">
@@ -265,12 +368,14 @@ This is a paragraph
 </p>
 ```
 
+![内联样式](http://upload-images.jianshu.io/upload_images/11861611-40ae0b740051226f.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+
 # 五. 表格---<table>
 
 ## 基本语法---<tr>  <td>data</td>  </tr>
 - `<table> `:表格
 - `<tr> `:行
--  `<td> `:每行被分割为若干单元格
+- `<td> `:每行被分割为若干单元格
 字母 td 指表格数据（table data），即数据单元格的内容。数据单元格可以包含文本、图片、列表、段落、表单、水平线、表格等等。
 
 ```html
@@ -285,12 +390,10 @@ This is a paragraph
 <td>row 2, cell 2</td>
 <td>row 2, cell 3</td>
 </tr>
-</table></pre>
+</table>
 ```
 
-在浏览器显示如下：
-
-
+![表格](http://upload-images.jianshu.io/upload_images/11861611-18112ad8bc7b5c48.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
 
 ## 表格的表头---<th>Heading</th>
 
@@ -315,11 +418,9 @@ This is a paragraph
 </table></pre>
 ```
 
-在浏览器显示如下：
+![表头](http://upload-images.jianshu.io/upload_images/11861611-3f7ec2602d7b8108.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
 
-
-
-## 表格中的空单元格---<td>\&nbsp;</td>
+## 表格中的空单元格---<td>\&nbsp</td>
 
 在一些浏览器中，没有内容的表格单元显示得不太好。如果某个单元格是空的（没有内容），浏览器可能无法显示出这个单元格的边框。
 
@@ -338,7 +439,7 @@ This is a paragraph
 </table></pre>
 ```
 
-在浏览器中显示如下：
+![空单元格](http://upload-images.jianshu.io/upload_images/11861611-dd4784eac6667f95.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
 
 # 六. 列表
 
@@ -353,8 +454,7 @@ This is a paragraph
 </ul>
 ```
 
-浏览器显示如下：
-
+![无序列表](http://upload-images.jianshu.io/upload_images/11861611-2ac27bedba7256ca.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
 
 ## 有序列表---<ol>…</ol>
 同样，有序列表也是一列项目，列表项目使用数字进行标记。
@@ -367,26 +467,28 @@ This is a paragraph
 </ol>
 ```
 
-浏览器显示如下：
+![有序列表](http://upload-images.jianshu.io/upload_images/11861611-a343a6cf8f0cf8d8.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
 
 
 
 
-## 定义列表
+## 自定义列表<dl>  <dt>  …</dt>  <dd> …</dd>  </dl>
 自定义列表不仅仅是一列项目，而是项目及其注释的组合。
-自定义列表以 <dl> 标签开始。每个自定义列表项以 <dt> 开始。每个自定义列表项的定义以 <dd> 开始。
+- `<dl>` ：自定义列表开始
+- `<dt> `：每个自定义列表项 开始
+ - `<dd>`：每个自定义列表项**的定义** 开始
+
+```html
 <dl>
 <dt>Coffee</dt>
 <dd>Black hot drink</dd>
 <dt>Milk</dt>
 <dd>White cold drink</dd>
 </dl>
-浏览器显示如下：
-Coffee
-Black hot drink
-Milk
-White cold drink
-定义列表的列表项内部可以使用段落、换行符、图片、链接以及其他列表等等。
+```
+
+![自定义列表](http://upload-images.jianshu.io/upload_images/11861611-f4e55bbe354df661.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+
 
 
 
