@@ -18,8 +18,8 @@ categories: 前端
 - HTML 不是一种编程语言，而是一种标记语言 (markup language)， **使用标记标签描述网页。**
 
 ## HTML 标签-- <HTML tag>
-HTML 标记标签通常被称为 HTML 标签 (HTML tag)，是由**尖括号包围**的关键词，比如 `<html>`
-HTML 标签通常是**成对出现**的，比如` <b>` 和 `</b>`，标签对中的第一个标签是开始标签，第二个标签是结束标签
+- HTML 标记标签通常被称为 HTML 标签 (HTML tag)，是由**尖括号包围**的关键词，比如 `<html>`
+- HTML 标签通常是**成对出现**的，比如` <b>` 和 `</b>`，标签对中的第一个标签是开始标签，第二个标签是结束标签
 
 ## HTML 文档 = 网页
 - HTML 文档包含 HTML 标签和纯文本，Web 浏览器的作用是读取 HTML 文档，并以网页的形式显示出它们。
@@ -40,17 +40,17 @@ HTML 标签通常是**成对出现**的，比如` <b>` 和 `</b>`，标签对中
 ![查看结果](http://upload-images.jianshu.io/upload_images/11861611-89a513f190c17b93.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
 
 解释:
-<html> 与 </html> 之间的文本描述网页
-<body> 与 </body> 之间的文本是可见的页面内容
-<h1> 与 </h1> 之间的文本被显示为标题
-<p> 与 </p> 之间的文本被显示为段落
+`<html>`与 `</html> `之间的文本描述网页
+`<body> `与 `</body> `之间的文本是可见的页面内容
+`<h1> `与 `</h1>` 之间的文本被显示为标题
+`<p>` 与 `</p> `之间的文本被显示为段落
 
 # 常用标签介绍
 
 ## 一. 布局
 
-### HTML 标题--<h1>…</h1>
-HTML 标题（Heading）是通过 <h1> - <h6> 等标签进行定义的。
+### HTML 标题--`<h1>…</h1>`
+HTML 标题（Heading）是通过 `<h1> - <h6>` 等标签进行定义的。
 
 例子：
 
@@ -62,7 +62,7 @@ HTML 标题（Heading）是通过 <h1> - <h6> 等标签进行定义的。
 
 ![标题](http://upload-images.jianshu.io/upload_images/11861611-0042d201059085c2.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
 
-### HTML 段落--<p>…</p>
+### HTML 段落--`<p>…</p>`
 - 由于HTML文档会忽略空白符，所以要想保证正常的分段换行的话，必须指出哪些文字是属于同一段落的
 - HTML 段落是通过` <p>` 标签进行定义的
 
@@ -75,13 +75,13 @@ HTML 标题（Heading）是通过 <h1> - <h6> 等标签进行定义的。
 
 ![段落](http://upload-images.jianshu.io/upload_images/11861611-1c7d7d08f282abda.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
 
-### 容器--- <div>
-HTML的 <div> 元素是可用于组合其他 HTML 元素的容器，它没有特定的含义，浏览器会在其前后显示折行。
+### 容器---` <div>`
+HTML的` <div> `元素是可用于组合其他 HTML 元素的容器，它没有特定的含义，浏览器会在其前后显示折行。
 - 样式属性
-如果与 CSS 一同使用，<div> 元素可用于对大的内容块设置样式属性
+如果与 CSS 一同使用，`<div>` 元素可用于对大的内容块设置样式属性
 - 文档布局
 它取代了使用表格定义布局的老式方法
-不应该使用 <table> 元素进行文档布，<table> 元素的作用是显示表格化的数据
+不应该使用` <table>` 元素进行文档布，`<table>` 元素的作用是显示表格化的数据
 
 #### HTML+CSS
 - 层叠样式表CSS（Cascading Style Sheets），用来控制HTML里的所有元素如何展现
@@ -234,7 +234,7 @@ footer {
 ```
 
 
-### 分隔线---\<hr>
+### 分隔线---`<hr>`
 - `<hr>`标签用于在页面上添加横线。
 - 可以通过指定`width`和`color`属性来控制横线的长度和颜色。
 
@@ -247,9 +247,9 @@ footer {
 
 ![分隔线](http://upload-images.jianshu.io/upload_images/11861611-1550c09d000612a4.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
 
-### 切换行---\<br/>
+### 切换行---`<br/>`
 - 希望在不产生一个新段落的情况下进行换行（新行）
-- 使用空的段落标记 <p></p> 去插入一个空行是个坏习惯。用 <br /> 标签代替它
+- 使用空的段落标记 `<p></p> `去插入一个空行是个坏习惯。用` <br /> `标签代替它
 
 例子：
 
@@ -273,7 +273,7 @@ footer {
 
 ## 二. 外链
 
-### 链接---<a href="url">desc</a>
+### 链接---`<a href="url">desc</a>`
 
 HTML 链接是通过 <a> 标签进行定义的。
 
@@ -287,9 +287,9 @@ HTML 链接是通过 <a> 标签进行定义的。
 
 在 href （Hypertext Reference）属性中指定链接的地址。
 
-### 图像---<img src="url" width=" " height=" " />
+### 图像---`<img src="url" width=" " height=" " />`
 
-HTML 图像是通过 <img> 标签进行定义的，图像的**名称和尺寸等**是以属性的形式提供的。
+HTML 图像是通过` <img> `标签进行定义的，图像的**名称和尺寸等**是以属性的形式提供的。
 
 - width：宽
 - height：高
@@ -303,14 +303,14 @@ width="300" height="142" />
 
 ![图像](http://upload-images.jianshu.io/upload_images/11861611-480a6d7fea24de8d.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
 
-#### 替换文本属性---alt="des"
+#### 替换文本属性---`alt="des"`
 alt 属性用来为图像定义一串预备的可替换的文本。替换文本属性的值是用户定义的。
 
 例子：
 
 ```html
 <img src="random.gif" alt="Big Boat">
-```
+````
 
 ![alt](http://upload-images.jianshu.io/upload_images/11861611-22be632a6943949c.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
 
@@ -332,10 +332,10 @@ alt 属性用来为图像定义一串预备的可替换的文本。替换文本�
 | <del> | 定义删除字 |
 
 
-# 四. 样式---style
+# 四. 样式---`style`
 当浏览器读到一个样式表，它就会按照这个样式表来对文档进行格式化。有三种方式来插入样式表
 
-## 外部样式表---<head><link rel=" "  type=" "  href=" "></head>
+## 外部样式表---`<head><link rel=" "  type=" "  href=" "></head>`
 当样式需要被应用到**很多页面**的时候，外部样式表将是理想的选择。使用外部样式表，你就可以通过更改一个文件来改变整个站点的外观。
 
 ```html
@@ -344,8 +344,8 @@ alt 属性用来为图像定义一串预备的可替换的文本。替换文本�
 </head>
 ```
 
-## 内部样式表---<head>  <style type
-当**单个文件**需要特别样式时，就可以使用内部样式表。你可以在 head 部分通过 `<style> `标签定义内部样式表。
+## 内部样式表---`<head>  <style type`
+当**单个文件**需要特别样式时，就可以使用内部样式表。可以在 head 部分通过 `<style>` 标签定义内部样式表。
 
 ```html
 <head>
@@ -359,7 +359,7 @@ p {margin-left: 20px}
 
 ![内部样式表](http://upload-images.jianshu.io/upload_images/11861611-924c404ca68b8621.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
 
-## 内联样式---<p style=
+## 内联样式---`<p style=`
 当特殊的样式需要应用到**个别元素**时，就可以使用内联样式。 使用内联样式的方法是在相关的标签中使用样式属性。样式属性可以包含任何 CSS 属性。以下实例显示出如何改变段落的颜色和左外边距。
 
 ```html
@@ -370,9 +370,9 @@ This is a paragraph
 
 ![内联样式](http://upload-images.jianshu.io/upload_images/11861611-40ae0b740051226f.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
 
-# 五. 表格---<table>
+# 五. 表格---`<table>`
 
-## 基本语法---<tr>  <td>data</td>  </tr>
+## 基本语法---`<tr>  <td>data</td>  </tr>`
 - `<table> `:表格
 - `<tr> `:行
 - `<td> `:每行被分割为若干单元格
@@ -395,7 +395,7 @@ This is a paragraph
 
 ![表格](http://upload-images.jianshu.io/upload_images/11861611-18112ad8bc7b5c48.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
 
-## 表格的表头---<th>Heading</th>
+## 表格的表头---`<th>Heading</th>`
 
 ` <th>` :表头
 
@@ -443,9 +443,9 @@ This is a paragraph
 
 # 六. 列表
 
-## 无序列表---<ul>…</ul>
+## 无序列表---`<ul>…</ul>`
 无序列表是一个项目的列表，此列项目使用粗体圆点（典型的小黑圆圈）进行标记。
-无序列表始于 <ul> 标签。每个列表项始于 <li>。
+无序列表始于 `<ul>` 标签。每个列表项始于` <li>`。
 
 ```html
 <ul>
@@ -456,9 +456,9 @@ This is a paragraph
 
 ![无序列表](http://upload-images.jianshu.io/upload_images/11861611-2ac27bedba7256ca.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
 
-## 有序列表---<ol>…</ol>
+## 有序列表---`<ol>…</ol>`
 同样，有序列表也是一列项目，列表项目使用数字进行标记。
-有序列表始于 <ol> 标签。每个列表项始于 <li> 标签。
+有序列表始于`<ol>` 标签。每个列表项始于` <li> `标签。
 
 ```html
 <ol>
@@ -469,14 +469,11 @@ This is a paragraph
 
 ![有序列表](http://upload-images.jianshu.io/upload_images/11861611-a343a6cf8f0cf8d8.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
 
-
-
-
-## 自定义列表<dl>  <dt>  …</dt>  <dd> …</dd>  </dl>
+## 自定义列表`<dl>  <dt>  …</dt>  <dd> …</dd>  </dl>`
 自定义列表不仅仅是一列项目，而是项目及其注释的组合。
 - `<dl>` ：自定义列表开始
 - `<dt> `：每个自定义列表项 开始
- - `<dd>`：每个自定义列表项**的定义** 开始
+- `<dd>`：每个自定义列表项**的定义** 开始
 
 ```html
 <dl>
@@ -488,9 +485,6 @@ This is a paragraph
 ```
 
 ![自定义列表](http://upload-images.jianshu.io/upload_images/11861611-f4e55bbe354df661.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
-
-
-
 
 参考文章
 [W3School的HTML教程](http://www.w3school.com.cn/html/index.asp)
