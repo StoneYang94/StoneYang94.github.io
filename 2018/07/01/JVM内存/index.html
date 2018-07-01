@@ -1,0 +1,936 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next gemini use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+<!-- 20180426-->
+<script src="//cdn.bootcss.com/pace/1.0.2/pace.min.js"></script>
+<link href="//cdn.bootcss.com/pace/1.0.2/themes/pink/pace-theme-flash.css" rel="stylesheet">
+<style>
+    .pace .pace-progress {
+        background: #1E92FB; /*进度条颜色*/
+        height: 3px;
+    }
+    .pace .pace-progress-inner {
+         box-shadow: 0 0 10px #1E92FB, 0 0 5px     #1E92FB; /*阴影颜色*/
+    }
+    .pace .pace-activity {
+        border-top-color: #1E92FB;    /*上边框颜色*/
+        border-left-color: #1E92FB;    /*左边框颜色*/
+    }
+</style>
+
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon.ico?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="JVM内存," />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="博主最近复习深入理解JVM一书，整理归纳，以形成系统认识和方便日后复习。本文主要介绍  JVM意义 JVM运行时内存分布以及各个区域的作用">
+<meta name="keywords" content="JVM内存">
+<meta property="og:type" content="article">
+<meta property="og:title" content="JVM内存">
+<meta property="og:url" content="http://yoursite.com/2018/07/01/JVM内存/index.html">
+<meta property="og:site_name" content="Xudong&#39;s blogs">
+<meta property="og:description" content="博主最近复习深入理解JVM一书，整理归纳，以形成系统认识和方便日后复习。本文主要介绍  JVM意义 JVM运行时内存分布以及各个区域的作用">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/11861611-105946efda62ae26.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/11861611-49491b65a716783f.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/11861611-a013fa13eff1368b.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/11861611-b3230ed99d8ea642.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/11861611-ef8633f78265ef3a.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:updated_time" content="2018-07-01T07:34:58.345Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="JVM内存">
+<meta name="twitter:description" content="博主最近复习深入理解JVM一书，整理归纳，以形成系统认识和方便日后复习。本文主要介绍  JVM意义 JVM运行时内存分布以及各个区域的作用">
+<meta name="twitter:image" content="http://upload-images.jianshu.io/upload_images/11861611-105946efda62ae26.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2018/07/01/JVM内存/"/>
+
+
+
+
+
+  <title>JVM内存 | Xudong's blogs</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Xudong's blogs</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">email:2228998096@qq.com    wechat:yxd19940114</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/07/01/JVM内存/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="杨旭东">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Xudong's blogs">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">JVM内存</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-07-01T15:32:07+08:00">
+                2018-07-01
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/JVM内存/" itemprop="url" rel="index">
+                    <span itemprop="name">JVM内存</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>博主最近复习深入理解JVM一书，整理归纳，以形成系统认识和方便日后复习。<br>本文主要介绍</p>
+<ol>
+<li>JVM意义</li>
+<li>JVM运行时内存分布以及各个区域的作用</li>
+</ol>
+<a id="more"></a>
+<h1 id="Java与JVM"><a href="#Java与JVM" class="headerlink" title="Java与JVM"></a>Java与JVM</h1><h2 id="JVM定义"><a href="#JVM定义" class="headerlink" title="JVM定义"></a>JVM定义</h2><p><a href="https://baike.baidu.com/item/JVM" target="_blank" rel="noopener">百度百科定义</a></p>
+<blockquote>
+<p>JVM是Java Virtual Machine（Java虚拟机）的缩写，是一种用于计算设备的规范，它是一个虚构出来的计算机，是通过在实际的计算机上仿真模拟各种计算机功能来实现的。</p>
+</blockquote>
+<h2 id="JVM意义—实现平台无关"><a href="#JVM意义—实现平台无关" class="headerlink" title="JVM意义—实现平台无关"></a>JVM意义—实现平台无关</h2><p><a href="https://baike.baidu.com/item/JVM" target="_blank" rel="noopener">百度百科定义</a></p>
+<blockquote>
+<p>Java语言的一个非常重要的特点就是与平台的无关性。而使用Java虚拟机是实现这一特点的关键。一般的高级语言如果要在不同的平台上运行，至少需要编译成不同的目标代码。而引入Java语言虚拟机后，Java语言在不同平台上运行时不需要重新编译。<br>Java语言使用Java虚拟机屏蔽了与具体平台相关的信息，使得Java语言编译程序只需生成在Java虚拟机上运行的目标代码字节码，就可以在多种平台上不加修改地运行。Java虚拟机在执行字节码时，把字节码解释成具体平台上的机器指令执行。这就是Java的能够“一次编译，到处运行”的原因。</p>
+</blockquote>
+<h3 id="机器语言"><a href="#机器语言" class="headerlink" title="机器语言"></a>机器语言</h3><ul>
+<li>由于计算机<strong>只认识机器语言</strong>(二进制)，所以高级语言(如C、C++、Java、Python等)都不能被计算机直接执行，必须经过<strong>有效翻译</strong></li>
+<li>编译和解释都是将高语言<strong>翻译</strong>成机器语言的方式，而区别是<strong>翻译的时间不同</strong><ul>
+<li>编译型语言写的程序在执行之前，<strong>先经过编译</strong>过程，把程序编译成机器语言文件，当运行时直接执行，因此只需进行一次翻译</li>
+<li>解释型语言写的程序不需要编译，直到程序<strong>运行时</strong>才进行动态翻译后执行</li>
+</ul>
+</li>
+</ul>
+<h3 id="翻译的方式"><a href="#翻译的方式" class="headerlink" title="翻译的方式"></a>翻译的方式</h3><ul>
+<li>编译型语言<br>源程序经过<strong>编译、汇编和连接</strong>得到输出目标代码，然后由计算机执行目标代码(机器指令)。<br>代表语言：C 、C++</li>
+<li>解释型语言<br>由可以理解源代码的解释程序(解释器)执行，解释器的任务是将源代码(中间代码)解释成可执行的机器指令。 代码执行时逐一解释成可执行的机器指令。<br>代表语言：Ruby、JS，大多动态语言都是解释型的。</li>
+</ul>
+<h3 id="Java的方式"><a href="#Java的方式" class="headerlink" title="Java的方式"></a>Java的方式</h3><p>Java较为特殊</p>
+<ol>
+<li>Java需要编译，但是没有直接编译成机器语言，而是把<code>.java</code>编译成为<code>.class</code>的<strong>字节码</strong>文件</li>
+<li>通过JVM的解释器对<code>.class</code>文件进行解释执行<br>2.1 在Windows系统上运行，则通Windows上的Jvm进行解释<br>2.2 在<strong>Linux系统</strong>上，则通过Linux上的Jvm解释执行</li>
+</ol>
+<p><img src="http://upload-images.jianshu.io/upload_images/11861611-105946efda62ae26.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="Java的方式"></p>
+<h2 id="JVM的定位"><a href="#JVM的定位" class="headerlink" title="JVM的定位"></a>JVM的定位</h2><p><img src="http://upload-images.jianshu.io/upload_images/11861611-49491b65a716783f.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="Java体系"></p>
+<ul>
+<li>Java程序设计语言、Java虚拟机、Java API类库三部分统称为JDK(Java Development Kit) ,JDK是Java程序<strong>开发</strong>的最小环境</li>
+<li>Java API类库中的Java SE API子集和Java虚拟机两部分统称为JRE(Java Runtime Environment)，JRE是支持Java程序<strong>运行</strong>的标准环境</li>
+</ul>
+<h1 id="JVM内存区域"><a href="#JVM内存区域" class="headerlink" title="JVM内存区域"></a>JVM内存区域</h1><p>Java虚拟机在执行Java程序过程中，会把所管理的内存划分为几个不同的数据区域（<strong>程序计数器、虚拟机栈、堆、方法区、本地方法栈</strong>），统称为<strong>运行时数据区域</strong>。如下：</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/11861611-a013fa13eff1368b.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="运行时数据区"></p>
+<h2 id="1-程序计数器（Program-Counter-Register）"><a href="#1-程序计数器（Program-Counter-Register）" class="headerlink" title="1. 程序计数器（Program Counter Register）"></a>1. 程序计数器（Program Counter Register）</h2><h3 id="定义"><a href="#定义" class="headerlink" title="定义"></a>定义</h3><p><strong>当前线程</strong>执行代码的<strong>行号指示器</strong></p>
+<h3 id="工作原理"><a href="#工作原理" class="headerlink" title="工作原理"></a>工作原理</h3><ul>
+<li><strong>字节码解释器</strong>通过改变程序计数器的值选取下一条要执行的字节码指令，分支、循环、跳转、异常处理、线程回复等都依赖程序计数器完成。</li>
+<li>由于Java虚拟机多线程是通过随机切换线程分配处理器执行时间的方式实现的，所以在任一确定时刻，一个处理器（对于多核处理器来说是一个内核）都只会执行一条线程中的指令。为了切换后能正确恢复到原本的执行位置，因此每条线程都需要独立的程序计数器，所以这类区域为“线程私有” 的内存。</li>
+</ul>
+<h3 id="注意"><a href="#注意" class="headerlink" title="注意"></a>注意</h3><ul>
+<li>此区域是<strong>唯一</strong>在Java虚拟机规范中没有规定任何<code>OutOfMemoryError</code>的区域</li>
+<li>线程私有</li>
+</ul>
+<h2 id="2-虚拟机栈（Java-Virtual-Machine-Stacks）"><a href="#2-虚拟机栈（Java-Virtual-Machine-Stacks）" class="headerlink" title="2. 虚拟机栈（Java Virtual Machine Stacks）"></a>2. 虚拟机栈（Java Virtual Machine Stacks）</h2><p><img src="http://upload-images.jianshu.io/upload_images/11861611-b3230ed99d8ea642.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="JVM Stacks"></p>
+<h3 id="定义-1"><a href="#定义-1" class="headerlink" title="定义"></a>定义</h3><p>描述的是Java方法执行的内存模型</p>
+<h3 id="具体细节"><a href="#具体细节" class="headerlink" title="具体细节"></a>具体细节</h3><p>每个方法在执行的同时都会创建一个栈帧（Stack Frame）用于存储局部变量表、操作数栈、动态链接、方法出口等信息。<strong>每个方法从调用直至执行完成的过程，就对应一个栈帧在虚拟机栈中入栈到出栈的过程。</strong><br>一个线程中的方法可能还会调用其他方法，这样就会构成方法调用链，而且这个链可能会很长，而且每个线程都有方法处于执行状态。对于执行引擎来说，只有活动线程栈顶的栈帧才是有效的，称为当前栈帧（Current Stack Frame），这个栈帧关联的方法称为当前方法（Current Method）。</p>
+<h3 id="局部变量表"><a href="#局部变量表" class="headerlink" title="局部变量表"></a>局部变量表</h3><p>局部变量表存放了</p>
+<ol>
+<li>编译器可知的各种基本数据类型（8种基本数据类型）</li>
+<li>对象引用（reference类型，指向堆中对象起始地址的引用指针，也可能是指向代表对象的句柄或对象相关的位置）</li>
+<li>returnAddress类型</li>
+</ol>
+<p>其中64位长度的long和double类型的数据会占用2个局部变量空间（Slot）,其余基本类型只占用1个。<br>局部变量表所需内存空间在<strong>编译期完成分配</strong>。当进入一个方法时，这个方法需要在帧中分配多大的变量空间是<strong>完全确定的</strong>，在方法运行期间不会改变局部变量表大小。</p>
+<h3 id="异常"><a href="#异常" class="headerlink" title="异常"></a>异常</h3><p>在Java虚拟机规范中，对这个区域规定了两种异常状况</p>
+<ol>
+<li>如果线程<strong>请求的栈深度大于虚拟机所允许的深度</strong>，将抛出<code>StackOverflowError</code>异常</li>
+<li>如果虚拟机栈可以动态扩展，但是扩展时<strong>无法申请到足够</strong>内存，会抛<code>OutOfMemoryError</code>异常</li>
+</ol>
+<h3 id="注意-1"><a href="#注意-1" class="headerlink" title="注意"></a>注意</h3><ul>
+<li>线程私有</li>
+</ul>
+<h2 id="3-本地方法栈（Native-Method-Stack）"><a href="#3-本地方法栈（Native-Method-Stack）" class="headerlink" title="3. 本地方法栈（Native Method Stack）"></a>3. 本地方法栈（Native Method Stack）</h2><p>与虚拟机栈所发挥的作用相同，区别是虚拟机栈为虚拟机执行<strong>Java方法</strong>服务，而本地方法栈为虚拟机执行<strong>Native方法</strong>服务。<br>Java虚拟机规范并未强制规定其具体实现，如<strong>HotSpot</strong>虚拟机把虚拟机栈和本地方法栈<strong>合二为一</strong>。</p>
+<h3 id="注意-2"><a href="#注意-2" class="headerlink" title="注意"></a>注意</h3><ul>
+<li>线程私有</li>
+<li>本地方法栈和虚拟机栈一样会抛出<code>StackOverflowError</code>异常和<code>OutOfMemoryError</code>异常。</li>
+</ul>
+<h2 id="4-堆（Java-Heap）"><a href="#4-堆（Java-Heap）" class="headerlink" title="4. 堆（Java Heap）"></a>4. 堆（Java Heap）</h2><h3 id="定义-2"><a href="#定义-2" class="headerlink" title="定义"></a>定义</h3><ul>
+<li>在虚拟机启动时创建，此内存区域的<strong>唯一目的就是存放对象实例</strong></li>
+<li><strong>几乎所有</strong>的对象实例都在这里分配内存（不绝对）</li>
+</ul>
+<h3 id="具体细节-1"><a href="#具体细节-1" class="headerlink" title="具体细节"></a>具体细节</h3><ul>
+<li>堆是Java虚拟机所管理的内存中最大的一块，也是被<strong>所有线程共享</strong>的一块内存区域。</li>
+<li>Java堆是<strong>垃圾收集器管理的主要区域</strong>，因此很多时候也被称为“GC”堆（Garbage Collected Heap）。</li>
+<li>现在内存回收基本都采用分代收集算法<ul>
+<li>所以Java Heap细分为：新生代和老年代</li>
+<li>再细分新生代可分为：Eden、From Survivor、To Survivor，比例为8：1：1</li>
+</ul>
+</li>
+</ul>
+<h3 id="异常-1"><a href="#异常-1" class="headerlink" title="异常"></a>异常</h3><p>如果在堆中<strong>没有内存完成实例分配，并且堆无法扩展时</strong>，将会抛出<code>OutOfMemoryError</code>异常。</p>
+<h3 id="注意-3"><a href="#注意-3" class="headerlink" title="注意"></a>注意</h3><ul>
+<li>所有线程共享</li>
+<li>Java堆可以像磁盘空间一样，允许逻辑上连续而物理不连续</li>
+<li>Java堆在实现上可时，可以实现成固定大小的，也可以按照可扩展实现（-Xmx和-Xms控制）</li>
+</ul>
+<h3 id="堆与分代垃圾回收"><a href="#堆与分代垃圾回收" class="headerlink" title="堆与分代垃圾回收"></a>堆与分代垃圾回收</h3><p><img src="http://upload-images.jianshu.io/upload_images/11861611-ef8633f78265ef3a.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="堆"></p>
+<p>从JKD1.7开始，永久代Perm逐渐被移除，最新的JDK1.8中已经使用元空间（MetaSpace）代替永久代。</p>
+<p>可通过如下参数设置内存空间</p>
+<table>
+<thead>
+<tr>
+<th>参数</th>
+<th>作用</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Xms</td>
+<td>设置堆的最小空间大小。</td>
+</tr>
+<tr>
+<td>Xmx</td>
+<td>设置堆的最大空间大小。</td>
+</tr>
+<tr>
+<td>XX:NewSize</td>
+<td>设置新生代最小空间大小。</td>
+</tr>
+<tr>
+<td>XX:MaxNewSize</td>
+<td>设置新生代最大空间大小。</td>
+</tr>
+<tr>
+<td>XX:PermSize</td>
+<td>设置永久代最小空间大小。</td>
+</tr>
+<tr>
+<td>XX:MaxPermSize</td>
+<td>设置永久代最大空间大小。</td>
+</tr>
+<tr>
+<td>Xss</td>
+<td>设置每个线程的堆栈大小。     </td>
+</tr>
+</tbody>
+</table>
+<h2 id="5-方法区（Method-Area）"><a href="#5-方法区（Method-Area）" class="headerlink" title="5. 方法区（Method Area）"></a>5. 方法区（Method Area）</h2><h3 id="定义-3"><a href="#定义-3" class="headerlink" title="定义"></a>定义</h3><ul>
+<li>用于存储<strong>已经被虚拟机加载</strong>的<strong>类信息、常量、静态变量、即时编译后的代码</strong>等数据。</li>
+<li>Non-Heap：在Java虚拟机规范中，将方法区作为堆的一个逻辑部分来对待，但事实上，方法区并不是堆（Non-Heap）</li>
+</ul>
+<h3 id="具体细节-2"><a href="#具体细节-2" class="headerlink" title="具体细节"></a>具体细节</h3><p>永久代：JavaGC的分代收集机制分为3个代：年青代，老年代，永久代，将方法区定义为“永久代”，这是因为，对于之前的HotSpot Java虚拟机的实现方式中，将分代收集的思想扩展到了方法区，并将方法区设计成了永久代。不过，除HotSpot之外的多数虚拟机，并不将方法区当做永久代，随着Java8的到来，已放弃永久代改为采用Native Memory来实现方法区的规划。</p>
+<h3 id="异常-2"><a href="#异常-2" class="headerlink" title="异常"></a>异常</h3><ul>
+<li>方法区可选择不进行垃圾收集，垃圾收集在该区域也较少出现，但并非数据进入了方法区就不会被回收，该区域回收主要针对常量池回收和类型的卸载。</li>
+<li>当方法区无法满足内存分配是将抛出<code>OutOfMemoryError</code>异常。</li>
+</ul>
+<h3 id="注意-4"><a href="#注意-4" class="headerlink" title="注意"></a>注意</h3><ul>
+<li>所有线程共享</li>
+<li>方法区在物理上也不需要是连续的，可以选择固定大小或可扩展大小</li>
+<li>可以选择是否执行垃圾回收</li>
+</ul>
+<h2 id="6-运行时常量池（Runtime-Constant-Pool）"><a href="#6-运行时常量池（Runtime-Constant-Pool）" class="headerlink" title="6. 运行时常量池（Runtime Constant Pool）"></a>6. 运行时常量池（Runtime Constant Pool）</h2><h3 id="定义-4"><a href="#定义-4" class="headerlink" title="定义"></a>定义</h3><p>JDK1.7之前运行时常量池是方法区的一部分，JDK1.7及之后版本已经将运行时常量池从方法区中移了出来，在<strong>堆（Heap）中</strong>开辟了一块区域存放运行时常量池。</p>
+<h3 id="具体细节-3"><a href="#具体细节-3" class="headerlink" title="具体细节"></a>具体细节</h3><p>Class文件中除了有类的版本、字段、方法、接口等信息外，还有一项信息是常量池（Constant Pool Tbale），用于存放编译期生成的各种<strong>字面量和符号引用</strong>，这部分内容在类加载后，进入运行时常量池中存放。<br>运行时常量池相对于Class文件常量池的另外一个重要特征是<strong>具备动态性</strong>，Java语言并不要求常量一定<strong>只有编译期才能产生</strong>，也是就并非预置入Class文件中的常量池的内容才能进入方法区运行时常量池，<strong>运行期间也可能将新的常量放入池中</strong>，这种被开发人员利用得多的便是<strong>String类的intern()方法</strong></p>
+<h3 id="异常-3"><a href="#异常-3" class="headerlink" title="异常"></a>异常</h3><p>会抛出<code>OutOfMemoryError</code></p>
+<p>参考文章<br><a href="https://baike.baidu.com/item/JVM" target="_blank" rel="noopener">百度百科的JVM定义</a><br>周志明，深入理解Java虚拟机：JVM高级特性与最佳实践，机械工业出版社<br><a href="http://geosmart.github.io/2016/02/22/%E3%80%8A%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3Java%E8%99%9A%E6%8B%9F%E6%9C%BA%E3%80%8B%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/" target="_blank" rel="noopener">《深入理解Java虚拟机》读书笔记</a><br><a href="https://blog.csdn.net/u010046451/article/details/79121397" target="_blank" rel="noopener">Java跨平台性</a><br><a href="https://www.zhihu.com/question/19608553" target="_blank" rel="noopener">Java 是编译型语言还是解释型语言？</a></p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/JVM内存/" rel="tag"><i class="fa fa-tag"></i> JVM内存</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/06/28/HTML入门/" rel="next" title="HTML入门">
+                <i class="fa fa-chevron-left"></i> HTML入门
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">杨旭东</p>
+              <p class="site-description motion-element" itemprop="description">种一棵树最好的时间是十年前，其次是现在</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">40</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">12</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">25</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/stoneyang94" target="_blank" title="GitHub">
+                      
+                        <i class="fa fa-fw fa-github"></i>GitHub</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="https://www.jianshu.com/u/f7b90f4a10ae" target="_blank" title="简书">
+                      
+                        <i class="fa fa-fw fa-book"></i>简书</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Java与JVM"><span class="nav-number">1.</span> <span class="nav-text">Java与JVM</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#JVM定义"><span class="nav-number">1.1.</span> <span class="nav-text">JVM定义</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#JVM意义—实现平台无关"><span class="nav-number">1.2.</span> <span class="nav-text">JVM意义—实现平台无关</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#机器语言"><span class="nav-number">1.2.1.</span> <span class="nav-text">机器语言</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#翻译的方式"><span class="nav-number">1.2.2.</span> <span class="nav-text">翻译的方式</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Java的方式"><span class="nav-number">1.2.3.</span> <span class="nav-text">Java的方式</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#JVM的定位"><span class="nav-number">1.3.</span> <span class="nav-text">JVM的定位</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#JVM内存区域"><span class="nav-number">2.</span> <span class="nav-text">JVM内存区域</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-程序计数器（Program-Counter-Register）"><span class="nav-number">2.1.</span> <span class="nav-text">1. 程序计数器（Program Counter Register）</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#定义"><span class="nav-number">2.1.1.</span> <span class="nav-text">定义</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#工作原理"><span class="nav-number">2.1.2.</span> <span class="nav-text">工作原理</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#注意"><span class="nav-number">2.1.3.</span> <span class="nav-text">注意</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-虚拟机栈（Java-Virtual-Machine-Stacks）"><span class="nav-number">2.2.</span> <span class="nav-text">2. 虚拟机栈（Java Virtual Machine Stacks）</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#定义-1"><span class="nav-number">2.2.1.</span> <span class="nav-text">定义</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#具体细节"><span class="nav-number">2.2.2.</span> <span class="nav-text">具体细节</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#局部变量表"><span class="nav-number">2.2.3.</span> <span class="nav-text">局部变量表</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#异常"><span class="nav-number">2.2.4.</span> <span class="nav-text">异常</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#注意-1"><span class="nav-number">2.2.5.</span> <span class="nav-text">注意</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-本地方法栈（Native-Method-Stack）"><span class="nav-number">2.3.</span> <span class="nav-text">3. 本地方法栈（Native Method Stack）</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#注意-2"><span class="nav-number">2.3.1.</span> <span class="nav-text">注意</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4-堆（Java-Heap）"><span class="nav-number">2.4.</span> <span class="nav-text">4. 堆（Java Heap）</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#定义-2"><span class="nav-number">2.4.1.</span> <span class="nav-text">定义</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#具体细节-1"><span class="nav-number">2.4.2.</span> <span class="nav-text">具体细节</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#异常-1"><span class="nav-number">2.4.3.</span> <span class="nav-text">异常</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#注意-3"><span class="nav-number">2.4.4.</span> <span class="nav-text">注意</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#堆与分代垃圾回收"><span class="nav-number">2.4.5.</span> <span class="nav-text">堆与分代垃圾回收</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#5-方法区（Method-Area）"><span class="nav-number">2.5.</span> <span class="nav-text">5. 方法区（Method Area）</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#定义-3"><span class="nav-number">2.5.1.</span> <span class="nav-text">定义</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#具体细节-2"><span class="nav-number">2.5.2.</span> <span class="nav-text">具体细节</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#异常-2"><span class="nav-number">2.5.3.</span> <span class="nav-text">异常</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#注意-4"><span class="nav-number">2.5.4.</span> <span class="nav-text">注意</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#6-运行时常量池（Runtime-Constant-Pool）"><span class="nav-number">2.6.</span> <span class="nav-text">6. 运行时常量池（Runtime Constant Pool）</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#定义-4"><span class="nav-number">2.6.1.</span> <span class="nav-text">定义</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#具体细节-3"><span class="nav-number">2.6.2.</span> <span class="nav-text">具体细节</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#异常-3"><span class="nav-number">2.6.3.</span> <span class="nav-text">异常</span></a></li></ol></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">杨旭东</span>
+
+  
+</div>
+
+<!-- 20180426 -->
+<div class="powered-by">
+<i class="fa fa-user-md"></i><span id="busuanzi_container_site_uv">
+  本站访客数:<span id="busuanzi_value_site_uv"></span>
+</span>
+</div>
+
+
+<!-- 20180425
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+-->
+
+<!-- 20180425
+
+  <span class="post-meta-divider">|</span>
+
+-->
+
+<!-- 20180425
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Gemini</a> v5.1.4</div>
+
+-->
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+  <!--页面点击小红心 -->
+  <script type="text/javascript" src="/js/src/love.js"></script>>
+    <!--背景动画 -->
+  <script type="text/javascript" src="/js/src/background.js"></script>>
+</body>
+</html>
