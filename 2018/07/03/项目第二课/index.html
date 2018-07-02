@@ -1,0 +1,837 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next gemini use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+<!-- 20180426-->
+<script src="//cdn.bootcss.com/pace/1.0.2/pace.min.js"></script>
+<link href="//cdn.bootcss.com/pace/1.0.2/themes/pink/pace-theme-flash.css" rel="stylesheet">
+<style>
+    .pace .pace-progress {
+        background: #1E92FB; /*进度条颜色*/
+        height: 3px;
+    }
+    .pace .pace-progress-inner {
+         box-shadow: 0 0 10px #1E92FB, 0 0 5px     #1E92FB; /*阴影颜色*/
+    }
+    .pace .pace-activity {
+        border-top-color: #1E92FB;    /*上边框颜色*/
+        border-left-color: #1E92FB;    /*左边框颜色*/
+    }
+</style>
+
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon.ico?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="python,项目," />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="用python语言开发类似instagram网站的项目，写博客以整理思路形成系统的认知，加深印象和方便日后复习。如发现问题，欢迎随时留言讨论。本文主要介绍 装饰器，Flask框架。并且有学习时运行的截图。">
+<meta name="keywords" content="python,项目">
+<meta property="og:type" content="article">
+<meta property="og:title" content="项目第二课">
+<meta property="og:url" content="http://yoursite.com/2018/07/03/项目第二课/index.html">
+<meta property="og:site_name" content="Xudong&#39;s blogs">
+<meta property="og:description" content="用python语言开发类似instagram网站的项目，写博客以整理思路形成系统的认知，加深印象和方便日后复习。如发现问题，欢迎随时留言讨论。本文主要介绍 装饰器，Flask框架。并且有学习时运行的截图。">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="http://p7vxw6hv7.bkt.clouddn.com/18-6-27/12426781.jpg">
+<meta property="og:image" content="http://p7vxw6hv7.bkt.clouddn.com/18-6-27/36003819.jpg">
+<meta property="og:image" content="http://p7vxw6hv7.bkt.clouddn.com/18-6-27/15514573.jpg">
+<meta property="og:image" content="http://p7vxw6hv7.bkt.clouddn.com/18-6-27/26716533.jpg">
+<meta property="og:image" content="http://p7vxw6hv7.bkt.clouddn.com/18-6-28/86768399.jpg">
+<meta property="og:image" content="http://p7vxw6hv7.bkt.clouddn.com/18-6-28/80544928.jpg">
+<meta property="og:image" content="http://p7vxw6hv7.bkt.clouddn.com/18-6-30/79559274.jpg">
+<meta property="og:image" content="http://p7vxw6hv7.bkt.clouddn.com/18-6-30/38073641.jpg">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/11861611-9bb055092def7bc7?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:updated_time" content="2018-07-02T16:06:13.911Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="项目第二课">
+<meta name="twitter:description" content="用python语言开发类似instagram网站的项目，写博客以整理思路形成系统的认知，加深印象和方便日后复习。如发现问题，欢迎随时留言讨论。本文主要介绍 装饰器，Flask框架。并且有学习时运行的截图。">
+<meta name="twitter:image" content="http://p7vxw6hv7.bkt.clouddn.com/18-6-27/12426781.jpg">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2018/07/03/项目第二课/"/>
+
+
+
+
+
+  <title>项目第二课 | Xudong's blogs</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Xudong's blogs</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">email:2228998096@qq.com    wechat:yxd19940114</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/07/03/项目第二课/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="杨旭东">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Xudong's blogs">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">项目第二课</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-07-03T00:05:29+08:00">
+                2018-07-03
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/项目/" itemprop="url" rel="index">
+                    <span itemprop="name">项目</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>用python语言开发类似instagram网站的项目，写博客以整理思路形成系统的认知，加深印象和方便日后复习。<br>如发现问题，欢迎随时留言讨论。<br>本文主要介绍 装饰器，Flask框架。并且有学习时运行的截图。</p>
+<a id="more"></a>
+<h1 id="一-装饰器"><a href="#一-装饰器" class="headerlink" title="一. 装饰器"></a>一. 装饰器</h1><p>请参考：我的博客<a href="https://www.jianshu.com/p/18239508fe4c" target="_blank" rel="noopener">python装饰器</a> </p>
+<p>通俗不严谨解释：<br>把函数名称当作参数和返回值，在内部调用，控制调用前后的操作逻辑</p>
+<h1 id="二-Flask"><a href="#二-Flask" class="headerlink" title="二. Flask"></a>二. Flask</h1><p>请参考：我的博客<a href="https://www.jianshu.com/p/f314abea0f3c" target="_blank" rel="noopener">Flask入门</a> </p>
+<h2 id="流程"><a href="#流程" class="headerlink" title="流程"></a>流程</h2><p><img src="http://p7vxw6hv7.bkt.clouddn.com/18-6-27/12426781.jpg" alt="流程"></p>
+<h2 id="一个最简易的网页"><a href="#一个最简易的网页" class="headerlink" title="一个最简易的网页"></a>一个最简易的网页</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">#-*- encoding=UTF-8 -*-</span><br><span class="line"></span><br><span class="line">from flask import Flask </span><br><span class="line"></span><br><span class="line">app = Flask(__name__)    </span><br><span class="line"></span><br><span class="line">@app.route(&apos;/&apos;)   </span><br><span class="line">def index():</span><br><span class="line">    return &apos;hello&apos;</span><br><span class="line"></span><br><span class="line">if __name__ == &apos;__main__&apos;:</span><br><span class="line">    app.run(debug=True)</span><br></pre></td></tr></table></figure>
+<p><img src="http://p7vxw6hv7.bkt.clouddn.com/18-6-27/36003819.jpg" alt=""></p>
+<p>至此，一个简单的网页就运行起来了，下面就是针对这个网站进行一些细节操作，逐步完善</p>
+<h2 id="优化"><a href="#优化" class="headerlink" title="优化"></a>优化</h2><h3 id="多映射"><a href="#多映射" class="headerlink" title="多映射"></a>多映射</h3><ul>
+<li>意义<br>避免因后期升级导致旧的连接无法使用</li>
+<li>语法<br>在上面添加装饰器，使得可以同时接受多个路径的映射</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">@app.route(&apos;/&apos;) #指定根路径的回调</span><br><span class="line">@app.route(&apos;/index/&apos;)</span><br><span class="line">def index():</span><br><span class="line">    return &apos;hello&apos;</span><br></pre></td></tr></table></figure>
+<p><img src="http://p7vxw6hv7.bkt.clouddn.com/18-6-27/15514573.jpg" alt=""></p>
+<h3 id="参数变量"><a href="#参数变量" class="headerlink" title="参数变量"></a>参数变量</h3><p>语法<br>通过url传递参数</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">@app.route(&apos;/profile/&lt;uid&gt;/&apos;)</span><br><span class="line">def profile(uid):</span><br><span class="line">    return &apos;profile : &apos; + uid</span><br></pre></td></tr></table></figure>
+<p><img src="http://p7vxw6hv7.bkt.clouddn.com/18-6-27/26716533.jpg" alt=""></p>
+<h3 id="错误"><a href="#错误" class="headerlink" title="错误"></a>错误</h3><p>指定传递参数的类型，如果传递的参数类型不符合，会直接回404 </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">@app.route(&apos;/profileInt/&lt;int:uid&gt;/&apos;)</span><br><span class="line">def profileInt(uid):</span><br><span class="line">    return &apos;profileInt : &apos; + str(uid)</span><br></pre></td></tr></table></figure>
+<p><img src="http://p7vxw6hv7.bkt.clouddn.com/18-6-28/86768399.jpg" alt="类型正确"></p>
+<p><img src="http://p7vxw6hv7.bkt.clouddn.com/18-6-28/80544928.jpg" alt="类型错误"></p>
+<h1 id="三-模板-template"><a href="#三-模板-template" class="headerlink" title="三. 模板(template)"></a>三. 模板(template)</h1><p>请参考：我的博客<a href="https://www.jianshu.com/p/a1103d3eeb0c" target="_blank" rel="noopener">Jinja2模板</a> </p>
+<h2 id="课上的例子"><a href="#课上的例子" class="headerlink" title="课上的例子"></a>课上的例子</h2><ol>
+<li>导入<code>render_template</code></li>
+<li>在主程序所在目录下创建templates文件夹</li>
+<li>把模板文件放到这里面</li>
+</ol>
+<p>视频里的模板文件是profile.html</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">&lt;html&gt;</span><br><span class="line">&lt;body&gt;</span><br><span class="line">&#123;# 这个是Jinja2模板语法，这个是注释 #&#125;</span><br><span class="line">uid=&#123;&#123;uid&#125;&#125;&lt;br&gt;     &#123;# 这是获取变量 #&#125;</span><br><span class="line"></span><br><span class="line">&#123;% for i in range(0,5): %&#125;</span><br><span class="line">    &#123;&#123;loop.index&#125;&#125;, number:&#123;&#123;i&#125;&#125;&lt;br&gt;</span><br><span class="line">&#123;% endfor %&#125;</span><br><span class="line"></span><br><span class="line">&#123;# 可以理解定义了一个带参数的宏 #&#125;</span><br><span class="line">&#123;% macro render_color(color) %&#125;</span><br><span class="line">    &lt;div&gt;This is color &#123;&#123;color&#125;&#125;&lt;/div&gt;  &#123;&#123;caller()&#125;&#125;</span><br><span class="line">&#123;% endmacro %&#125;</span><br><span class="line"></span><br><span class="line">&#123;% for color in colors: %&#125;</span><br><span class="line">&lt;br&gt;</span><br><span class="line">    &#123;% call render_color(color) %&#125;  &#123;# 调用 #&#125;</span><br><span class="line">        render_color_demo&lt;br&gt;</span><br><span class="line">    &#123;% endcall %&#125;</span><br><span class="line">&#123;% endfor %&#125;</span><br><span class="line">&lt;/body&gt;</span><br><span class="line">&lt;/html&gt;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">#-*- encoding=UTF-8 -*-</span><br><span class="line"></span><br><span class="line">from flask import Flask, render_template #导入模块</span><br><span class="line"></span><br><span class="line">app = Flask(__name__)   #创建对象</span><br><span class="line"></span><br><span class="line">@app.route(&apos;/&apos;) #指定根路径的回调</span><br><span class="line">@app.route(&apos;/index/&apos;)</span><br><span class="line">def index():</span><br><span class="line">    return &apos;hello&apos;</span><br><span class="line"></span><br><span class="line">@app.route(&apos;/profile/&lt;uid&gt;/&apos;)</span><br><span class="line">def profile(uid):</span><br><span class="line">    #return &apos;profile : &apos; + uid</span><br><span class="line">    colors = (&apos;blue&apos;, &apos;red&apos;, &apos;green&apos;)</span><br><span class="line">    return render_template(&apos;profile.html&apos;, uid=uid, colors=colors)</span><br><span class="line"></span><br><span class="line">@app.route(&apos;/profileInt/&lt;int:uid&gt;/&apos;)</span><br><span class="line">def profileInt(uid):</span><br><span class="line">    return &apos;profileInt : &apos; + str(uid)</span><br><span class="line"></span><br><span class="line">if __name__ == &apos;__main__&apos;:</span><br><span class="line">    app.run(debug=True) # debug,开启debug模式</span><br></pre></td></tr></table></figure>
+<p><img src="http://p7vxw6hv7.bkt.clouddn.com/18-6-30/79559274.jpg" alt=""></p>
+<h2 id="404模板–from-flask-import-Flask-render-template-request"><a href="#404模板–from-flask-import-Flask-render-template-request" class="headerlink" title="404模板–from flask import Flask, render_template, request"></a>404模板–<code>from flask import Flask, render_template, request</code></h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">404的模板是not_found.html, 也要放在templates里面</span><br><span class="line">添加request模块，获取当前请求的url</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">&lt;!DOCTYPE html&gt;</span><br><span class="line">&lt;html lang=&quot;en&quot;&gt;</span><br><span class="line">&lt;head&gt;</span><br><span class="line">    &lt;meta charset=&quot;UTF-8&quot;&gt;</span><br><span class="line">    &lt;title&gt;Not Found HeiHei&lt;/title&gt;</span><br><span class="line">&lt;/head&gt;</span><br><span class="line">&lt;body&gt;</span><br><span class="line">    &#123;&#123;request&#125;&#125;</span><br><span class="line">&lt;/body&gt;</span><br><span class="line">&lt;/html&gt;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">from flask import Flask, render_template, request</span><br><span class="line"></span><br><span class="line">@app.errorhandler(404)</span><br><span class="line">def not_found(error):</span><br><span class="line">    return render_template(&apos;not_found.html&apos;, request=request.url)</span><br></pre></td></tr></table></figure>
+<p><img src="http://p7vxw6hv7.bkt.clouddn.com/18-6-30/38073641.jpg" alt="自己写404模板"></p>
+<h2 id="重定向—from-flask-import-Flask-render-template-request-redirect"><a href="#重定向—from-flask-import-Flask-render-template-request-redirect" class="headerlink" title="重定向—from flask import Flask, render_template, request, redirect"></a>重定向—<code>from flask import Flask, render_template, request, redirect</code></h2><p>重定向就是将<strong>网页自动转向重定向</strong>，分为——301永久性重定向和302临时性重定向。</p>
+<ul>
+<li>301：新网址完全继承旧网址，旧网址的排名等完全清零</li>
+<li>302：对旧网址没有影响，但新网址不会有排名</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">from flask import Flask, render_template, request, redirect </span><br><span class="line"></span><br><span class="line">@app.route(&apos;/newpath&apos;)</span><br><span class="line">def newpath():</span><br><span class="line">    return &apos;newpath&apos;</span><br><span class="line"></span><br><span class="line">@app.route(&apos;/redirct/&lt;int:number&gt;&apos;)</span><br><span class="line">def redirctPage(number):</span><br><span class="line">    return redirect(&apos;/newpath&apos;,code=number)</span><br></pre></td></tr></table></figure>
+<p><img src="http://upload-images.jianshu.io/upload_images/11861611-9bb055092def7bc7?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="![007-redirct.jpg-134.7kB][9]"></p>
+<p>参考文章<br><a href="https://blog.csdn.net/a312024054/article/details/51960551" target="_blank" rel="noopener">python初级项目课（二）</a><br>牛客网初级项目（无连接，去网站购买学习）</p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/python/" rel="tag"><i class="fa fa-tag"></i> python</a>
+          
+            <a href="/tags/项目/" rel="tag"><i class="fa fa-tag"></i> 项目</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/07/02/JVM垃圾回收/" rel="next" title="JVM垃圾回收">
+                <i class="fa fa-chevron-left"></i> JVM垃圾回收
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">杨旭东</p>
+              <p class="site-description motion-element" itemprop="description">种一棵树最好的时间是十年前，其次是现在</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">42</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">12</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">26</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/stoneyang94" target="_blank" title="GitHub">
+                      
+                        <i class="fa fa-fw fa-github"></i>GitHub</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="https://www.jianshu.com/u/f7b90f4a10ae" target="_blank" title="简书">
+                      
+                        <i class="fa fa-fw fa-book"></i>简书</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#一-装饰器"><span class="nav-number">1.</span> <span class="nav-text">一. 装饰器</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#二-Flask"><span class="nav-number">2.</span> <span class="nav-text">二. Flask</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#流程"><span class="nav-number">2.1.</span> <span class="nav-text">流程</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#一个最简易的网页"><span class="nav-number">2.2.</span> <span class="nav-text">一个最简易的网页</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#优化"><span class="nav-number">2.3.</span> <span class="nav-text">优化</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#多映射"><span class="nav-number">2.3.1.</span> <span class="nav-text">多映射</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#参数变量"><span class="nav-number">2.3.2.</span> <span class="nav-text">参数变量</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#错误"><span class="nav-number">2.3.3.</span> <span class="nav-text">错误</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#三-模板-template"><span class="nav-number">3.</span> <span class="nav-text">三. 模板(template)</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#课上的例子"><span class="nav-number">3.1.</span> <span class="nav-text">课上的例子</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#404模板–from-flask-import-Flask-render-template-request"><span class="nav-number">3.2.</span> <span class="nav-text">404模板–from flask import Flask, render_template, request</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#重定向—from-flask-import-Flask-render-template-request-redirect"><span class="nav-number">3.3.</span> <span class="nav-text">重定向—from flask import Flask, render_template, request, redirect</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">杨旭东</span>
+
+  
+</div>
+
+<!-- 20180426 -->
+<div class="powered-by">
+<i class="fa fa-user-md"></i><span id="busuanzi_container_site_uv">
+  本站访客数:<span id="busuanzi_value_site_uv"></span>
+</span>
+</div>
+
+
+<!-- 20180425
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+-->
+
+<!-- 20180425
+
+  <span class="post-meta-divider">|</span>
+
+-->
+
+<!-- 20180425
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Gemini</a> v5.1.4</div>
+
+-->
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+  <!--页面点击小红心 -->
+  <script type="text/javascript" src="/js/src/love.js"></script>>
+    <!--背景动画 -->
+  <script type="text/javascript" src="/js/src/background.js"></script>>
+</body>
+</html>
