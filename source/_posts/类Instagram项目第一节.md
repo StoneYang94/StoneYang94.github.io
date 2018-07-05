@@ -1,5 +1,5 @@
 ---
-title: 项目第一课
+title: 类Instagram项目第一节
 date: 2018-06-22 00:24:38
 tags:
 - python
@@ -9,6 +9,7 @@ categories: 项目
 用python语言开发类似instagram网站的项目，写博客以整理思路形成系统的认知，加深印象和方便日后复习。
 如发现问题，欢迎随时留言讨论。
 本文主要介绍项目需要用到的python基础入门例子和一个小爬虫，python的系统理论知识不是本文重点。
+
 <!-- more -->
 
 
