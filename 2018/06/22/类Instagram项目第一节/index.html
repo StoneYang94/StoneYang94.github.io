@@ -1,0 +1,1158 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next gemini use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+<!-- 20180426-->
+<script src="//cdn.bootcss.com/pace/1.0.2/pace.min.js"></script>
+<link href="//cdn.bootcss.com/pace/1.0.2/themes/pink/pace-theme-flash.css" rel="stylesheet">
+<style>
+    .pace .pace-progress {
+        background: #1E92FB; /*进度条颜色*/
+        height: 3px;
+    }
+    .pace .pace-progress-inner {
+         box-shadow: 0 0 10px #1E92FB, 0 0 5px     #1E92FB; /*阴影颜色*/
+    }
+    .pace .pace-activity {
+        border-top-color: #1E92FB;    /*上边框颜色*/
+        border-left-color: #1E92FB;    /*左边框颜色*/
+    }
+</style>
+
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon.ico?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="python,项目," />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="用python语言开发类似instagram网站的项目，写博客以整理思路形成系统的认知，加深印象和方便日后复习。如发现问题，欢迎随时留言讨论。本文主要介绍项目需要用到的python基础入门例子和一个小爬虫，python的系统理论知识不是本文重点。">
+<meta name="keywords" content="python,项目">
+<meta property="og:type" content="article">
+<meta property="og:title" content="类Instagram项目第一节">
+<meta property="og:url" content="http://yoursite.com/2018/06/22/类Instagram项目第一节/index.html">
+<meta property="og:site_name" content="Xudong&#39;s blogs">
+<meta property="og:description" content="用python语言开发类似instagram网站的项目，写博客以整理思路形成系统的认知，加深印象和方便日后复习。如发现问题，欢迎随时留言讨论。本文主要介绍项目需要用到的python基础入门例子和一个小爬虫，python的系统理论知识不是本文重点。">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/11861611-74444fa02417ebb6.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:updated_time" content="2018-07-05T13:49:17.607Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="类Instagram项目第一节">
+<meta name="twitter:description" content="用python语言开发类似instagram网站的项目，写博客以整理思路形成系统的认知，加深印象和方便日后复习。如发现问题，欢迎随时留言讨论。本文主要介绍项目需要用到的python基础入门例子和一个小爬虫，python的系统理论知识不是本文重点。">
+<meta name="twitter:image" content="http://upload-images.jianshu.io/upload_images/11861611-74444fa02417ebb6.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2018/06/22/类Instagram项目第一节/"/>
+
+
+
+
+
+  <title>类Instagram项目第一节 | Xudong's blogs</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Xudong's blogs</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">email:2228998096@qq.com    wechat:yxd19940114</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/06/22/类Instagram项目第一节/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="杨旭东">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Xudong's blogs">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">类Instagram项目第一节</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-06-22T00:24:38+08:00">
+                2018-06-22
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/项目/" itemprop="url" rel="index">
+                    <span itemprop="name">项目</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>用python语言开发类似instagram网站的项目，写博客以整理思路形成系统的认知，加深印象和方便日后复习。<br>如发现问题，欢迎随时留言讨论。<br>本文主要介绍项目需要用到的python基础入门例子和一个小爬虫，python的系统理论知识不是本文重点。</p>
+<a id="more"></a>
+<h1 id="基础知识"><a href="#基础知识" class="headerlink" title="基础知识"></a>基础知识</h1><h2 id="代码托管平台"><a href="#代码托管平台" class="headerlink" title="代码托管平台"></a>代码托管平台</h2><ul>
+<li>GitHub</li>
+<li>GitLab</li>
+<li>BitBucket</li>
+</ul>
+<h2 id="python手册"><a href="#python手册" class="headerlink" title="python手册"></a>python手册</h2><ul>
+<li>由于类库的关系，选择python2.7</li>
+<li>在安装python的目录中可以找到。（…\Python27\Doc\python2713.chm）</li>
+</ul>
+<h2 id="pycharm中的一些快捷键"><a href="#pycharm中的一些快捷键" class="headerlink" title="pycharm中的一些快捷键"></a>pycharm中的一些快捷键</h2><ol>
+<li>Ctrl + /               行注释/取消行注释</li>
+<li>Ctrl + Alt + L     代码格式化</li>
+<li>Tab + Tab         缩进当前行    /  Shift +  Tab 不缩进当前行</li>
+</ol>
+<h2 id="内置函数"><a href="#内置函数" class="headerlink" title="内置函数"></a>内置函数</h2><table>
+<thead>
+<tr>
+<th>方法</th>
+<th>作用</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>max()</td>
+<td>最大值</td>
+</tr>
+<tr>
+<td>min()</td>
+<td>最小值</td>
+</tr>
+<tr>
+<td>len()</td>
+<td>序列长度</td>
+</tr>
+<tr>
+<td>abs()</td>
+<td>绝对值</td>
+</tr>
+<tr>
+<td>range()</td>
+<td>整数列表</td>
+</tr>
+<tr>
+<td>dir()</td>
+<td>属性、方法列表</td>
+</tr>
+<tr>
+<td>eval()</td>
+<td><strong>执行</strong>一个字符串表达式，并返回表达式的值</td>
+</tr>
+<tr>
+<td>chr()</td>
+<td>ASCII -&gt; 字符</td>
+</tr>
+<tr>
+<td>ord()</td>
+<td>字符 -&gt; ASCII</td>
+</tr>
+<tr>
+<td>divmod()</td>
+<td>包含、<strong>商和余数</strong>的元组</td>
+</tr>
+</tbody>
+</table>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">x = <span class="number">2</span>  </span><br><span class="line">y = <span class="number">3.3</span>  </span><br><span class="line"><span class="keyword">print</span> <span class="number">1</span>,x, y, type(x), type(y)       <span class="comment"># 内置函数type()查看变量类型  </span></span><br><span class="line"><span class="keyword">print</span> <span class="number">2</span>, max(<span class="number">2</span>, <span class="number">1</span>), min(<span class="number">5</span>, <span class="number">3</span>)        <span class="comment"># 最值  </span></span><br><span class="line"><span class="keyword">print</span> <span class="number">3</span>, len(<span class="string">'xxx'</span>), len([<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>])  <span class="comment"># 字符串，数组长度  </span></span><br><span class="line"><span class="keyword">print</span> <span class="number">4</span>, abs(<span class="number">-2</span>)                     <span class="comment"># （c）fabs,（java）Math.fabs  # 绝对值  </span></span><br><span class="line"><span class="keyword">print</span> <span class="number">5</span>, range(<span class="number">1</span>, <span class="number">10</span>, <span class="number">3</span>)             <span class="comment"># 1到10， 步长3  输出[1, 4, 7]  </span></span><br><span class="line"><span class="keyword">print</span> <span class="number">6</span>, dir(list)                   <span class="comment"># 把list类型下的函数名打印出来  </span></span><br><span class="line"><span class="keyword">print</span> <span class="number">7</span>, chr(<span class="number">97</span>), ord(<span class="string">'a'</span>)           <span class="comment"># ASCII码97对应字符，字符a对应ASCII码，输出a 97  </span></span><br><span class="line"><span class="keyword">print</span> <span class="number">8</span>, divmod(<span class="number">11</span>, <span class="number">3</span>)               <span class="comment"># 求余，得3余2，输出(3, 2)</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">x = <span class="number">2</span>  </span><br><span class="line"><span class="keyword">print</span> eval(<span class="string">'x + 3'</span>)                     <span class="comment"># 字符串"x+3",输出5  </span></span><br><span class="line"><span class="keyword">print</span> repr(x == <span class="number">1</span>), type(repr(x == <span class="number">1</span>))  <span class="comment"># 输出字符串"False"  </span></span><br><span class="line"><span class="keyword">print</span> repr(x + <span class="number">1</span>), type(repr(x + <span class="number">1</span>))    <span class="comment"># 输出字符串3  </span></span><br><span class="line">  </span><br><span class="line">str_a = <span class="string">"[1,2,3,4]"</span>  </span><br><span class="line"><span class="keyword">print</span> type(str_a)                       <span class="comment"># 字符串str_a  </span></span><br><span class="line"><span class="keyword">print</span> eval(str_a), type(eval(str_a))    <span class="comment"># 转化成list，输出[1, 2, 3, 4] &lt;type 'list'&gt;</span></span><br></pre></td></tr></table></figure>
+<h2 id="控制流"><a href="#控制流" class="headerlink" title="控制流"></a>控制流</h2><ul>
+<li>if</li>
+<li>while</li>
+<li>for</li>
+<li>continue</li>
+<li>break</li>
+<li>pass 空语句，不做任何事情</li>
+</ul>
+<p>例子：<br>0，1，2，3，4，6，7，8，9（跳过5）:</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">0</span>, <span class="number">10</span>):  </span><br><span class="line">    <span class="keyword">if</span> i == <span class="number">5</span>:  </span><br><span class="line">        <span class="keyword">pass</span>  <span class="comment"># 先不做任何处理，直接跳过，但是如果不写pass，就会语法错误  </span></span><br><span class="line">    <span class="keyword">else</span>:  </span><br><span class="line">        <span class="keyword">print</span> i</span><br></pre></td></tr></table></figure>
+<h2 id="字符串"><a href="#字符串" class="headerlink" title="字符串"></a>字符串</h2><table>
+<thead>
+<tr>
+<th>方法</th>
+<th>作用</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>capitalize()</td>
+<td>将字符串第一个字母变成大写，其它字母变成小写</td>
+</tr>
+<tr>
+<td>replace()</td>
+<td>把字符串中的旧字符串替换为新字符串</td>
+</tr>
+<tr>
+<td>lstrip()</td>
+<td>截掉字符串左边的空格或指定字符</td>
+</tr>
+<tr>
+<td>startswith()</td>
+<td>字符串是否以指定子字符串开头</td>
+</tr>
+<tr>
+<td>endswith()</td>
+<td>字符串是否以指定字符串结尾</td>
+</tr>
+<tr>
+<td>len()</td>
+<td>字符串长度</td>
+</tr>
+<tr>
+<td>join()</td>
+<td>以指定字符连接序列元素以形成新的字符串（list→string）</td>
+</tr>
+<tr>
+<td>split()</td>
+<td>以指定字符分割字符串（string→list）</td>
+</tr>
+<tr>
+<td>find()</td>
+<td>字符串是否包含子字符串</td>
+</tr>
+</tbody>
+</table>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">stra = <span class="string">'aaa'</span>    </span><br><span class="line">strb = <span class="string">'bbbb'</span>    </span><br><span class="line">strc = <span class="string">'hello world'</span>    </span><br><span class="line"><span class="keyword">print</span> <span class="number">3</span>, strc.startswith(<span class="string">'hel'</span>)     <span class="comment"># 判断字符串是不是以hel开头，输出True    </span></span><br><span class="line"><span class="keyword">print</span> <span class="number">4</span>, strc.endswith(<span class="string">'x'</span>)   <span class="comment"># 判断字符串是不是以x结尾，输出False    </span></span><br><span class="line"><span class="keyword">print</span> <span class="number">5</span>, stra + strb + strc   <span class="comment"># 字符串拼接，输出aaabbbbhello world    </span></span><br><span class="line"><span class="keyword">print</span> <span class="number">6</span>, len(strc)            <span class="comment"># 字符串长度，输出11    </span></span><br><span class="line"><span class="keyword">print</span> <span class="number">7</span>, <span class="string">'-'</span>.join([<span class="string">'a'</span>, <span class="string">'b'</span>, <span class="string">'c'</span>])  <span class="comment"># 把字符串之间以-连接，输出a-b-c    </span></span><br><span class="line"><span class="keyword">print</span> <span class="number">8</span>, strc.split(<span class="string">' '</span>)      <span class="comment"># 把字符串通过某字符分开为list，输出['hello', 'world']    </span></span><br><span class="line"><span class="keyword">print</span> <span class="number">9</span>, strc.find(<span class="string">'hello'</span>)   <span class="comment"># 查找指定字符串位置，输出0（字符串‘hello’从位置0开始）    </span></span><br><span class="line"><span class="keyword">print</span> <span class="number">10</span>, strc.find(<span class="string">'ello'</span>)    <span class="comment"># 输出1（字符串‘ello’从位置1开始）</span></span><br></pre></td></tr></table></figure>
+<h2 id="数据结构"><a href="#数据结构" class="headerlink" title="数据结构"></a>数据结构</h2><h3 id="列表–list"><a href="#列表–list" class="headerlink" title="列表–list[ ]"></a>列表–list[ ]</h3><table>
+<thead>
+<tr>
+<th>方法</th>
+<th>作用</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>extend()</td>
+<td>连接两个列表</td>
+</tr>
+<tr>
+<td>in</td>
+<td>某个元素是否在列表中</td>
+</tr>
+<tr>
+<td>+, *</td>
+<td>操作符重载</td>
+</tr>
+<tr>
+<td>insert()</td>
+<td>在指定位置插入元素</td>
+</tr>
+<tr>
+<td>pop()</td>
+<td>弹出指定位置元素，默认弹出最后元素</td>
+</tr>
+<tr>
+<td>reverse()</td>
+<td>反转列表</td>
+</tr>
+<tr>
+<td>sort()</td>
+<td>排序</td>
+</tr>
+</tbody>
+</table>
+<p>代码演示：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br></pre></td><td class="code"><pre><span class="line">lista = [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>]  </span><br><span class="line"><span class="keyword">print</span> lista  <span class="comment"># 输出：[1, 2, 3]</span></span><br><span class="line"></span><br><span class="line">listb = [<span class="string">'a'</span>, <span class="number">1</span>, <span class="string">'c'</span>, <span class="number">1.1</span>]   <span class="comment"># 列表中的元素可以是【不同类型】的  </span></span><br><span class="line"><span class="keyword">print</span> listb   <span class="comment"># 输出：['a', 1, 'c', 1.1]</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 列表b【连接】到列表a 后面   </span></span><br><span class="line">lista.extend(listb)</span><br><span class="line"><span class="keyword">print</span> lista   <span class="comment">#输出：[1, 2, 3, 'a', 1, 'c', 1.1]  </span></span><br><span class="line"></span><br><span class="line"><span class="comment"># （操作符重载）【添加】列表b的内容到列表a的后面  </span></span><br><span class="line">lista = lista + listb             </span><br><span class="line"><span class="keyword">print</span> lista <span class="comment"># 输出： [1, 2, 3, 'a', 1, 'c', 1.1, 'a', 1, 'c', 1.1]  </span></span><br><span class="line">  </span><br><span class="line"> <span class="comment"># 列表【长度】（元素个数）</span></span><br><span class="line"><span class="keyword">print</span>  len(lista) <span class="comment">#输出：11  </span></span><br><span class="line"></span><br><span class="line"> <span class="comment"># 元素‘a’【是否在】listb中</span></span><br><span class="line"><span class="keyword">print</span>  <span class="string">'a'</span> <span class="keyword">in</span> listb     <span class="comment">#输出：True  </span></span><br><span class="line">  </span><br><span class="line"><span class="comment"># 在listb的位置0之前【添加】一个元素‘www’</span></span><br><span class="line">listb.insert(<span class="number">0</span>, <span class="string">'www'</span>)       </span><br><span class="line"><span class="keyword">print</span> listb   <span class="comment"># 输出：['www', 'a', 1, 'c', 1.1]</span></span><br><span class="line">  </span><br><span class="line"><span class="comment"># 【弹出】listb位置1的元素（"a"）</span></span><br><span class="line">listb.pop(<span class="number">1</span>)    </span><br><span class="line"><span class="keyword">print</span> listb    <span class="comment"># 输出：['www', 1, 'c', 1.1]</span></span><br><span class="line"></span><br><span class="line"> <span class="comment"># 【逆序】</span></span><br><span class="line">listb.reverse()  </span><br><span class="line"><span class="keyword">print</span> listb   <span class="comment"># 输出：[1.1, 'c', 1, 'www']  </span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 【排序】  </span></span><br><span class="line">listb.sort()         </span><br><span class="line"><span class="keyword">print</span> listb  <span class="comment"># 输出： [1, 1.1, 'c', 'www']  </span></span><br><span class="line"> </span><br><span class="line"> <span class="comment"># 数组【索引访问】元素</span></span><br><span class="line"><span class="keyword">print</span> listb[<span class="number">0</span>], listb[<span class="number">1</span>] </span><br><span class="line"> <span class="comment"># 输出：1.1 c </span></span><br><span class="line">   </span><br><span class="line"><span class="keyword">print</span> listb * <span class="number">2</span>   <span class="comment"># 输出： ['www', 'c', 1.1, 1, 'www', 'c', 1.1, 1]  </span></span><br><span class="line"></span><br><span class="line"><span class="keyword">print</span> [<span class="number">0</span>] * <span class="number">5</span>  <span class="comment"># 输出：[0, 0, 0, 0, 0]</span></span><br></pre></td></tr></table></figure>
+<h3 id="元组–tuple"><a href="#元组–tuple" class="headerlink" title="元组–tuple( )"></a>元组–tuple( )</h3><p>元组和列表最大的区别在于：元组不能修改。</p>
+<h4 id="创建元组"><a href="#创建元组" class="headerlink" title="创建元组"></a>创建元组</h4><p>创建元组很简单，只需要将元素用括号(可选)括起来，并使用逗号分隔符(即使只有一个元素)来分隔各个元素即可：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># -- coding: utf-8 --</span></span><br><span class="line">fruits = (<span class="string">'apple'</span>,<span class="string">'orange'</span>,<span class="string">'banana'</span>)</span><br><span class="line">none_tuple = ()</span><br><span class="line">fruits_1 =(<span class="string">'apple'</span>,)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 输出：&lt;type 'tuple'&gt;</span></span><br><span class="line"><span class="keyword">print</span> type(fruits)</span><br><span class="line"><span class="keyword">print</span> type(none_tuple)</span><br><span class="line"><span class="keyword">print</span> type(fruits_1)</span><br></pre></td></tr></table></figure>
+<h4 id="使用tuple函数"><a href="#使用tuple函数" class="headerlink" title="使用tuple函数"></a>使用tuple函数</h4><p>通过tuple函数可以将一个序列转换为元组。如下：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># -- coding: utf-8 --</span></span><br><span class="line">temp_tuple = tuple([<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>])</span><br><span class="line"></span><br><span class="line"><span class="comment"># 输出：(1, 2, 3)</span></span><br><span class="line"><span class="keyword">print</span> temp_tuple</span><br><span class="line"><span class="comment"># 输出：('a', 'b', 'c')</span></span><br><span class="line"><span class="keyword">print</span> tuple(<span class="string">'abc'</span>)</span><br></pre></td></tr></table></figure>
+<h4 id="哪些地方需要使用元组"><a href="#哪些地方需要使用元组" class="headerlink" title="哪些地方需要使用元组"></a>哪些地方需要使用元组</h4><ul>
+<li>元组可以在映射(和集合的成员)中作为键(key)使用，而列表不行</li>
+<li>元组作为很多内建函数和方法的返回值存在</li>
+</ul>
+<h3 id="字典–dict-k1-v1-k2-v2"><a href="#字典–dict-k1-v1-k2-v2" class="headerlink" title="字典–dict {k1:v1, k2:v2}"></a>字典–dict {k1:v1, k2:v2}</h3><p>字典中的值没有特定顺序，每个值都对应于一个唯一的键。键可以是数字、字符串甚至是元组。即哈希结构(key: value)。</p>
+<table>
+<thead>
+<tr>
+<th>方法</th>
+<th>作用</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>get()</td>
+<td>返回指定键的值，如果键不存在则返回默认值None</td>
+</tr>
+<tr>
+<td>keys()</td>
+<td>以列表返回一个字典所有的键</td>
+</tr>
+<tr>
+<td>values()</td>
+<td>以列表返回一个字典所有的值</td>
+</tr>
+<tr>
+<td>has_key()</td>
+<td>字典是否包含某个键</td>
+</tr>
+<tr>
+<td>items()</td>
+<td>遍历一个字典</td>
+</tr>
+<tr>
+<td>pop()</td>
+<td>删除给定键所对应的值，返回值为被删除的值</td>
+</tr>
+<tr>
+<td>del()</td>
+<td>删除元素</td>
+</tr>
+</tbody>
+</table>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line">dicta = &#123;<span class="number">4</span>: <span class="number">16</span>, <span class="number">1</span>: <span class="number">1</span>, <span class="number">3</span>: <span class="number">9</span>, <span class="number">2</span>: <span class="number">4</span>&#125; </span><br><span class="line"><span class="keyword">print</span> dicta   <span class="comment"># 输出：&#123;1: 1, 2: 4, 3: 9, 4: 16&#125;</span></span><br><span class="line"></span><br><span class="line"> <span class="comment"># dicta[2]表示key为2对应的value</span></span><br><span class="line"><span class="keyword">print</span> dicta[<span class="number">2</span>]   <span class="comment"># 输出：4  </span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 通过get()【访问】value</span></span><br><span class="line"><span class="keyword">print</span> dicta.get(<span class="number">2</span>)   <span class="comment"># 输出：4</span></span><br><span class="line">  </span><br><span class="line"><span class="comment"># 【增加】新的键值对  </span></span><br><span class="line">dicta[<span class="string">'a'</span>] = <span class="string">'x'</span>      </span><br><span class="line"><span class="keyword">print</span> dicta  <span class="comment"># 输出：&#123;'a': 'x', 1: 1, 2: 4, 3: 9, 4: 16&#125;</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 以列表形式【输出】字典的所有</span></span><br><span class="line"><span class="keyword">print</span> dicta.keys(), dicta.values() <span class="comment"># 输出：['a', 1, 2, 3, 4] ['x', 1, 4, 9, 16]</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 判断【查找】是否存在指定key（没有has_value）</span></span><br><span class="line"><span class="keyword">print</span> <span class="number">6</span>, dicta.has_key(<span class="number">1</span>), dicta.has_key(<span class="string">'3'</span>)    <span class="comment"># 输出：True False</span></span><br><span class="line">  </span><br><span class="line"><span class="comment"># 【遍历】key value（自动按key的排序输出）  </span></span><br><span class="line"><span class="keyword">for</span> k, v <span class="keyword">in</span> dicta.items():  </span><br><span class="line">    <span class="keyword">print</span> <span class="string">'key-value:'</span>, k, v  </span><br><span class="line"><span class="comment"># 输出：     key-value: a x</span></span><br><span class="line"><span class="comment">#           key-value: 1 1</span></span><br><span class="line"><span class="comment">#           key-value: 2 4</span></span><br><span class="line"><span class="comment">#           key-value: 3 9</span></span><br><span class="line"><span class="comment">#           key-value: 4 16</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 【删除】key为4的键值对    </span></span><br><span class="line">dicta.pop(<span class="number">4</span>)             </span><br><span class="line"><span class="keyword">print</span> dicta  <span class="comment"># 输出： &#123;'a': 'x', 1: 1, 2: 4, 3: 9&#125;</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 【删除】key为3的键值对  </span></span><br><span class="line"><span class="keyword">del</span> dicta[<span class="number">3</span>]         </span><br><span class="line"><span class="keyword">print</span> dicta <span class="comment"># 输出： &#123;'a': 'x', 1: 1, 2: 4&#125;</span></span><br></pre></td></tr></table></figure>
+<h3 id="集合–set"><a href="#集合–set" class="headerlink" title="集合–set([ ])"></a>集合–set([ ])</h3><ul>
+<li>set是一个无序不重复元素集</li>
+<li>作为一个无序的集合，sets不记录元素位置或者插入点。因此，sets不支持 indexing, slicing, 或其它类序列（sequence-like）的操作</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th>符号</th>
+<th>作用</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>&amp;</td>
+<td>交集</td>
+</tr>
+<tr>
+<td>intersection</td>
+<td>交集</td>
+</tr>
+<tr>
+<td>\</td>
+<td></td>
+<td>并集</td>
+</tr>
+<tr>
+<td>union</td>
+<td>并集</td>
+</tr>
+<tr>
+<td>-</td>
+<td>差集</td>
+</tr>
+</tbody>
+</table>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line">lista = [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>]  </span><br><span class="line">seta = set(lista)  </span><br><span class="line">setb = set((<span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>))  </span><br><span class="line">setc = &#123;<span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>&#125;  </span><br><span class="line">  </span><br><span class="line"><span class="keyword">print</span> seta,type(seta)  <span class="comment"># 输出：set([1, 2, 3]) &lt;type 'set'&gt;</span></span><br><span class="line"><span class="keyword">print</span> setb,type(setb)  <span class="comment"># 输出：set([2, 3, 4]) &lt;type 'set'&gt;</span></span><br><span class="line"><span class="keyword">print</span> setc,type(setc)  <span class="comment"># 输出：set([3, 4, 5]) &lt;type 'set'&gt;</span></span><br><span class="line">  </span><br><span class="line"><span class="comment"># 交集 </span></span><br><span class="line"><span class="keyword">print</span> seta &amp; setb,seta.intersection(setb) <span class="comment"># 输出：set([2, 3]) set([2, 3])</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 并集</span></span><br><span class="line"><span class="keyword">print</span> seta | setb, seta.union(setb)  <span class="comment"># 输出：set([1, 2, 3, 4]) set([1, 2, 3, 4])</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 差</span></span><br><span class="line"><span class="keyword">print</span> seta - setb    <span class="comment"># 输出：set([1])</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 差</span></span><br><span class="line"><span class="keyword">print</span> setb - seta    <span class="comment"># 输出：set([4])</span></span><br><span class="line">  </span><br><span class="line"><span class="comment"># 增加元素 </span></span><br><span class="line">seta.add(<span class="string">'x'</span>)          </span><br><span class="line"><span class="keyword">print</span> seta  <span class="comment"># 输出： set([1, 2, 3, 'x'])</span></span><br><span class="line">  </span><br><span class="line"><span class="keyword">print</span> len(seta)  <span class="comment"># 输出：4</span></span><br></pre></td></tr></table></figure>
+<h2 id="异常"><a href="#异常" class="headerlink" title="异常"></a>异常</h2><p>Python用异常对象(exception object)表示异常情况，遇到错误后，会引发异常。如果异常对象并未被处理或捕捉，程序就会用所谓的回溯(Traceback,一种错误信息)终止执行。</p>
+<ul>
+<li>try</li>
+<li>except</li>
+<li>finally</li>
+</ul>
+<h3 id="捕捉异常"><a href="#捕捉异常" class="headerlink" title="捕捉异常"></a>捕捉异常</h3><p>触发异常后，后面的代码就不会再执行</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">try</span>:</span><br><span class="line">    <span class="keyword">print</span> <span class="number">1</span></span><br><span class="line">    <span class="keyword">print</span> <span class="number">2</span> / <span class="number">0</span>          <span class="comment"># 触发异常后，后面的代码就不会再执行</span></span><br><span class="line">    <span class="keyword">print</span> <span class="number">3</span>              </span><br><span class="line"><span class="keyword">except</span> Exception <span class="keyword">as</span> e:   <span class="comment"># 捕获异常，把这些异常信息print出来</span></span><br><span class="line">    <span class="keyword">print</span> <span class="string">'error:'</span>, e</span><br><span class="line"><span class="keyword">finally</span>:                 <span class="comment"># 不论是否发生异常，都会执行Finally语句后的代码</span></span><br><span class="line">    <span class="keyword">print</span> <span class="string">'clean up'</span></span><br></pre></td></tr></table></figure>
+<ul>
+<li>输出</li>
+</ul>
+<p>1<br>error: integer division or modulo by zero<br>clean up </p>
+<h3 id="raise"><a href="#raise" class="headerlink" title="raise"></a>raise</h3><p>Python中的raise 关键字用于引发一个异常，基本上和Java中的throw关键字相同</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">try</span>:  </span><br><span class="line">    size = <span class="string">'L'</span>  </span><br><span class="line">    <span class="keyword">if</span> size == <span class="string">'L'</span>:  </span><br><span class="line">        <span class="keyword">raise</span> Exception(<span class="string">'Raise Error'</span>, <span class="string">'NowCoder'</span>)  <span class="comment"># 可以使用raise语句自己触发异常  </span></span><br><span class="line"><span class="keyword">except</span> Exception <span class="keyword">as</span> e:  </span><br><span class="line">    <span class="keyword">print</span> <span class="string">'error:'</span>, e  </span><br><span class="line"><span class="keyword">finally</span>:    </span><br><span class="line">    <span class="keyword">print</span> <span class="string">'clean up'</span></span><br></pre></td></tr></table></figure>
+<ul>
+<li>输出</li>
+</ul>
+<p>error: (‘Raise Error’, ‘NowCoder’)<br>clean up</p>
+<h3 id="捕捉多个异常"><a href="#捕捉多个异常" class="headerlink" title="捕捉多个异常"></a>捕捉多个异常</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">try</span>:  </span><br><span class="line">    <span class="keyword">print</span> <span class="number">2</span>/<span class="number">0</span>  </span><br><span class="line"><span class="keyword">except</span> ZeroDivisionError:  </span><br><span class="line">    <span class="keyword">print</span> <span class="string">'除数不能为0'</span>  </span><br><span class="line"><span class="keyword">except</span> Exception:  </span><br><span class="line">    <span class="keyword">print</span> <span class="string">'其他类型异常'</span></span><br></pre></td></tr></table></figure>
+<ul>
+<li>输出</li>
+</ul>
+<p>除数不能为0</p>
+<h2 id="随机数"><a href="#随机数" class="headerlink" title="随机数"></a>随机数</h2><ul>
+<li>计算机的随机数都是伪随机</li>
+<li>所谓“随机码”，就是无论这个码有多长都不会出现循环的现象，而“伪随机码”在码长达到一定程度时会从其第一位开始循环</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th>方法</th>
+<th>作用</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>seed()</td>
+<td>改变随机数生成器的种子，可以在调用其他随机模块函数之前调用此函数</td>
+</tr>
+<tr>
+<td>random()</td>
+<td>返回[0,1)之间的浮点数。不能直接访问的，需要通过 random 静态对象调用该方法</td>
+</tr>
+<tr>
+<td>randint(M,N)</td>
+<td>返回[M,N]的整数</td>
+</tr>
+<tr>
+<td>choice()</td>
+<td>返回一个列表，元组或字符串的随机项   </td>
+</tr>
+<tr>
+<td>range()</td>
+<td>创建一个整数列表。range(10)不包含10。</td>
+</tr>
+<tr>
+<td>shuffle()</td>
+<td>将序列的所有元素随机排序</td>
+</tr>
+</tbody>
+</table>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> random  </span><br><span class="line">  </span><br><span class="line">random.seed(<span class="number">2</span>)      <span class="comment"># 指定seed之后，每次随机出来的值被固定  </span></span><br><span class="line">  </span><br><span class="line"> <span class="comment"># 返回[0,1)之间的浮点数  </span></span><br><span class="line"><span class="keyword">print</span> random.random()       <span class="comment"># 输出：0.956034271889</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># [0,100)的浮点数  </span></span><br><span class="line"><span class="keyword">print</span> random.random() * <span class="number">100</span>         <span class="comment"># 输出： 94.7827487059</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># [0,100)的整数</span></span><br><span class="line"><span class="keyword">print</span>  int(random.random() * <span class="number">100</span>)      <span class="comment"># 输出：  5</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># [0,100]的整数,包含100</span></span><br><span class="line"><span class="keyword">print</span> random.randint(<span class="number">0</span>, <span class="number">100</span>)          <span class="comment"># 输出： 8</span></span><br><span class="line">  </span><br><span class="line"><span class="comment"># [0,100),步长为10，随机抽取1个数 </span></span><br><span class="line"><span class="keyword">print</span> random.choice(range(<span class="number">0</span>, <span class="number">100</span>, <span class="number">10</span>))    <span class="comment"># 输出： 80</span></span><br><span class="line">  </span><br><span class="line"><span class="comment"># 抽样[0,100)，随机抽取4个数   </span></span><br><span class="line"><span class="keyword">print</span> random.sample(range(<span class="number">0</span>, <span class="number">100</span>), <span class="number">4</span>)   <span class="comment"># 输出： [73, 66, 30, 60]</span></span><br><span class="line">  </span><br><span class="line"><span class="comment"># 随机打乱列表  </span></span><br><span class="line">a = [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>]  </span><br><span class="line">random.shuffle(a)            </span><br><span class="line"><span class="keyword">print</span> a    <span class="comment"># 输出：  [2, 5, 1, 3, 4]</span></span><br></pre></td></tr></table></figure>
+<h2 id="正则"><a href="#正则" class="headerlink" title="正则"></a>正则</h2><table>
+<thead>
+<tr>
+<th>符号</th>
+<th>匹配</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>\d</td>
+<td>数字 </td>
+</tr>
+<tr>
+<td>\D</td>
+<td>非数字 </td>
+</tr>
+<tr>
+<td>+</td>
+<td>至少匹配1次 </td>
+</tr>
+<tr>
+<td>*</td>
+<td>至少匹配0次</td>
+</tr>
+</tbody>
+</table>
+<table>
+<thead>
+<tr>
+<th>方法</th>
+<th>简介</th>
+<th>作用</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>re.compile()</td>
+<td>创建</td>
+<td>根据包含正则表达式的字符串创建模式对象</td>
+</tr>
+<tr>
+<td>模式.findall()</td>
+<td>匹配</td>
+<td>以列表的形式返回能匹配的子串</td>
+</tr>
+</tbody>
+</table>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line">str = <span class="string">'abc123def12gh15'</span>  </span><br><span class="line"><span class="comment"># 创建，正则表达式的模式——pattern  </span></span><br><span class="line">p1 = re.compile(<span class="string">'[\d]+'</span>)   <span class="comment"># 匹配1个或多个数字</span></span><br><span class="line">p2 = re.compile(<span class="string">'\d'</span>)      <span class="comment"># 匹配1个数字  </span></span><br><span class="line"><span class="comment"># 匹配，以列表的形式返回匹配的子串  </span></span><br><span class="line"><span class="keyword">print</span> p1.findall(str)     <span class="comment"># 输出：['123', '12', '15']</span></span><br><span class="line"><span class="keyword">print</span> p2.findall(str)     <span class="comment"># 输出：['1', '2', '3', '1', '2', '1', '5']</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment"># email的正则表达式    </span></span><br><span class="line">str = <span class="string">'a@163.com;b@gmail.com;c@qq.com;e0@163.com;z@qq.com'</span>  </span><br><span class="line">p3 = re.compile(<span class="string">'[\w]+@[163|qq]+\.com'</span>)                     </span><br><span class="line"><span class="keyword">print</span> p3.findall(str)   </span><br><span class="line"><span class="comment"># 输出： ['[a@163.com]', '[c@qq.com], '[e0@163.com', '[z@qq.com]']</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">str = <span class="string">'&lt;html&gt;&lt;h&gt;title&lt;/h&gt;&lt;body&gt;xxx&lt;/body&gt;&lt;/html&gt;'</span>  </span><br><span class="line">p4 = re.compile(<span class="string">'&lt;h&gt;[^&lt;]+&lt;/h&gt;'</span>)   </span><br><span class="line"><span class="keyword">print</span> p4.findall(str)      <span class="comment"># 输出：['&lt;h&gt;title&lt;/h&gt;']</span></span><br><span class="line"></span><br><span class="line">p4 = re.compile(<span class="string">'&lt;h&gt;([^&lt;]+)&lt;/h&gt;'</span>)        <span class="comment"># 加()匹配输出括号内的字符串</span></span><br><span class="line"><span class="keyword">print</span> p4.findall(str)          <span class="comment"># 输出：['title']</span></span><br><span class="line"></span><br><span class="line">p4 = re.compile(<span class="string">'&lt;h&gt;([^&lt;]+)&lt;/h&gt;&lt;body&gt;([^&lt;]+)&lt;/body&gt;'</span>)  <span class="comment"># 运用()提取多个  </span></span><br><span class="line"><span class="keyword">print</span> p4.findall(str)      <span class="comment"># 输出：[('title', 'xxx')]</span></span><br><span class="line">  </span><br><span class="line"></span><br><span class="line">str = <span class="string">'xx2016-06-11yy'</span>  </span><br><span class="line">p5 = re.compile(<span class="string">'\d\d\d\d-\d\d-\d\d'</span>)  </span><br><span class="line"><span class="keyword">print</span> p5.findall(str)   <span class="comment"># 输出：['2016-06-11']</span></span><br><span class="line"></span><br><span class="line">p5 = re.compile(<span class="string">'\d&#123;4&#125;-\d&#123;2&#125;-\d&#123;2&#125;'</span>)           <span class="comment"># 用&#123;&#125;表示次数  </span></span><br><span class="line"><span class="keyword">print</span> p5.findall(str)  <span class="comment"># 输出：['2016-06-11']</span></span><br></pre></td></tr></table></figure>
+<h1 id="实战"><a href="#实战" class="headerlink" title="实战"></a>实战</h1><h2 id="搭环境"><a href="#搭环境" class="headerlink" title="搭环境"></a>搭环境</h2><p>使用python版本是2.7，IDE是PyCharm，版本管理工具是git</p>
+<p>PyCharm需要进行简单的配置<br>    在File&gt;Settings&gt;Version Control&gt;GitHub里面进行设置项目地址，github账号<br>    在File&gt;Settings&gt;Version Control&gt;Git里面设置git.exe所在地址，一般在安装git路径的bin文件夹里面</p>
+<p>pip安装包的命令<code>pip install XXXX</code></p>
+<h2 id="简单抓取网页内容-c1-01-py"><a href="#简单抓取网页内容-c1-01-py" class="headerlink" title="简单抓取网页内容 c1_01.py"></a>简单抓取网页内容 c1_01.py</h2><h3 id="第一步"><a href="#第一步" class="headerlink" title="第一步"></a>第一步</h3><p>这里用到python的两个包，需要使用pip安装一下<br>    <code>pip install requests</code><br>    <code>pip install bs4</code><br>    <code>pip install BeautifulSoup</code></p>
+<p>也可以使用PyCharm安装，在File&gt;Settings&gt;Project:XXX&gt;Project Interpreter里面双击pip</p>
+<h3 id="第二步"><a href="#第二步" class="headerlink" title="第二步"></a>第二步</h3><p>然后直接在搜索框中输入包的名字</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">#-*- encoding=UTF-8 -*-</span><br><span class="line">import requests</span><br><span class="line">from bs4 import BeautifulSoup</span><br><span class="line"></span><br><span class="line">def qiushibaike():</span><br><span class="line">    #得到网页的内容</span><br><span class="line">    content = requests.get(&apos;http://www.qiushibaike.com&apos;).content</span><br><span class="line">    #解析</span><br><span class="line">    soup = BeautifulSoup(content,&apos;html.parser&apos;)</span><br><span class="line"></span><br><span class="line">    #查找在div里面class是content里面的内容</span><br><span class="line">    for div in soup.find_all(&apos;div&apos;, &#123;&apos;class&apos;:&apos;content&apos;&#125;):</span><br><span class="line">        print div.text.strip()</span><br><span class="line"></span><br><span class="line">if __name__ == &apos;__main__&apos;:</span><br><span class="line">    def qiushibaike()</span><br></pre></td></tr></table></figure>
+<p><img src="http://upload-images.jianshu.io/upload_images/11861611-74444fa02417ebb6.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="注意正文在content里"></p>
+<p>参考文章<br><a href="https://blog.csdn.net/mnlmj/article/details/75156639" target="_blank" rel="noopener">总结</a></p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/python/" rel="tag"><i class="fa fa-tag"></i> python</a>
+          
+            <a href="/tags/项目/" rel="tag"><i class="fa fa-tag"></i> 项目</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/06/21/装饰者模式/" rel="next" title="装饰者模式">
+                <i class="fa fa-chevron-left"></i> 装饰者模式
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/06/23/数据库理论（一）/" rel="prev" title="数据库理论（一）">
+                数据库理论（一） <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">杨旭东</p>
+              <p class="site-description motion-element" itemprop="description">种一棵树最好的时间是十年前，其次是现在</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">43</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">12</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">27</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/stoneyang94" target="_blank" title="GitHub">
+                      
+                        <i class="fa fa-fw fa-github"></i>GitHub</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="https://www.jianshu.com/u/f7b90f4a10ae" target="_blank" title="简书">
+                      
+                        <i class="fa fa-fw fa-book"></i>简书</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#基础知识"><span class="nav-number">1.</span> <span class="nav-text">基础知识</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#代码托管平台"><span class="nav-number">1.1.</span> <span class="nav-text">代码托管平台</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#python手册"><span class="nav-number">1.2.</span> <span class="nav-text">python手册</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#pycharm中的一些快捷键"><span class="nav-number">1.3.</span> <span class="nav-text">pycharm中的一些快捷键</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#内置函数"><span class="nav-number">1.4.</span> <span class="nav-text">内置函数</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#控制流"><span class="nav-number">1.5.</span> <span class="nav-text">控制流</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#字符串"><span class="nav-number">1.6.</span> <span class="nav-text">字符串</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#数据结构"><span class="nav-number">1.7.</span> <span class="nav-text">数据结构</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#列表–list"><span class="nav-number">1.7.1.</span> <span class="nav-text">列表–list[ ]</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#元组–tuple"><span class="nav-number">1.7.2.</span> <span class="nav-text">元组–tuple( )</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#创建元组"><span class="nav-number">1.7.2.1.</span> <span class="nav-text">创建元组</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#使用tuple函数"><span class="nav-number">1.7.2.2.</span> <span class="nav-text">使用tuple函数</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#哪些地方需要使用元组"><span class="nav-number">1.7.2.3.</span> <span class="nav-text">哪些地方需要使用元组</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#字典–dict-k1-v1-k2-v2"><span class="nav-number">1.7.3.</span> <span class="nav-text">字典–dict {k1:v1, k2:v2}</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#集合–set"><span class="nav-number">1.7.4.</span> <span class="nav-text">集合–set([ ])</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#异常"><span class="nav-number">1.8.</span> <span class="nav-text">异常</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#捕捉异常"><span class="nav-number">1.8.1.</span> <span class="nav-text">捕捉异常</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#raise"><span class="nav-number">1.8.2.</span> <span class="nav-text">raise</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#捕捉多个异常"><span class="nav-number">1.8.3.</span> <span class="nav-text">捕捉多个异常</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#随机数"><span class="nav-number">1.9.</span> <span class="nav-text">随机数</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#正则"><span class="nav-number">1.10.</span> <span class="nav-text">正则</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#实战"><span class="nav-number">2.</span> <span class="nav-text">实战</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#搭环境"><span class="nav-number">2.1.</span> <span class="nav-text">搭环境</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#简单抓取网页内容-c1-01-py"><span class="nav-number">2.2.</span> <span class="nav-text">简单抓取网页内容 c1_01.py</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#第一步"><span class="nav-number">2.2.1.</span> <span class="nav-text">第一步</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#第二步"><span class="nav-number">2.2.2.</span> <span class="nav-text">第二步</span></a></li></ol></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">杨旭东</span>
+
+  
+</div>
+
+<!-- 20180426 -->
+<div class="powered-by">
+<i class="fa fa-user-md"></i><span id="busuanzi_container_site_uv">
+  本站访客数:<span id="busuanzi_value_site_uv"></span>
+</span>
+</div>
+
+
+<!-- 20180425
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+-->
+
+<!-- 20180425
+
+  <span class="post-meta-divider">|</span>
+
+-->
+
+<!-- 20180425
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Gemini</a> v5.1.4</div>
+
+-->
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+  <!--页面点击小红心 -->
+  <script type="text/javascript" src="/js/src/love.js"></script>>
+    <!--背景动画 -->
+  <script type="text/javascript" src="/js/src/background.js"></script>>
+</body>
+</html>
