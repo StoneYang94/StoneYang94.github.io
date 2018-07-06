@@ -4,6 +4,7 @@ date: 2018-06-22 00:24:38
 tags:
 - python
 - 项目
+- Flask
 categories: 项目
 ---
 用python语言开发类似instagram网站的项目，写博客以整理思路形成系统的认知，加深印象和方便日后复习。
