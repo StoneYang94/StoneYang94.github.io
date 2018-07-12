@@ -1,0 +1,938 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next gemini use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+<!-- 20180426-->
+<script src="//cdn.bootcss.com/pace/1.0.2/pace.min.js"></script>
+<link href="//cdn.bootcss.com/pace/1.0.2/themes/pink/pace-theme-flash.css" rel="stylesheet">
+<style>
+    .pace .pace-progress {
+        background: #1E92FB; /*进度条颜色*/
+        height: 3px;
+    }
+    .pace .pace-progress-inner {
+         box-shadow: 0 0 10px #1E92FB, 0 0 5px     #1E92FB; /*阴影颜色*/
+    }
+    .pace .pace-activity {
+        border-top-color: #1E92FB;    /*上边框颜色*/
+        border-left-color: #1E92FB;    /*左边框颜色*/
+    }
+</style>
+
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon.ico?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="Java包装类," />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="Java为每种基本数据类型都提供了对应的包装器类型。Java语言是一个面向对象的语言，但是Java中的基本数据类型却是不面向对象的，这在实际使用时存在很多的不便，为了解决这个不足，在设计类时为每个基本数据类型设计了一个对应的类进行代表，这样八个和基本数据类型对应的类统称为包装类(Wrapper Class)：">
+<meta name="keywords" content="Java包装类">
+<meta property="og:type" content="article">
+<meta property="og:title" content="装箱拆箱">
+<meta property="og:url" content="http://yoursite.com/2018/07/12/装箱拆箱/index.html">
+<meta property="og:site_name" content="Xudong&#39;s blogs">
+<meta property="og:description" content="Java为每种基本数据类型都提供了对应的包装器类型。Java语言是一个面向对象的语言，但是Java中的基本数据类型却是不面向对象的，这在实际使用时存在很多的不便，为了解决这个不足，在设计类时为每个基本数据类型设计了一个对应的类进行代表，这样八个和基本数据类型对应的类统称为包装类(Wrapper Class)：">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2018-07-12T14:15:27.532Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="装箱拆箱">
+<meta name="twitter:description" content="Java为每种基本数据类型都提供了对应的包装器类型。Java语言是一个面向对象的语言，但是Java中的基本数据类型却是不面向对象的，这在实际使用时存在很多的不便，为了解决这个不足，在设计类时为每个基本数据类型设计了一个对应的类进行代表，这样八个和基本数据类型对应的类统称为包装类(Wrapper Class)：">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2018/07/12/装箱拆箱/"/>
+
+
+
+
+
+  <title>装箱拆箱 | Xudong's blogs</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Xudong's blogs</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">email:2228998096@qq.com    wechat:yxd19940114</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/07/12/装箱拆箱/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="杨旭东">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Xudong's blogs">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">装箱拆箱</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-07-12T22:13:50+08:00">
+                2018-07-12
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/编程语言/" itemprop="url" rel="index">
+                    <span itemprop="name">编程语言</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>Java为每种基本数据类型都提供了对应的包装器类型。<br>Java语言是一个面向对象的语言，但是Java中的基本数据类型却是不面向对象的，这在实际使用时存在很多的不便，为了解决这个不足，在设计类时为每个基本数据类型设计了一个对应的类进行代表，这样八个和基本数据类型对应的类统称为包装类(Wrapper Class)：</p>
+<a id="more"></a>
+<table>
+<thead>
+<tr>
+<th>基本数据类型</th>
+<th>包装器类型</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>int（4字节）</td>
+<td>Integer</td>
+</tr>
+<tr>
+<td>byte（1字节）</td>
+<td>Byte</td>
+</tr>
+<tr>
+<td>short（2字节）</td>
+<td>Short</td>
+</tr>
+<tr>
+<td>long（8字节）</td>
+<td>Long</td>
+</tr>
+<tr>
+<td>float（4字节）</td>
+<td>Float</td>
+</tr>
+<tr>
+<td>double（8字节）</td>
+<td>Double</td>
+</tr>
+<tr>
+<td>char（2字节）</td>
+<td>Character</td>
+</tr>
+<tr>
+<td>boolean（未定）</td>
+<td>Boolean</td>
+</tr>
+</tbody>
+</table>
+<h1 id="为什么自动装箱拆箱"><a href="#为什么自动装箱拆箱" class="headerlink" title="为什么自动装箱拆箱"></a>为什么自动装箱拆箱</h1><p>基本数据类型不是对象，也就是使用int、double、boolean等定义的变量、常量。</p>
+<p>基本数据类型<strong>没有可调用的方法</strong>。</p>
+<p><code>int t = 1;</code>     t.  后面没有方法</p>
+<p><code>Integer t =1；</code> t.  后面就有很多方法可调用</p>
+<h1 id="什么是自动装箱拆箱"><a href="#什么是自动装箱拆箱" class="headerlink" title="什么是自动装箱拆箱"></a>什么是自动装箱拆箱</h1><ul>
+<li>自动装箱： 自动将<strong>基本数据类型</strong>转换为<strong>包装器类型</strong></li>
+<li>自动拆箱： 自动将<strong>包装器类型</strong>转换为<strong>基本数据类型</strong></li>
+</ul>
+<h2 id="装箱"><a href="#装箱" class="headerlink" title="装箱"></a>装箱</h2><h3 id="Java-SE5之前"><a href="#Java-SE5之前" class="headerlink" title="Java SE5之前"></a>Java SE5之前</h3><p>一般我们要<strong>创建一个类的对象实例</strong>的时候，我们会这样：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"> Class a = <span class="keyword">new</span> Class(parameter);</span><br></pre></td></tr></table></figure>
+<p>在Java SE5之前，如果要生成一个数值为10的Integer对象，必须这样进行：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Integer i = <span class="keyword">new</span> Integer(<span class="number">10</span>);</span><br></pre></td></tr></table></figure>
+<h3 id="有了自动装箱拆箱"><a href="#有了自动装箱拆箱" class="headerlink" title="有了自动装箱拆箱"></a>有了自动装箱拆箱</h3><p>从Java SE5开始就提供了自动装箱的特性，如果要生成一个数值为10的Integer对象，只需要这样就可以了：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Integer i = <span class="number">10</span>;</span><br></pre></td></tr></table></figure>
+<p>注意：不是 <code>int i = 100;</code></p>
+<p>实际上，执行上面那句代码的时候，系统为我们执行了：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Integer i = Integer.valueOf(<span class="number">10</span>);</span><br></pre></td></tr></table></figure>
+<p>此即基本数据类型的<strong>自动装箱</strong>功能。</p>
+<h2 id="拆箱"><a href="#拆箱" class="headerlink" title="拆箱"></a>拆箱</h2><p>那什么是拆箱呢？顾名思义，跟装箱对应，就是自动将包装器类型转换为基本数据类型：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Integer i = <span class="number">10</span>;  <span class="comment">//装箱</span></span><br><span class="line"><span class="keyword">int</span> n = i;   <span class="comment">//拆箱</span></span><br></pre></td></tr></table></figure>
+<h2 id="底层怎么实现"><a href="#底层怎么实现" class="headerlink" title="底层怎么实现"></a>底层怎么实现</h2><p>Integer在装箱的时候自动调用的是Integer的<code>valueOf(int)</code>方法。而在拆箱的时候自动调用的是Integer的<code>intValue</code>方法。</p>
+<p>因此可以用一句话总结装箱和拆箱的实现过程：</p>
+<ul>
+<li>装箱过程是通过调用<strong>包装器的</strong><code>valueOf()</code>实现的</li>
+<li>拆箱过程是通过调用<strong>包装器的</strong> <code>xxxValue()</code>实现的。（xxx代表对应的基本数据类型）。</li>
+</ul>
+<h1 id="一些运用"><a href="#一些运用" class="headerlink" title="一些运用"></a>一些运用</h1><h2 id="Integer-valueOf-int-i"><a href="#Integer-valueOf-int-i" class="headerlink" title="Integer.valueOf(int i)"></a>Integer.valueOf(int i)</h2><p>“==”和“equal”的区别：</p>
+<table>
+<thead>
+<tr>
+<th>类型</th>
+<th>==</th>
+<th>equals</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>字符串变量</td>
+<td>对象在内存中的首地址</td>
+<td>字符串内容</td>
+</tr>
+<tr>
+<td>非字符串变量</td>
+<td>对象在内存中的首地址</td>
+<td>对象在内存中的首地址</td>
+</tr>
+<tr>
+<td>基本类型</td>
+<td>值</td>
+<td>不可用</td>
+</tr>
+<tr>
+<td>包装类</td>
+<td>地址</td>
+<td>内容</td>
+</tr>
+</tbody>
+</table>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Main</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        Integer i1 = <span class="number">100</span>;</span><br><span class="line">        Integer i2 = <span class="number">100</span>;</span><br><span class="line">        Integer i3 = <span class="number">200</span>;</span><br><span class="line">        Integer i4 = <span class="number">200</span>;        </span><br><span class="line">        System.out.println(i1==i2);<span class="comment">//true</span></span><br><span class="line">        System.out.println(i3==i4);<span class="comment">//false</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>结果：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">true</span><br><span class="line">false</span><br></pre></td></tr></table></figure>
+<p>输出结果表明 i1 和 i2 指向的是同一个对象，而 i3 和 i4 指向的是不同的对象。</p>
+<p>看源码，下面这段代码是Integer的<code>valueOf方法</code>的具体实现：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> Integer <span class="title">valueOf</span><span class="params">(<span class="keyword">int</span> i)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span>(i &gt;= -<span class="number">128</span> &amp;&amp; i &lt;= IntegerCache.high)</span><br><span class="line">            <span class="keyword">return</span> IntegerCache.cache[i + <span class="number">128</span>];</span><br><span class="line">        <span class="keyword">else</span></span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">new</span> Integer(i);</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+<p>可以看出，在通过valueOf方法创建Integer对象的时候</p>
+<ul>
+<li>如果数值在 <code>[-128,127]</code> 之间，便返回指向<code>IntegerCache.cache</code>中<strong>已经存在的对象的引用</strong></li>
+<li>否则创建一个新的Integer对象</li>
+</ul>
+<p>上面的代码中 i1 和 i2 的数值为100，因此会直接从cache中取已经存在的对象，所以 i1 和 i2 指向的是同一个对象，而 i3 和 i4 则是分别指向不同的对象。</p>
+<h2 id="与equals"><a href="#与equals" class="headerlink" title="==与equals()"></a>==与equals()</h2><ul>
+<li>当 <code>==</code>运算符的<ul>
+<li>两个操作数都是 包装器类型的引用，则是比较指向的是否是同一个<strong>对象</strong></li>
+<li>如果其中有一个操作数是表达式（即包含算术运算）则比较的是<strong>数值</strong>（即会触发<code>自动拆箱</code>的过程）</li>
+</ul>
+</li>
+<li>对于包装器类型，<code>equals()</code>并不会进行类型转换</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Main</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        Integer a = <span class="number">1</span>;</span><br><span class="line">        Integer b = <span class="number">2</span>;</span><br><span class="line">        Integer c = <span class="number">3</span>;</span><br><span class="line">        Integer d = <span class="number">3</span>;</span><br><span class="line">        Integer e = <span class="number">321</span>;</span><br><span class="line">        Integer f = <span class="number">321</span>;</span><br><span class="line">        Long g = <span class="number">3L</span>;</span><br><span class="line">        Long h = <span class="number">2L</span>;</span><br><span class="line">         </span><br><span class="line">        System.out.println(c==d);<span class="comment">//true</span></span><br><span class="line">        System.out.println(e==f);<span class="comment">//false</span></span><br><span class="line">        System.out.println(c==(a+b));<span class="comment">//true</span></span><br><span class="line">        System.out.println(c.equals(a+b));<span class="comment">//true</span></span><br><span class="line">        System.out.println(g==(a+b));<span class="comment">//true</span></span><br><span class="line">        System.out.println(g.equals(a+b));<span class="comment">//false</span></span><br><span class="line">        System.out.println(g.equals(a+h));<span class="comment">//true</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">true</span><br><span class="line">false</span><br><span class="line">true</span><br><span class="line">true</span><br><span class="line">true</span><br><span class="line">false</span><br><span class="line">true</span><br></pre></td></tr></table></figure>
+<ul>
+<li><p><code>c==d</code>和<code>e==f</code>分析见上一节</p>
+</li>
+<li><p>第三句由于 a+b 包含了算术运算，因此会触发自动拆箱过程（会调用intValue方法），因此它们比较的是数值是否相等。</p>
+</li>
+<li><p><code>c.equals(a+b)</code></p>
+</li>
+</ul>
+<ol>
+<li><code>a+b</code>触发拆箱，会先各自调用<code>intValue</code>方法</li>
+<li>得到了加法运算后的数值之后</li>
+<li>触发装箱过程，调用<code>Integer.valueOf</code>方法</li>
+<li>进行equals()比较</li>
+</ol>
+<ul>
+<li><code>g.equals(a+b)</code></li>
+</ul>
+<ol>
+<li><code>a+b</code>触发拆箱，会先各自调用<code>intValue</code>方法</li>
+<li>得到了加法运算后的数值，但类型还是int</li>
+<li>触发装箱过程</li>
+<li>进行equals()比较，Integer与Long 类型不同，false</li>
+</ol>
+<ul>
+<li><code>g.equals(a+h)</code></li>
+</ul>
+<ol>
+<li>先自动触发拆箱，就变成了int类型和long类型相加</li>
+<li>这个会触发类型晋升，结果是long类型的</li>
+<li>然后会触发装箱过程，就变成Long了</li>
+</ol>
+<p>总结：<br>算数运算触发自动拆箱<br>注意不同类型触发类型转换</p>
+<p>参考文章<br><a href="http://alexyyek.github.io/2014/12/29/wrapperClass/" target="_blank" rel="noopener"> JAVA基本类型和包装类</a><br> <a href="https://www.cnblogs.com/dolphin0520/p/3780005.html" target="_blank" rel="noopener">深入剖析Java中的装箱和拆箱</a></p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Java包装类/" rel="tag"><i class="fa fa-tag"></i> Java包装类</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/07/11/之字型打印矩阵/" rel="next" title="之字型打印矩阵">
+                <i class="fa fa-chevron-left"></i> 之字型打印矩阵
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">杨旭东</p>
+              <p class="site-description motion-element" itemprop="description">种一棵树最好的时间是十年前，其次是现在</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">49</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">15</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">33</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/stoneyang94" target="_blank" title="GitHub">
+                      
+                        <i class="fa fa-fw fa-github"></i>GitHub</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="https://www.jianshu.com/u/f7b90f4a10ae" target="_blank" title="简书">
+                      
+                        <i class="fa fa-fw fa-book"></i>简书</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#为什么自动装箱拆箱"><span class="nav-number">1.</span> <span class="nav-text">为什么自动装箱拆箱</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#什么是自动装箱拆箱"><span class="nav-number">2.</span> <span class="nav-text">什么是自动装箱拆箱</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#装箱"><span class="nav-number">2.1.</span> <span class="nav-text">装箱</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Java-SE5之前"><span class="nav-number">2.1.1.</span> <span class="nav-text">Java SE5之前</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#有了自动装箱拆箱"><span class="nav-number">2.1.2.</span> <span class="nav-text">有了自动装箱拆箱</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#拆箱"><span class="nav-number">2.2.</span> <span class="nav-text">拆箱</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#底层怎么实现"><span class="nav-number">2.3.</span> <span class="nav-text">底层怎么实现</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#一些运用"><span class="nav-number">3.</span> <span class="nav-text">一些运用</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Integer-valueOf-int-i"><span class="nav-number">3.1.</span> <span class="nav-text">Integer.valueOf(int i)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#与equals"><span class="nav-number">3.2.</span> <span class="nav-text">==与equals()</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">杨旭东</span>
+
+  
+</div>
+
+<!-- 20180426 -->
+<div class="powered-by">
+<i class="fa fa-user-md"></i><span id="busuanzi_container_site_uv">
+  本站访客数:<span id="busuanzi_value_site_uv"></span>
+</span>
+</div>
+
+
+<!-- 20180425
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+-->
+
+<!-- 20180425
+
+  <span class="post-meta-divider">|</span>
+
+-->
+
+<!-- 20180425
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Gemini</a> v5.1.4</div>
+
+-->
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+  <!--页面点击小红心 -->
+  <script type="text/javascript" src="/js/src/love.js"></script>>
+    <!--背景动画 -->
+  <script type="text/javascript" src="/js/src/background.js"></script>>
+</body>
+</html>
