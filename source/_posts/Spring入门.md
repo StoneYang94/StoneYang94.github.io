@@ -534,11 +534,8 @@ destory被调用
 myDestroy被调用
 
 
-
-
 ##  Aware接口
 有些时候我们需要在Bean的初始化中使用Spring框架自身的一些对象来执行一些操作，比如获取ServletContext的一些参数，获取ApplicaitionContext中的BeanDefinition的名字，获取Bean在容器中的名字等等。为了让Bean可以**获取到框架自身的一些对象**，Spring提供了一组名为`___Aware`的**接口**。
-
 
 
 这些接口均继承于org.springframework.beans.factory.Aware标记接口，并提供一个将由Bean实现的`set___()`方法,Spring通过基于setter的依赖注入方式使相应的对象可以被Bean使用。
@@ -691,7 +688,7 @@ public class HappyController  {
 ## AOP基本概念及特点
 
 ### 什么是AOP
-`AOP(Aspect Oriented Programming)`意为：面向切面编程，通过**预编译**方式和运行期**动态代理**实现程序功能的**统一维护**的一种技术。
+`AOP(Aspect Oriented Programming)`意为：面向切面编程，通过`预编译`方式和`运行期动态代理`实现程序功能的**统一维护**的一种技术。
 
 主要功能是：日志记录，性能统计，安全控制，事务处理，异常处理等
 
@@ -704,17 +701,21 @@ SpringAOP、JbossAOP
 
 |名称|说明|举例
 |---|---|--|
-|切面（Aspect）|散落在系统各处的通用的业务逻辑代码|日志模块，权限模块，事务模块
+|切面（Aspect）|散落在系统各处的通用的`非业务代码`|日志模块，权限模块，事务模块
 |连接点（Joinpoint）|被拦截到的点|Spring只支持方法类型的连接点，所以在Spring中连接点指的就是被拦截到的方法
 |通知（Advice）|拦截到连接点之后要执行的代码|分为前置、后置、异常、最终、环绕通知五类
-|切入点（Pointcut）|拦截的方法，连接点拦截后变成切入点|&nbsp;
+|切入点（Pointcut）|拦截的方法，连接点拦截后变成切入点|带有通知的连接点
 |织入（weave）|通过切入点切入，将切面应用到目标对象并导致代理对象创建的过程|&nbsp;
-|目标对象（Target Object）    |代理的目标对象，指要织入的对象模块|业务代码
-|AOP代理（AOP Proxy）   |AOP框架创建的对象（包括通知方法执行等功能）|在Spring中，AOP代理可以是JDK动态代理或CGLIB代理
+|目标对象（Target Object）    |代理的目标对象，指要织入的对象模块|`业务代码`
+|AOP代理（AOP Proxy）   |AOP框架创建的对象（包括通知方法执行等功能）|Spring中的AOP代理可以使JDK动态代理，也可以是CGLIB代理，前者基于接口，后者基于子类
 
-### Advice的类型
+## 各关键概念具体介绍
 
-|名称 |说明
+### Advice
+
+说明：
+
+|类型|说明
 |---|---|
 |前置通知（Before advcie）|   在某连接点（join point）之前执行的通知，但不能阻止连接点前的执行（除非它抛出一个异常）
 |返回后通知（After returning advice）  |在某连接点（join point）正常执行完成后执行的通知
@@ -722,47 +723,112 @@ SpringAOP、JbossAOP
 |后通知（After（finally）advice）| 当某个连接点退出的时候执行的通知（不论是正常返回还是异常退出）
 |环绕通知（Around Advice）    |包围一个连接点（join point）的通知
 
-### Spring框架中AOP的用途
-- 提供了声明式的企业服务，特别是**EJB的替代**服务声明
-- 允许用户定义自己的方面，已完成OOP与AOP的互补使用
+使用方式：
 
-### Spring的AOP实现
-- **纯java实现，无需特殊的编译过程，不需要控制类加载器层次**
-- 目前只支持方法执行连接点（通知Spring Bean的方法执行）
-- 不是为了提供最完整的AOP实现（尽管它非常强大）；而是侧重于提供一种AOP实现和Spring IoC容器之间的整合，用于帮助解决企业应用中的常见问题
-- Spring AOP不会与AspectJ竞争，从而提供综合全面的AOP解决方案
+|名称|配置中使用|注解中使用
+|---|---|---|
+|前置通知（Before advcie）|   <aop:aspect>里面使用<aop:before>|@Before
+|返回后通知（After returning advice）  |<aop:aspect>里面使用<aop:after-returning>|@AfterReturning
+|抛出异常后通知（After throwing advice）|<aop:aspect>里面使用<aop:after-throwing>|@AfterThrowing
+|后通知（After（finally）advice）| aop:aspect>里面使用<aop:after>元素|@After
+|环绕通知（Around Advice）    |<aop:aspect>里面使用<aop:around>|@Around|
 
-### 有接口和无接口的Spring AOP实现区别
-- Spring AOP默认使用标准的JavaSE`动态代理`作为AOP代理，这使得 
-任何接口（或者接口集）都可以被代理
-- Spring AOP中也可以使用`CGLIB`代理（如果一个业务对象并没有实现 
-一个接口）
+通知执行顺序：
 
-## 怎么用
+```
+前置通知→环绕通知连接点之前→连接点执行  1→  环绕通知连接点之后→返回通知→后通知
+                                     2→  (如果发生异常)异常通知→后通知
+```
+
+### pointcut
+
+|切入点表达式|说明
+|--|--|
+|execution|用于匹配方法执行的`连接点`
+|within|用于匹配`指定类型内`的方法执行
+|this|用于匹配当前`AOP代理对象类型`的执行方法；this中使用的表达式必须是完整类名，不支持通配符
+|target|用于匹配`当前目标对象类型`的执行方法；注意是目标对象的类型匹配，这样就不包括引入接口也类型匹配；注意target中使用的表达式必须是完整类名，不支持通配符；
+|args|用于匹配`当前执行的方法传入的参数为指定类型`的执行方法；参数类型列表中的参数必须是完整类名，通配符不支持；args属于动态切入点，这种切入点开销非常大，非特殊情况最好不要使用；
+|@within|用于匹配所有持有指定注解类型内的方法；注解类型也必须是完整类名；
+|@target|用于匹配当前目标对象类型的执行方法，其中目标对象持有指定的注解；注解类型也必须是完整类名；
+|@args|用于匹配当前执行的方法传入的参数持有指定注解的执行；注解类型也必须是完整类名；
+|@annotation|用于匹配当前执行方法持有指定注解的方法；注解类型也必须是完整类名；
+|bean|Spring AOP扩展的，AspectJ没有对于指示符，用于匹配特定名称的Bean对象的执行方法；
+|reference pointcut|表示引用其他命名切入点，只有注解风格支持，XML风格不支持。
+
+#### 定义
+  - 一个切入点通过一个普通的方法定义来提供，使用@Pointcut注解
+  - 方法返回类型必须为void
+
+- eg.
+定义一个名为‘anyOldTransfer’，这个切点将匹配任何名为”transfer“的方法执行@Pointcut("execution(* transfer(..))")//the pointcut expression
+
+```java
+@Pointcut("execution(* transfer(..))")//the pointcut expression
+private void anyOldTransfer(){}//the pointcut signature
+```
+
+#### 组合pointcut
+- 切入点表达式可以通过`&&、||、!`进行组合，也可以通过名字引入切入点表达式
+- 通过组合，可以建立更加复杂的切入点表达式
+
+```java
+@Pointcut("execution(public * (..))")
+private void anyPublicOperation(){}
+
+@Pointcut("within(com.xyz.someapp.trading...)")
+private void inTrading(){}
+
+@Pointcut("anyPublicOperation() && inTrading()")
+private void tradingOperation(){}
+```
+
+### 匹配语法
+
+|符号|匹配|
+|--|--|
+|* |匹配`任何数量字符`
+|.. |匹配`任何数量字符的重复`，如在类型模式中匹配任何数量子包；而在方法参数模式中匹配任何数量参数。
+|+ |匹配`指定类型的子类型`；仅能作为后缀放在类型模式后边。
+
+
+
+|例子|匹配|不匹配
+|--|--|--|
+|java.lang.String |  匹配String类型|&nbsp;
+|java.*.String  | 匹配java包下的任何“一级子包”下的String类型；如匹配java.lang.String|但不匹配java.lang.ss.String|
+|java..*  | 匹配java包及任何子包下的任何类型；如匹配java.lang.String、java.lang.annotation.Annotation|&nbsp;
+|java.lang.*ing  | 匹配任何java.lang包下的以ing结尾的类型|&nbsp;
+|java.lang.Number+ |  匹配java.lang包下的任何Number的自类型；如匹配java.lang.Integer，也匹配java.math.BigInteger|&nbsp;
+
+## 实现手法
 
 ### 环境
 Spring中AOP代理由Spring的IOC容器负责生成、管理，其依赖关系也由IOC容器负责管理，要在Spring 中使用AOP，还需要加入这两个jar包 
 1、`aopalliance.jar `
 2、`aspectjweaver.jar`
 
-Spring中 AOP中的两种代理： 
-1\. Java动态代理，这样就可以为任何接口实例创建代理了，默认使用 
-2、当需要代理的类不是代理接口的时候，Spring会切换为使用CGLIB代理，也可强制使用CGLIB
+### Spring中 AOP中的两种代理
+
+1. Java动态代理
+默认使用 。可以为任何接口实例创建代理了
+2. CGLIB
+当需要代理的类不是代理接口的时候，Spring会切换为使用CGLIB代理，也可强制使用CGLIB
 
 ### Spring AOP的使用步骤
 1. 定义具体业务逻辑模块（目标对象） 
 2. 定义切面（即实现通知逻辑） 
 3. 实现切面逻辑
 
-## 例子
+## 两种方式的例子
 
-基于Schema或@AspectJ。
+两种方式，基于Schema或@AspectJ。
 
-### 一. 基于Schema的Spring AOP实例
+### 一. 基于Schema的Spring AOP
 
-#### 第一步、定义具体业务逻辑模块（目标对象）
+#### 第一步、定义具体业务模块（目标对象）
 
-两个业务逻辑模块都是基于接口
+两个业务模块都是基于接口
 
 TestAOPDaoImpl .java
 
@@ -773,7 +839,6 @@ public class TestAOPDaoImpl implements TestAOPDao{
     public void addUser() {
         System.out.println("添加成功");
     }
-
 }
 ```
 
@@ -792,9 +857,9 @@ public class TestAOPServiceImpl implements TestAOPService{
 }
 ```
 
-### 第二步和第三步、 定义切面（即实现通知逻辑）
+#### 第二步和第三步、 定义切面（即实现通知逻辑）
 
-`JointPoint`是连接点，**aop创建代理后会返回一个连接点**，然后在通知中可以通过该连接点实现我们的切面逻辑
+**aop创建代理后会返回一个 `连接点JointPoint`**，然后在通知中可以**通过**该连接点实现我们的切面逻辑
 
 **日志切面**
 
@@ -886,14 +951,18 @@ public class AOPTest {
         service.addUser();
     }
 }
-
 ```
 
--
+### 二. 基于@AspectJ注解的AOP实现
 
-## 二. 基于@AspectJ注解的AOP实现
+启用@AsjectJ支持
 
-### **第一步、定义具体业务逻辑模块（目标对象）**
+在applicationContext.xml中配置下面一句:
+
+`<aop:aspectj-autoproxy />`
+
+
+#### **第一步、定义具体业务逻辑模块（目标对象）**
 
 第一步和基于Schema的一样
 
@@ -924,7 +993,7 @@ public class TestAOPServiceImpl implements TestAOPService{
 }
 ```
 
-### 第二步和第三步 定义切面（即实现通知逻辑）
+#### 第二步和第三步 定义切面（即实现通知逻辑）
 
 重点是**定义切入点**
 
@@ -959,7 +1028,6 @@ public class LogAdivice{
         System.out.println("环绕通知，执行代码后");
     }
 }
-
 ```
 
 **在applicationContext的配置：**
@@ -976,623 +1044,5 @@ public class LogAdivice{
     <!-- 打开aop注解管理器 -->
     <aop:aspectj-autoproxy/>
 ```
-
-
-
-
----
-## 配置切面aspect
-### Schema – based AOP
-- Spring所有的切面和通知器都必须放在一个<aop:config>内（可以配置包含多个），每一个<aop:config>可以包含 pointcut， advisor和aspect元素（它们**必须按照这个顺序进行声明**）。
-- <aop:config>风格的配置大量使用了Spring的自动代理的机制
-
-```xml
-<aop:config>
-    <aop:aspect id="myAspect" ref="aBean">
-        ...
-    </aop:aspect>
-</aop:config>
-
-<bean id="aBean" class="...">
-    ...
-</bean>
-```
-
-## 配置切入点pointcut
-- execution用于**指定**切点
-
-|传入参数| 切点|
-|---|---|
-|execution(public**(..)) | 切入点为执行所有**public方法**时
-|execution(set(..)) |切入点为执行所有**set开始**的方法时
-|execution(com.xyz.service.AccountService.(..)) |切入点为执行AccountService类中的所有方法时
-|execution(*com.xyz.service..(..)) |切入点为执行com.xyz.service包下的所有方法时
-|execution(*com.xyz.service…(..)) |切入点为执行com.xyz.service包及其子包下的所有方法时
-
-- within用于**匹配**指定类型内的方法执行
-within(com.xyz.service.*)      (only in Spring AOP)
-within(com.xyz.service..*)   (only in Spring AOP) 
-- this用于**匹配**当前AOP代理对象类型的执行方法
-this(com.xyz.service.AccountService)   (only in Spring AOP) 
-- target用于**匹配**当前目标对象类型的执行方法
-target(com.xyz.service.AccountService)(only in Spring AOP) 
-- args用于**匹配**当前执行的方法传入的参数为指定类型的执行方法
-args(java.io.Serializable)(only in Spring AOP) 
-## Advice应用（上）
-- Before
-
-```xml
-<aop:aspect id="beforeExample" ref="aBean">
-
-    <aop:before
-        pointcut-ref="dataAccessOperation"
-        method="doAccessCheck"/>
-
-    ...
-
-</aop:aspect>
-```
-
-```xml
-<aop:aspect id="beforeExample" ref="aBean">
-
-    <aop:before
-        pointcut="execution(* com.xyz.myapp.dao..(..))"
-        method="doAccessCheck"/>
-
-    ...
-
-</aop:aspect>
-```
-
-- After returning advice
-
-```xml
-<aop:aspect id="afterReturnExample" ref="aBean">
-
-    <aop:after-returning
-        pointcut-ref="dataAccessOperation"
-        method="doAccessCheck"/>
-
-    ...
-
-</aop:aspect>
-```
-
-```xml
-<aop:aspect id="afterReturningExample" ref="aBean">
-
-    <aop:after-returning
-        pointcut-ref="dataAccessOperation"
-        returing="retVal"
-        method="doAccessCheck"/>
-
-    ...
-
-</aop:aspect>
-```
-
-- After throwing advice
-
-```xml
-<aop:aspect id="afterThrowingExample" ref="aBean">
-
-    <aop:after-throwing
-        pointcut-ref="dataAccessOperation"
-        method="doAccessCheck"/>
-
-    ...
-
-</aop:aspect>
-```
-
-使用throwing属性来指定可被传递的异常的参数名称
-
-```xml
-<aop:aspect id="afterThrowingExample" ref="aBean">
-
-    <aop:after-throwing
-        pointcut-ref="dataAccessOperation"
-        throwing="dataAccessEx"
-        method="doAccessCheck"/>
-
-    ...
-
-</aop:aspect>
-```
-
-- After(finally) advice
-
-```xml
-<aop:aspect id="afterFinallyExample" ref="aBean">
-
-    <aop:after
-        pointcut-ref="dataAccessOperation"
-        method="doAccessCheck"/>
-
-    ...
-
-</aop:aspect>
-```
-
-## Advice应用（下）
-- Around advice
-通知方法的第一个参数必须是ProceedingJoinPoint类型
-
-```xml
-<aop:aspect id="aroundExample" ref="aBean">
-
-    <aop:after
-        pointcut-ref="businessService"
-        method="doBasicProfiling"/>
-
-    ...
-
-</aop:aspect>
-```
-
-```java
-public Object doBasicProfiling(ProceedingJoinPoint pjp) throws Throwable{
-    //start stopwatch
-    Object retVal = pjp.proceed();
-    //stop stopwatch
-    return retVal;
-}
-```
-##  Introductions应用
-- 允许一个切面声明一个实现指定接口的通知对象且提供一个接口实现类**来代表**这些对象
-- 由<aop:aspect>中的<aop:declare-parents>元素声明，该元素用于声明所匹配的类型拥有一个新的parent（因此得名）
-- schema-defaulted aspects只支持singleton models
-
-```xml
-<aop:aspect id="usageTrackerAspect" ref="usageTracking">
-
-    <aop:declare-parents
-        types-matching="com.xzy.myapp.service.*+"
-        implements-interface="com.xyz.myapp.service.tracking.UsageTracked"
-        default-impl="com.xyz.myapp.service.tracking.DefaultUsageTracked"/>
-
-    <aop:before
-        pointcut="com.xyz.myapp.SystemArchitecture.businessService()
-        and this(usageTracked)"
-        method="recordUsage"/>  
-
-</aop:aspect>
-```
-
-```java
-public void recordUsage(UsageTracked usageTracked){
-    usageTracked.incrementUseCount();
-}
-```
-
-```java
-UsageTracked usageTracked = (UsageTracked) context.getBean("myService");
-```
-
-## Advisors
-- advisor就像一个小的自包含的方面，**只有一个**advice
-- 切面自身通过一个bean表示，并且必须实现advice接口，同时， advisor也可以很好的利用AspectJ的切入点表达式
-- Spring通过配置文件中<aop:advisor>元素支持advisor 。实际使用中，大多数情况下它会和transaction advice配合使用
-- 为了自定义一个advisor的优先级以便让advice可以有序，可以使用order属性来定义advisor的顺序
-
-```xml
-<aop:config>
-
-    <aop:pointcut id="businessService"
-        expression="execution(* com.xyz.myapp.service..(..))"/>
-
-    <aop:advisor
-        pointcut-ref="businessService"
-        advice-ref="tx-advice"/>
-
-</aop:config>
-
-<tx:advice id="tx-advice">
-    <tx:attribute>
-        <tx:method name="*" propagation="REQUIRED"/>
-    </tx:attribute>
-</tx:advice>
-```
-
-# Spring AOP的API介绍
-## Spring AOP API的Pointcut、advice概念及应用
-### Spring AOP API
-- 这是Spring1.2历史用法，当时（V4.0）仍然支持
-- 这是SpringAOP**基础**，不得不了解
-- 现在的用法也是**基于**历史的，只是更简便了
-### Pointcut
-实现之一：NameMatchMethodPointcut，根据**方法名字**进行匹配
-成员变量：mappedNames，匹配的方法名集合
-
-```xml
-<bean id="pointcutBean" class="org.springframework.aop.support.NameMatchMetchMethodPointcut">
-    <property name="mappedNames">
-        <list>
-            <value>sa*</value>
-        </list>
-    </property>
-</bean>
-```
-
-### Before advice
-- 一个简单的通知类型
-- 只是在进入方法之前被调用，**不需要**MethodInvocation对象
-- 前置通知可以在连接点执行之前插入自定义行为，但**不能改变**返回值
-
-```java
-public interface MethedBeforeAdvice extends BeforeAdvice{
-    void before(Method m,Object[] args,Object target) throws Throwable;
-}
-```
-
-```java
-public class CountingBeforeAdvice implements MethodBeforeAdvice{
-
-    private int count;
-
-    public void before(Method m,Object[] args,Object target) throws Throwable{
-        ++count;
-    }
-
-    public int getCount(){
-        return count;
-    }
-}
-```
-
-### Throws advice
-- 如果连接点抛出异常，throws advice在连接点返回后被调用
-- 如果throws-advice的方法抛出异常，那么它将覆盖原有异常
-- 接口org.springframework.aop.ThrowsAdvice不包含任何方法， 仅仅是一个申明，实现类需要实现下面类似的方法：
-
-  - void afterThrowing([Method,args,target],ThrowableSubclass);
-  - public void afterThrowing(Exception ex);
-  - public void afterThrowing(RemoteException ex);
-  - public void afterThrowing(Method method,Object[] args,Object target,Exception ex);
-  - public void afterThrowing(Methdo method,Object[] args,Object target,ServletException ex);
-### After Returning advice
-- 后置通知**必须**实现org.springframework.aop.AfterReturningAdvcie接口
-
-```java
-public class CountingAfterReturningAdvice implements AfterReturningAdvice{
-    private int count;
-    public void afterReturing(Object returnValue,Method m,Object[] args, Object target) throws Throwable{
-        ++count;
-    }
-    public int getCount(){
-        return count;
-    }
-}
-```
-
-- 可以访问返回值（但不能进行修改）、被调用的方法、方法的参数和目标
-- 如果抛出异常，将会抛出拦截器链，替代返回值
-### Interception around advcie
-- Spring的切入点模型使得切入点可以**独立于advice重用**，以针对不同的advice可以使用想同的切入点
-### Introduction advice
-#### 相关
-- Spring把引入通知作为一种特殊的**拦截器**
-- 需要IntroductionAdvisor和IntroductionInterceptor
-- **仅适用于类**，不能和任何切入点一起使用
-
-```java
-public interface IntroductionInterceptor extends MethodInterceptor{
-    boolean implementsInterface(Class intf);
-}
-```
-
-```java
-public interface IntroductionAdvisor extends Advisor,IntroductionInfo{
-
-    ClassFilter getClassFilter();
-
-    void validateInterfaces() throws IllegalArgumentException;
-}
-
-public interface IntroductionInfo{
-
-    Class[] getInterfaces();
-}
-```
-
-#### 一个Spring test suite的例子
-- 如果调用lock()方法，希望所有的setter方法抛出LockedException异常（如果物体不可变，AOP典型例子）
-
-```java
-public interface  Lockable{
-    void lock();
-    void unlock();
-    boolean locked();
-}
-```
-
-- 需要一个完成繁重任务的IntroductionInterceptor，这种情况下，可以使用org.springframework.aop.support.DelegatingIntroductionInterceptor
-
-```java
-public class LockMixin extends DelegatingIntroductionInterceptor implements Lockable{
-    private boolean locked;
-    public void lock(){
-        this.locked = true;
-    }
-    public void unlock(){
-        this.locked = false;
-    }
-    public boolean locked(){
-        return this.locked;
-    }
-    public Object invoke(MethodInvocation invocation) throws Throwable {
-        if(locked() && invocation.getMethod().getName().indexOf("set") == 0){
-            throw new LockedException();
-        }
-        return super.invoke(invocation);
-    }
-}
-```
-- introduction advisor比较简单，持有独立的LockMixin实例
-### Advisor API in Spring
-- Advisor是**仅包含一个**切入点表达式关联的单个通知的方面
-- 除了introductions，advisor**可用于**任何通知
-- org.springframework.aop.support.DefaultPointcutAdvisor是最常用的advisor类， 它可以与MethodInterceptor，BeforeAdvice或者ThrowsAdvice一起使用
-- 它可以混合在Spring同一个AOP代理的advisor和advice
-## ProxyFactoryBean及相关内容（上）
-### 基本方法
-- 创建Spring AOP代理的基本方法是使用org.springframework.aop.framework.ProxyFactoryBean
-### 好处
-- 这可以完全控制切入点和通知（advice）以及他们的顺序
-- 使用ProxyFactoryBean或者其它IoC相关类来创建AOP代理的最重要好处是通知和切入点也可以**由IoC来管理**
-### JDK还是CGLib
-- 被代理类没有实现任何接口，使用CGLIB代理，否者JDK代理
-- 通过设置proxyTargetClass为true，可以强制使用CGLIB
-- 如果目标类实现一个（或多个）接口，那么创建代理的类型将依赖ProxyFactoryBean的配置
-- 如果ProxyFactoryBean的proxyInterfaces属性被设置为一个或者多个全限定接口名，基于JDK的代理将被创建
-- 如果ProxyFactoryBean的proxyInterfaces属性没有被设置，但是目标类实现了一个（或者更多）接口，那么ProxyFactoryBean将自动检测到这个目标类已经实现了至少一个接口， 创建一个基于JDK的代理。
-## ProxyFactoryBean及相关内容（下）
-### Proxying classes
-- 前面的例子如果没有使用Person接口，这种情况下Spring会使用CGLIB代理，而不是JDK动态代理
-- 如果想，可以在任何情况下使用CGLIB，即使有接口
-- CGLIB代理的工作原理是在运行时生成目标类的子类，Spring配置这个生成的 
-子类委托方法调用到原来的目标
-- 子类是用来实现Decorator模式，织入通知
-- CGLIB的代理**对用户是透明**的，需要注意：
-  - final方法不能被通知，因为它们不能被覆盖
-  - 不用把CGLIB添加到classpath中，在Spring3.2中，CGLIB被重新包装并包含在 Spring核心的JAR（即基于CGLIB的AOP就像JDK动态代理一样“开箱即用”）
-### 使用global advisors
-用*做通配，匹配所有拦截器加入通知链
-
-```xml
-<bean id="proxy" class="org.springframework.aop.framework.ProxyFactoryBean">
-    <property name="target" ref="service"/>
-    <property name="interceptorNames">
-        <list>
-            <value>global*</value>
-        </list>
-    </property>
-</bean>
-
-<bean id="global_debug" class="org.springframework.aop.interceptor.DebugInterceptor" />
-<bean id="global_performance" class="org.springframework.aop.interceptor.PerformanceMonitorInterceptor" />
-```
-
-### 简化的proxy定义
-使用父子bean定义，以及内部bean定义，可能会带来更清洁和更简洁的代理定义（抽象属性标记父bean定义为抽象的这样它不能被实例化）
-
-```xml
-<bean id="txProxyTemplate" abstract="true" 
-    class="org.springframework.transaction.interceptor.TransactionProxyFactoryBean">
-    <property name="transactionManager" ref="transactionManager" />
-    <property name="transactionAttributes">
-        <props>
-            <prop key="*">PROPAGATION_REQUIRED</prop>
-        </props>
-    </property>
-</bean>
-```
-
-### 使用”auto-proxy“
-- Spring也允许使用”自动代理“的bean定义，它可以自动代理选定的bean， 
-这是建立在Spring的”bean post processor“功能基础上的（在加载bean 
-的时候就可以修改）
-- BeanNameAutoProxyCreator
-
-```xml
-<bean class="org.springframework.aop.framework.autoproxy.BeanNameAutoProxyCreator">
-    <property name="beanNames" value="jdk*,onlyJdk" />
-    <property name="interceptorNames">
-        <list>
-            <value>myInterceptor</value>
-        </list>
-    </property>
-</bean>
-```
-
-- DefaultAdvisorAutoProxyCreator，当前IoC容器中自动应用，不用显示声明引用advisor的bean定义
-
-```xml
-<bean class="org.springframework.aop.framework.autoproxy.DefaultAdisorAutoProxyCreator" />
-
-<bean class="org.springframework.transaction.interceptor.TransactionAttributeSourceAdvisor">
-    <property name="transacationInterceptor" ref="transactionInterceptor"/>
-</bean>
-
-<bean id="customAdvisor" class="com.mycompany.MyAdvisor" />
-
-<bean id="businessObject1" class="com.mycompany.BusinessObject1">
-    <!-- Properties omitted -->
-</bean>
-
-<bean id="businessObject2" class="com.mycompany.BusinessObject2"/>
-```
-
-# 第7章 Spring对AspectJ的支持
-## AspectJ介绍及Pointcut注解应用
-### AspectJ介绍
-- @AspectJ的风格类似纯java注解的普通java类
-- Spring可以使用AspectJ来做**切入点解析**
-- AOP的运行时仍旧是纯的Spring AOP，对AspectJ的编译器或者织入**无依赖性**
-### Spring中配置@AspectJ
-- 对@AspectJ支持可以使用XML或者Java风格的配置
-- 确保AspectJ的aspectjweaver.jar库包含在应用程序（版本1.6.8）的classpath中
-
-```java
-@Configuration
-@EnableAspectJAutoProxy
-public class AppConfig{
-}
-```
-
-```xml
-<aop:aspectj-autoproxy/>
-```
-
-### AspectJ使用
-- @AspectJ切面使用@Aspect注解配置，拥有@Aspect的任何bean将被Spring**自动识别并应用**
-- 用@Aspect注解的类**可以有**方法和字段，他们也可能包括切入点（pointcut），通知（Advice）和引入（introduction）声明
-- @Aspect注解是**不能够通过类路径**自动检测发现的，所以需要配合使用@Component注释或者在xml配置bean
-- 一个类中的@Aspect注解标识它为一个切面，并且将自己从自动代理中排除
-
-```xml
-<bean id="myAspect" class="org.xyz.NotVeryUsefulAspect">
-</bean>
-```
-
-```java
-package org.xyz;
-import org.aspectj.lang.annotation.Aspect;
-
-@Aspect
-public class NotVeryUsefulAspect{
-}
-```
-
-### pointcut
-- 定义
-  - 一个切入点通过一个普通的方法定义来提供，
-  - 并且切入点表达式使用@Pointcut注解,
-  - 方法返回类型必须为void
-
-- eg.
-定义一个名为‘anyOldTransfer’，这个切点将匹配任何名为”transfer“的方法执行@Pointcut("execution(* transfer(..))")//the pointcut expression
-
-```java
-@Pointcut("execution(* transfer(..))")//the pointcut expression
-private void anyOldTransfer(){}//the pointcut signature
-```
-
-### 组合pointcut
-- 切入点表达式可以通过&&、||和!进行组合，也可以通过名字引入切入点表达式
-- 通过组合，可以建立更加复杂的切入点表达式
-
-```java
-@Pointcut("execution(public * (..))")
-private void anyPublicOperation(){}
-
-@Pointcut("within(com.xyz.someapp.trading...)")
-private void inTrading(){}
-
-@Pointcut("anyPublicOperation() && inTrading()")
-private void tradingOperation(){}
-```
-
-### 定义良好的pointcuts
-- AspectJ是**编译期**的AOP
-- **检查**代码并匹配连接点与切入点的代价是**昂贵**的
-- 一个好的切入点应该包括以下几点 
-  - 选择**特定类型**的连接点，如：execution，get，set，call，handler
-  - 确定**连接点范围**，如：within，withincode
-  - 匹配**上下文信息**，如：this，target，@annotation
-## Advice定义及实例
-### Before advice
-在执行com.imooc.aop.aspectj包下以Biz结尾的类的所有方法时，匹配Advice。
-
-```java
-@Componet
-@Aspect
-public class MoocAspect{
-
-    @Before("execution(* com.imooc.aop.aspect.biz.*Biz.*(..))")
-    public void before(){
-        //...
-    }
-}
-```
-
-### After returning advice
-
-```java
-@Aspect
-public class AfterReturningExample{
-
-    @AfterReturning("com.xyz.myapp.SystemArchitecture.dataAccessOperation()")
-    public void doAccessCheck(){
-        //...
-    }
-}
-```
-
-有时候需要在通知体内得到返回的实际值，可以使用@AfterReturning的 "returning="绑定返回值的形式
-
-```java
-@Aspect
-public class AfterReturningExample{
-
-    @AfterReturning(pointcut="com.xyz.myapp.SystemArchitecture.dataAccessOperation()",
-                    returning="retVal")
-    public void doAccessCheck(Object retVal){
-        //...
-    }               
-}
-```
-
-### After(finally) advice
-最终通知**必须**准备处理正常和异常**两种返回情况**，它通常用于释放资源。
-
-```java
-@Aspect
-public class AfterFinallyExample{
-
-    @After("com.xyz.myapp.SystemArchitecture.dataAccessOperation()")
-    public void doReleaseLock(){
-        //...
-    }
-
-}
-```
-
-### Around advice
-- 环绕通知使用@Around注解来声明，通知方法第一个参数必须是ProceedingJoinPoint类型
-- 在通知内部调用ProceedingJoinPoint的proceed()方法会导致执行真正的方法，传入一个Object[]对象，数组中的值将被作为参数传递给方法
-
-```java 
-@Aspect
-public class AroundExample{
-
-    @Around("com.xyz.myapp.SystemArchitecture.businessService()")
-    public Object doBasicProfiling() throws Throwable{
-        //start stopwatch
-        Object retVal = pjp.proceed();
-        //stop stopwatch
-        return retVal;
-    }
-}
-```
-
-##  Advice扩展
-### 给advice传递参数
-#### Advice的参数及泛型
-Spring AOP可以处理泛型类的声明和使用方法
-#### Advice参数名称
-- 通知和切入点注解有一个额外的”argNames“属性，它可以用来指定所注解的方法的参数名
-- 如果第一个参数是JoinPoint，ProceedingJoinPoint，JoinPoint.StaticPart，那么可以忽略它
-### Introductions
-- 允许一个切面声明一个通知对象实现指定接口，并且提供一个接口实现类来代表这些对象
-- introduction使用@DeclareParents进行注解，这个注解用来定义匹配的类型拥有一个新的parent
-- 例如：给定一个接口UsageTracked，并且该接口拥有DefaultUsageTracked的实现，接下来的切面声明了所有的service接口的实现都实现了UsageTracked接口
-### 切面实例化模型
-这是一个高级主题
-- ”perthis“切面通过指定@Aspect注解perthis子句实现
-- 每个独立的service对象执行时都会创建一个切面实例
-- service对象的每个方法在第一次执行的时候创建切面实例，切面在service对象失效的同时失效。
-
 
 **参考文章在各个小结中有链接**
