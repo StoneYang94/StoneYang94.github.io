@@ -1,5 +1,5 @@
 ---
-title: 剑指offerer_20
+title: 剑指offer_20
 date: 2018-05-17 18:53:42
 tags: 剑指offer
 categories: 简单算法
@@ -16,8 +16,11 @@ categories: 简单算法
 - 指数部分（如果有）的指数必须有，且必须是整数
 
 # 思路
+
 ## 正则表达式法
+
 [正则表达式手册](http://tool.oschina.net/uploads/apidocs/jquery/regexp.html)
+
 ### 代码
 
 ```java
