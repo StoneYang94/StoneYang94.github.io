@@ -1,0 +1,866 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next gemini use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+<!-- 20180426-->
+<script src="//cdn.bootcss.com/pace/1.0.2/pace.min.js"></script>
+<link href="//cdn.bootcss.com/pace/1.0.2/themes/pink/pace-theme-flash.css" rel="stylesheet">
+<style>
+    .pace .pace-progress {
+        background: #1E92FB; /*进度条颜色*/
+        height: 3px;
+    }
+    .pace .pace-progress-inner {
+         box-shadow: 0 0 10px #1E92FB, 0 0 5px     #1E92FB; /*阴影颜色*/
+    }
+    .pace .pace-activity {
+        border-top-color: #1E92FB;    /*上边框颜色*/
+        border-left-color: #1E92FB;    /*左边框颜色*/
+    }
+</style>
+
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon.ico?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="SpringMVC," />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="一、SpringMVC介绍先说Web MVC开发模式Web MVC模式的核心思想是将业务逻辑从界面中分离出来，允许它们单独改变而不会相互影响。">
+<meta name="keywords" content="SpringMVC">
+<meta property="og:type" content="article">
+<meta property="og:title" content="SpringMVC工作原理及组件">
+<meta property="og:url" content="http://yoursite.com/2018/07/30/SpringMVC工作原理及组件/index.html">
+<meta property="og:site_name" content="Xudong&#39;s blogs">
+<meta property="og:description" content="一、SpringMVC介绍先说Web MVC开发模式Web MVC模式的核心思想是将业务逻辑从界面中分离出来，允许它们单独改变而不会相互影响。">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="http://p7vxw6hv7.bkt.clouddn.com/18-7-26/62395471.jpg">
+<meta property="og:image" content="http://p7vxw6hv7.bkt.clouddn.com/18-7-18/42119068.jpg">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/11861611-88b5368cb320fb4a?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:updated_time" content="2018-07-29T16:11:57.067Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="SpringMVC工作原理及组件">
+<meta name="twitter:description" content="一、SpringMVC介绍先说Web MVC开发模式Web MVC模式的核心思想是将业务逻辑从界面中分离出来，允许它们单独改变而不会相互影响。">
+<meta name="twitter:image" content="http://p7vxw6hv7.bkt.clouddn.com/18-7-26/62395471.jpg">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2018/07/30/SpringMVC工作原理及组件/"/>
+
+
+
+
+
+  <title>SpringMVC工作原理及组件 | Xudong's blogs</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Xudong's blogs</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">email:2228998096@qq.com    wechat:yxd19940114</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/07/30/SpringMVC工作原理及组件/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="杨旭东">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Xudong's blogs">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">SpringMVC工作原理及组件</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-07-30T00:05:54+08:00">
+                2018-07-30
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Spring/" itemprop="url" rel="index">
+                    <span itemprop="name">Spring</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="一、SpringMVC介绍"><a href="#一、SpringMVC介绍" class="headerlink" title="一、SpringMVC介绍"></a>一、SpringMVC介绍</h1><h2 id="先说Web-MVC开发模式"><a href="#先说Web-MVC开发模式" class="headerlink" title="先说Web MVC开发模式"></a>先说Web MVC开发模式</h2><p>Web MVC模式的核心思想是将<strong>业务逻辑从界面中分离出来</strong>，允许它们单独改变而不会相互影响。</p>
+<a id="more"></a>
+<h3 id="定义"><a href="#定义" class="headerlink" title="定义"></a>定义</h3><p>模型-视图-控制器（MVC）是一个众所周知的以设计界面应用程序为基础的设计模式。它主要通过分离<strong>模型、视图及控制器</strong>在应用程序中的角色<code>将业务逻辑从界面中解耦</code>。</p>
+<p><img src="http://p7vxw6hv7.bkt.clouddn.com/18-7-26/62395471.jpg" alt="Web MVC"></p>
+<h2 id="Web-MVC各模块作用"><a href="#Web-MVC各模块作用" class="headerlink" title="Web MVC各模块作用"></a>Web MVC各模块作用</h2><h3 id="模型（Model）"><a href="#模型（Model）" class="headerlink" title="模型（Model）"></a>模型（Model）</h3><ul>
+<li>封装应用数据在视图层展示</li>
+</ul>
+<h2 id="视图（View）"><a href="#视图（View）" class="headerlink" title="视图（View）"></a>视图（View）</h2><ul>
+<li>展示数据，不包含任何业务逻辑</li>
+</ul>
+<h2 id="控制器（Controller）"><a href="#控制器（Controller）" class="headerlink" title="控制器（Controller）"></a>控制器（Controller）</h2><ul>
+<li>接收来自用户的请求，并调用后台服务（manager或者dao）来处理业务逻辑</li>
+</ul>
+<h2 id="什么是SpringMVC"><a href="#什么是SpringMVC" class="headerlink" title="什么是SpringMVC"></a>什么是SpringMVC</h2><p>SpringMVC是一种基于Java的实现了Web MVC设计模式的请求驱动类型的轻量级Web框架，使用了MVC架构模式的思想，<strong>将web层进行职责解耦</strong>，简化我们日常Web开发。</p>
+<h2 id="SpringMVC是Web-MVC的V-View）"><a href="#SpringMVC是Web-MVC的V-View）" class="headerlink" title="SpringMVC是Web MVC的V(View）"></a>SpringMVC是Web MVC的V(View）</h2><p>SpringMVC和Struts2都属于<strong>表现层的框架</strong>，它是Spring框架的一部分，我们可以从Spring的整体结构中看得出来： </p>
+<p><img src="http://p7vxw6hv7.bkt.clouddn.com/18-7-18/42119068.jpg" alt="SpringMVC属于表现层的框架"></p>
+<h1 id="二、SpringMVC运行原理"><a href="#二、SpringMVC运行原理" class="headerlink" title="二、SpringMVC运行原理"></a>二、SpringMVC运行原理</h1><p><img src="http://upload-images.jianshu.io/upload_images/11861611-88b5368cb320fb4a?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="SpringMVC运行原理"></p>
+<h2 id="流程步骤分析"><a href="#流程步骤分析" class="headerlink" title="流程步骤分析"></a>流程步骤分析</h2><ol>
+<li><p>浏览器发送请求，请求具体发到谁呢？先发到前端控制器，也就是说所有的请求都给发到前端控制器，前端控制器是所有请求的入口，但前端控制器不能处理业务请求，它只是一个<strong>请求的转发</strong>。</p>
+</li>
+<li><p>谁来处理业务请求呢？<strong>Handler处理器来真正处理业务请求</strong>，那么问题来了，前端控制器如何来找到这个Handler处理器呢？处理器映射器记录的就是请求的url和处理的方法之间的映射关系，这个映射关系是怎么建立起来的呢？就是通过@RequestMapping这个注解来建立起来的，这个映射关系就相当于一个Map(key-value这种形式)，key就是请求的url，value就是处理的Handler。现在，前端控制器拿到这个请求之后，要找到对应的Handler，怎么找呢？就要找处理器映射器，问它请求谁来处理？</p>
+</li>
+<li><p><strong>处理器映射器会根据你请求的url来找对应的处理器</strong>，找不到就会报错，如果找到之后，这时，它就会返回一个处理器执行链，这个处理器执行链里面除了有Handler之外，还有拦截器(这儿我们可以开发自己的拦截器)，然后返回给前端控制器。</p>
+</li>
+<li><p>前端控制器依然不能处理这个业务请求，它这时做的还有另外一件事情，因为返回Handler，它也不知道这个Handler是什么类型，因为在spring mvc中Handler除了可以是注解形式的之外，其实还可以是非注解形式的(非注解形式我们一般不用)，前端控制器并不知道这个Handler到底是什么类型的，那就没办法执行它，那总得找个东西执行，这时它就会把这个事交给另外一个组件来处理，这个组件就叫处理器适配器，这个<strong>处理器适配器就是来适配不同类型的Handler</strong>。它就会根据你不同类型的Handler来选择不同类型的适配器来执行它。</p>
+</li>
+<li><p>假如当前Handler是注解形式的，那么它就会选择注解形式的处理器适配器来执行这个Handler。<strong>Handler就执行了，也就是说我们Controller类中的那个方法就执行了，方法执行之后，里面的业务就处理了</strong>。</p>
+</li>
+<li><p>业务处理之后，最后返回一个ModelAndView。处理器适配器拿到这个结果是没有用的，它的作用就是执行这个Handler，把这个Handler执行完之后，它的事就做完了。</p>
+</li>
+<li><p>做完之后，拿到这个返回结果，那么它会原封不动地把这个返回结果扔给前端控制器，这时处理器适配器的事就做完了。</p>
+</li>
+<li><p>前端控制器拿到这个ModelAndView，它还是没有办法处理，它还是不能返回html，这时它要找到相应的jsp，因为ModelAndView即包含模型又包含视图，这个视图指定我们要用谁来渲染这个数据。我们要渲染数据，这时它就要找一个视图解析器来解析这个视图，由于这个<strong>视图也有很多种(我们最常见的视图是jsp，除了jsp，其实还有其他的，比如说还可以是报表，还可以是pdf，还可以是freemaker等)</strong>，它会找不同的视图解析器来处理。因为现在我们最常用的视图是jsp，所以它就找到jsp对应的视图解析器。</p>
+</li>
+<li><p>找到这个视图解析器，它来把这个视图解析，<strong>解析完了之后它会返回一个View对象</strong>。</p>
+</li>
+<li><p>最后我们再调用这个视图解析器的渲染视图这个过程，渲染视图这个过程其实就是对于我们的jsp来说，就是把这个数据渲染成html。</p>
+</li>
+<li><p>最终渲染成html之后，就响应给用户。</p>
+</li>
+</ol>
+<h2 id="流程步骤总结"><a href="#流程步骤总结" class="headerlink" title="流程步骤总结"></a>流程步骤总结</h2><ul>
+<li><ol>
+<li>（接收）<code>用户发送请求——&gt;DispatcherServlet</code><br>前端控制器收到请求后<strong>自己不进行处理，而是委托给其他的解析器进行处理</strong>，作为统一访问点，进行全局的流程控制</li>
+</ol>
+</li>
+<li>2、3. （映射）<code>DispatcherServlet——&gt;HandlerMapping</code><br>HandlerMapping将会把请求映射为HandlerExecutionChain对象（包含一个Handler处理器（页面控制器）对象 + 多个HandlerInterceptor拦截器）对象，通过这种策略模式，很容易<strong>添加</strong>新的映射策略</li>
+<li><ol start="4">
+<li>（适配）<code>DispatcherServlet——&gt;HandlerAdapter</code><br>HandlerAdapter将会把处理器包装为适配器，从而支持多种类型的处理器，即适配器设计模式的应用，从而很容易<strong>支持</strong>很多类型的处理器</li>
+</ol>
+</li>
+<li><ol start="5">
+<li>（调用）<code>HandlerAdapter——&gt;处理器功能处理方法的调用</code><br>HandlerAdapter将会根据适配的结果调用真正的处理器的功能处理方法，完成功能处理；并返回一个ModelAndView对象（包含模型数据、逻辑视图名）</li>
+</ol>
+</li>
+<li><ol start="6">
+<li>（解析）<code>ModelAndView的逻辑视图名——&gt; ViewResolver</code><br>ViewResolver将把逻辑视图名解析为具体的View，通过这种策略模式，很容易更换其他视图技术</li>
+</ol>
+</li>
+<li><ol start="7">
+<li>（渲染）<code>View——&gt;渲染</code><br>View会根据传进来的Model模型数据进行渲染，此处的Model实际是一个Map数据结构，因此很容易支持其他视图技术</li>
+</ol>
+</li>
+<li><ol start="8">
+<li>（返回）<code>返回控制权给DispatcherServlet</code><br>由DispatcherServlet返回响应给用户，到此一个流程结束。</li>
+</ol>
+</li>
+</ul>
+<h1 id="三、框架组件"><a href="#三、框架组件" class="headerlink" title="三、框架组件"></a>三、框架组件</h1><h2 id="DispatcherServlet：前端控制器"><a href="#DispatcherServlet：前端控制器" class="headerlink" title="DispatcherServlet：前端控制器"></a>DispatcherServlet：前端控制器</h2><p>用户请求到达前端控制器，它就相当于mvc模式中的c，<strong>DispatcherServlet是整个流程控制的中心</strong>，由它调用其它组件处理用户的请求，DispatcherServlet的存在降低了组件之间的耦合性。</p>
+<h2 id="HandlerMapping：处理器映射器"><a href="#HandlerMapping：处理器映射器" class="headerlink" title="HandlerMapping：处理器映射器"></a>HandlerMapping：处理器映射器</h2><p>HandlerMapping负责<strong>根据用户请求找到处理器（Handler）</strong>，springmvc提供了不同的映射器实现不同的映射方式，例如：配置文件方式，实现接口方式，注解方式等。</p>
+<h2 id="HandlAdapter：处理器适配器"><a href="#HandlAdapter：处理器适配器" class="headerlink" title="HandlAdapter：处理器适配器"></a>HandlAdapter：处理器适配器</h2><p>通过HandlerAdapter<strong>对处理器进行执行</strong>，这是适配器模式的应用，通过扩展适配器可以对更多类型的处理器进行执行。</p>
+<h2 id="Handler：处理器"><a href="#Handler：处理器" class="headerlink" title="Handler：处理器"></a>Handler：处理器</h2><p>在DispatcherServlet的控制下Handler<strong>对具体的用户请求进行处理。</strong><br>由于Handler<code>涉及到具体的用户业务请求</code>，所以一般情况需要程序员根据业务需求开发Handler。</p>
+<h2 id="View-Resolver：视图解析器"><a href="#View-Resolver：视图解析器" class="headerlink" title="View Resolver：视图解析器"></a>View Resolver：视图解析器</h2><p>View Resolver负责将处理结果生成View视图，View Resolver首先根据逻辑视图名解析成物理视图名即具体的页面地址，再生成View视图对象，最后对View进行渲染将处理结果通过页面展示给用户。</p>
+<h2 id="View：视图"><a href="#View：视图" class="headerlink" title="View：视图"></a>View：视图</h2><p>springmvc框架提供了很多的View视图类型的支持，包括：jstlView、freemarkerView、pdfView等。我们最常用的视图就是<code>jsp</code></p>
+<p>一般情况下需要通过页面标签或页面模版技术将模型数据通过页面展示给用户，<code>需要由程序员根据业务需求开发具体的页面</code>。</p>
+<p>说明：在springmvc的各个组件中，处理器映射器、处理器适配器、视图解析器称为springmvc的<strong>三大组件</strong>。</p>
+<p>需要用户（程序员）开发的组件有handler、view</p>
+<h1 id="四、springmvc与struts2不同"><a href="#四、springmvc与struts2不同" class="headerlink" title="四、springmvc与struts2不同"></a>四、springmvc与struts2不同</h1><h2 id="1-底层实现机制-match"><a href="#1-底层实现机制-match" class="headerlink" title="1. 底层实现机制 match"></a>1. 底层实现机制 match</h2><p>struts2:filter<br>springmvc:servlet</p>
+<h2 id="2-运行效率"><a href="#2-运行效率" class="headerlink" title="2. 运行效率"></a>2. 运行效率</h2><p>struts2:底层是Servlet,参数基于属性封装,如果配置单例,会出现线程安全问题,所以配置多例<br>springmvc:底层是Servlet,单例</p>
+<h2 id="3-参数封装"><a href="#3-参数封装" class="headerlink" title="3. 参数封装"></a>3. 参数封装</h2><p>struts2:基于属性封装<br>springmvc:基于方法进行封装</p>
+<p>参考文章<br><a href="https://www.jianshu.com/p/25a78698d7fa" target="_blank" rel="noopener">SpringMVC框架</a><br><a href="https://www.jianshu.com/p/21b143ad235b" target="_blank" rel="noopener">springMVC入门（springMVC笔记）</a></p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/SpringMVC/" rel="tag"><i class="fa fa-tag"></i> SpringMVC</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/07/29/Log4j简单使用/" rel="next" title="Log4j简单使用">
+                <i class="fa fa-chevron-left"></i> Log4j简单使用
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">杨旭东</p>
+              <p class="site-description motion-element" itemprop="description">种一棵树最好的时间是十年前，其次是现在</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">62</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">16</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">36</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/stoneyang94" target="_blank" title="GitHub">
+                      
+                        <i class="fa fa-fw fa-github"></i>GitHub</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="https://www.jianshu.com/u/f7b90f4a10ae" target="_blank" title="简书">
+                      
+                        <i class="fa fa-fw fa-book"></i>简书</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#一、SpringMVC介绍"><span class="nav-number">1.</span> <span class="nav-text">一、SpringMVC介绍</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#先说Web-MVC开发模式"><span class="nav-number">1.1.</span> <span class="nav-text">先说Web MVC开发模式</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#定义"><span class="nav-number">1.1.1.</span> <span class="nav-text">定义</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Web-MVC各模块作用"><span class="nav-number">1.2.</span> <span class="nav-text">Web MVC各模块作用</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#模型（Model）"><span class="nav-number">1.2.1.</span> <span class="nav-text">模型（Model）</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#视图（View）"><span class="nav-number">1.3.</span> <span class="nav-text">视图（View）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#控制器（Controller）"><span class="nav-number">1.4.</span> <span class="nav-text">控制器（Controller）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#什么是SpringMVC"><span class="nav-number">1.5.</span> <span class="nav-text">什么是SpringMVC</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#SpringMVC是Web-MVC的V-View）"><span class="nav-number">1.6.</span> <span class="nav-text">SpringMVC是Web MVC的V(View）</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#二、SpringMVC运行原理"><span class="nav-number">2.</span> <span class="nav-text">二、SpringMVC运行原理</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#流程步骤分析"><span class="nav-number">2.1.</span> <span class="nav-text">流程步骤分析</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#流程步骤总结"><span class="nav-number">2.2.</span> <span class="nav-text">流程步骤总结</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#三、框架组件"><span class="nav-number">3.</span> <span class="nav-text">三、框架组件</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#DispatcherServlet：前端控制器"><span class="nav-number">3.1.</span> <span class="nav-text">DispatcherServlet：前端控制器</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#HandlerMapping：处理器映射器"><span class="nav-number">3.2.</span> <span class="nav-text">HandlerMapping：处理器映射器</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#HandlAdapter：处理器适配器"><span class="nav-number">3.3.</span> <span class="nav-text">HandlAdapter：处理器适配器</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Handler：处理器"><span class="nav-number">3.4.</span> <span class="nav-text">Handler：处理器</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#View-Resolver：视图解析器"><span class="nav-number">3.5.</span> <span class="nav-text">View Resolver：视图解析器</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#View：视图"><span class="nav-number">3.6.</span> <span class="nav-text">View：视图</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#四、springmvc与struts2不同"><span class="nav-number">4.</span> <span class="nav-text">四、springmvc与struts2不同</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-底层实现机制-match"><span class="nav-number">4.1.</span> <span class="nav-text">1. 底层实现机制 match</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-运行效率"><span class="nav-number">4.2.</span> <span class="nav-text">2. 运行效率</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-参数封装"><span class="nav-number">4.3.</span> <span class="nav-text">3. 参数封装</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">杨旭东</span>
+
+  
+</div>
+
+<!-- 20180426 -->
+<div class="powered-by">
+<i class="fa fa-user-md"></i><span id="busuanzi_container_site_uv">
+  本站访客数:<span id="busuanzi_value_site_uv"></span>
+</span>
+</div>
+
+
+<!-- 20180425
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+-->
+
+<!-- 20180425
+
+  <span class="post-meta-divider">|</span>
+
+-->
+
+<!-- 20180425
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Gemini</a> v5.1.4</div>
+
+-->
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+  <!--页面点击小红心 -->
+  <script type="text/javascript" src="/js/src/love.js"></script>>
+    <!--背景动画 -->
+  <script type="text/javascript" src="/js/src/background.js"></script>>
+</body>
+</html>
