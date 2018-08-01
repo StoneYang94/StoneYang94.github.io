@@ -1,7 +1,7 @@
 ---
 title: JVM内存
 date: 2018-07-01 15:32:07
-tags: JVM内存
+tags: JVM
 categories: JVM
 ---
 博主最近复习深入理解JVM一书，整理归纳，以形成系统认识和方便日后复习。

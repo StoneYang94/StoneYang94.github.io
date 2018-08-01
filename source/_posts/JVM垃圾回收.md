@@ -1,7 +1,7 @@
 ---
 title: JVM垃圾回收
 date: 2018-07-02 23:39:18
-tags: JVM垃圾回收
+tags: JVM
 categories: JVM
 ---
 Java与C++之间有一堵由内存动态分配和垃圾收集技术所围成的“高墙”，墙外面的人想进去，墙里面的人想出来。
