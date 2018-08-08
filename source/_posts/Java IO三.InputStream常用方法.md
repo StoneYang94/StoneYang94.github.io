@@ -1,18 +1,28 @@
 ---
-title: InputStream源码学习-基于JDK8
+title: Java I/O三.InputStream常用方法
 date: 2018-06-24 23:50:49
-tags: 
-- I/O
-- 源码
+tags: Java I/O
 categories: Java I/O
 ---
-- InputStream 为字节输入流，它本身为一个抽象类，必须依靠其子类实现各种功能，此抽象类是表示字节输入流的所有类的超类
--  继承自InputStream 的流都是向程序中输入数据的，且数据单位为字节（8bit）
+本文主要介绍
+1. InputStream常用方法罗列
+2. InputStream类部分源码
 
 <!-- more -->
 
-# 实现类
-几种不同的InputStream：
+- InputStream 为字节输入流，它本身为一个抽象类，必须依靠其子类实现各种功能，此抽象类是表示字节输入流的所有类的超类
+-  继承自InputStream 的流都是向程序中输入数据的，且数据单位为字节（8bit）
+
+# 装饰者模式
+首先是输入流的最高超类-InputStream，该类也可以算是装饰者模式的最高级超类(装饰者模式-装饰者组合被装饰者类，调用被装饰者类的方法实现具体功能，装饰者则对其实现适当增加功能)。
+
+然后有一个FilterInputStream类，继承InputStream，则可算是装饰者模式的装饰者超类。
+
+此外，io包将流分为了节点流和处理流，节点流是FileInputStream、ByteArrayInputStream这些直接从某个地方获取流的类；处理流则是BufferedInputStream这种可以装饰节点流，来实现特定功能的类。
+
+因此，节点流可以理解为装饰者模式中的被装饰者，处理流则是装饰者。
+
+# 几种不同的InputStream
 1.  FileInputStream
 把一个**文件**作为InputStream，实现对文件的读取操作
 2.  ByteArrayInputStream
@@ -31,15 +41,31 @@ categories: Java I/O
   - 处理流则是BufferedInputStream这种可以装饰节点流，来实现特定功能的类
   - 因此，节点流可以理解为装饰者模式中的被装饰者，处理流则是装饰者
 
-# InputStream方法
+# InputStream源码
+
+## 常用方法
+
+|方法|作用|一些返回值
+|--|--|--|
+|public abstract int `read( )`|读取一个byte的数据|若返回值=-1说明没有读取到任何字节读取工作结束
+|public int `read(byte b[ ])`|读取b.length个字节的数据放到b数组中。该方法实际上是调用下一个方法实现的|返回值是读取的字节数
+|public int `read(byte b[ ], int off, int len)`|从输入流中最多读取len个字节的数据，存放到偏移量为off的b数组中|
+|public int available( )|返回输入流中可以读取的字节数。注意：若输入阻塞，当前线程将被挂起，如果InputStream对象调用这个方法的话，它只会返回0，这个方法必须由继承InputStream类的子类对象调用才有用
+|public long skip(long n)|忽略输入流中的n个字节|返回值是实际忽略的字节数
+|public int close( ) |使用完后，必须对我们打开的流进行关闭。|
 
 ## 定义
 
 ```java
-public abstract class InputStream implements Closeable
+package io;
+import java.io.Closeable;
+import java.io.IOException;
+
+//输入流超类-装饰者模式超类 ,实现可关闭接口
+public abstract class InputStream implements Closeable {
 ```
 
-## 读取数据
+## 读取数据---`read( )`
 
 ### read( )
 
@@ -51,7 +77,8 @@ public abstract class InputStream implements Closeable
 
 - 返回值
 
->The value byte is returned as an int in the range 0 to 255. If no byte is available because the end of the stream has been reached, the value -1 is returned.
+>The value byte is returned as an int in the range 0 to 255.
+ If no byte is available because the end of the stream has been reached, the value -1 is returned.
 
 - 代码
 
@@ -69,7 +96,8 @@ public abstract int read() throws IOException
 
 - 返回值
 
-> the total number of bytes read into the buffer, or -1 if there is no more data because the end of the stream has been reached.
+> the total number of bytes read into the buffer, 
+or -1 if there is no more data because the end of the stream has been reached.
 
 - 代码
 
@@ -111,7 +139,7 @@ public int read(byte b[]) throws IOException {
         }
         //将读取到的字节从b[]数组偏移的下标处开始存入
         b[off] = (byte)c;
-        int i = 1;  //i为1表示读取的字节的数量---------------
+        int i = 1;  ////因为上面调用了一次read(),所以设置i为1，表示读取了1个字节-------
         try {
             //循环读取，直到 i(读取了的字节) 不小于 len(要读取的字节)
             for (; i < len ; i++) {
@@ -154,11 +182,11 @@ public int read(byte b[]) throws IOException {
 public long skip(long n) throws IOException {
     long remaining = n; //复制 总的跳过字节大小 到 剩余要跳过字节大小
     int nr;
-//如果要跳过的字节小于0，直接返回0，表示跳过了0个字节
+    //如果要跳过的字节小于0，直接返回0，表示跳过了0个字节
     if (n <= 0) {
         return 0;
     }
-//从 要跳过的字节数 和 最大允许跳过的字节数 中取最小值
+    //从 要跳过的字节数 和 最大允许跳过的字节数 中取最小值
     int size = (int)Math.min(MAX_SKIP_BUFFER_SIZE, remaining);
     byte[] skipBuffer = new byte[size];//创建临时的要跳过字节大小的字节数组
     while (remaining > 0) {  // 剩余要跳过字节大小 > 0
@@ -178,6 +206,10 @@ public long skip(long n) throws IOException {
     }  
         return n - remaining;//返回跳过了多少个字节数
 }
+```
+
+```java
+private static final int MAX_SKIP_BUFFER_SIZE = 2048;//最大可跳过缓冲数组大小
 ```
 
 ## available()
