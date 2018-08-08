@@ -1,0 +1,932 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next gemini use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+<!-- 20180426-->
+<script src="//cdn.bootcss.com/pace/1.0.2/pace.min.js"></script>
+<link href="//cdn.bootcss.com/pace/1.0.2/themes/pink/pace-theme-flash.css" rel="stylesheet">
+<style>
+    .pace .pace-progress {
+        background: #1E92FB; /*进度条颜色*/
+        height: 3px;
+    }
+    .pace .pace-progress-inner {
+         box-shadow: 0 0 10px #1E92FB, 0 0 5px     #1E92FB; /*阴影颜色*/
+    }
+    .pace .pace-activity {
+        border-top-color: #1E92FB;    /*上边框颜色*/
+        border-left-color: #1E92FB;    /*左边框颜色*/
+    }
+</style>
+
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon.ico?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="Java I/O," />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="本文主要介绍  InputStream常用方法罗列 InputStream类部分源码">
+<meta name="keywords" content="Java I&#x2F;O">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Java I&#x2F;O三.InputStream常用方法">
+<meta property="og:url" content="http://yoursite.com/2018/06/24/Java IO三.InputStream常用方法/index.html">
+<meta property="og:site_name" content="Xudong&#39;s blogs">
+<meta property="og:description" content="本文主要介绍  InputStream常用方法罗列 InputStream类部分源码">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2018-08-08T12:22:28.272Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Java I&#x2F;O三.InputStream常用方法">
+<meta name="twitter:description" content="本文主要介绍  InputStream常用方法罗列 InputStream类部分源码">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2018/06/24/Java IO三.InputStream常用方法/"/>
+
+
+
+
+
+  <title>Java I/O三.InputStream常用方法 | Xudong's blogs</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Xudong's blogs</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">email:2228998096@qq.com    wechat:yxd19940114</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/06/24/Java IO三.InputStream常用方法/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="杨旭东">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Xudong's blogs">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">Java I/O三.InputStream常用方法</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-06-24T23:50:49+08:00">
+                2018-06-24
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Java-I-O/" itemprop="url" rel="index">
+                    <span itemprop="name">Java I/O</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>本文主要介绍</p>
+<ol>
+<li>InputStream常用方法罗列</li>
+<li>InputStream类部分源码</li>
+</ol>
+<a id="more"></a>
+<ul>
+<li>InputStream 为字节输入流，它本身为一个抽象类，必须依靠其子类实现各种功能，此抽象类是表示字节输入流的所有类的超类</li>
+<li>继承自InputStream 的流都是向程序中输入数据的，且数据单位为字节（8bit）</li>
+</ul>
+<h1 id="装饰者模式"><a href="#装饰者模式" class="headerlink" title="装饰者模式"></a>装饰者模式</h1><p>首先是输入流的最高超类-InputStream，该类也可以算是装饰者模式的最高级超类(装饰者模式-装饰者组合被装饰者类，调用被装饰者类的方法实现具体功能，装饰者则对其实现适当增加功能)。</p>
+<p>然后有一个FilterInputStream类，继承InputStream，则可算是装饰者模式的装饰者超类。</p>
+<p>此外，io包将流分为了节点流和处理流，节点流是FileInputStream、ByteArrayInputStream这些直接从某个地方获取流的类；处理流则是BufferedInputStream这种可以装饰节点流，来实现特定功能的类。</p>
+<p>因此，节点流可以理解为装饰者模式中的被装饰者，处理流则是装饰者。</p>
+<h1 id="几种不同的InputStream"><a href="#几种不同的InputStream" class="headerlink" title="几种不同的InputStream"></a>几种不同的InputStream</h1><ol>
+<li>FileInputStream<br>把一个<strong>文件</strong>作为InputStream，实现对文件的读取操作</li>
+<li>ByteArrayInputStream<br>把内存中的一个<strong>缓冲区</strong>作为InputStream使用</li>
+<li>StringBufferInputStream<br>把一个<strong>String对象</strong>作为InputStream</li>
+<li>PipedInputStream<br>实现了pipe的概念，主要在线程中使用</li>
+<li>SequenceInputStream<br>把多个InputStream合并为一个InputStream</li>
+</ol>
+<ul>
+<li>输入流的最高超类-InputStream，是装饰者模式的最高级超类</li>
+<li>FilterInputStream类，继承InputStream，可算是装饰者模式的装饰者超类</li>
+<li>io包将流分为了节点流和处理流<ul>
+<li>节点流是FileInputStream、ByteArrayInputStream这些直接从某个地方获取流的类</li>
+<li>处理流则是BufferedInputStream这种可以装饰节点流，来实现特定功能的类</li>
+<li>因此，节点流可以理解为装饰者模式中的被装饰者，处理流则是装饰者</li>
+</ul>
+</li>
+</ul>
+<h1 id="InputStream源码"><a href="#InputStream源码" class="headerlink" title="InputStream源码"></a>InputStream源码</h1><h2 id="常用方法"><a href="#常用方法" class="headerlink" title="常用方法"></a>常用方法</h2><table>
+<thead>
+<tr>
+<th>方法</th>
+<th>作用</th>
+<th>一些返回值</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>public abstract int <code>read( )</code></td>
+<td>读取一个byte的数据</td>
+<td>若返回值=-1说明没有读取到任何字节读取工作结束</td>
+</tr>
+<tr>
+<td>public int <code>read(byte b[ ])</code></td>
+<td>读取b.length个字节的数据放到b数组中。该方法实际上是调用下一个方法实现的</td>
+<td>返回值是读取的字节数</td>
+</tr>
+<tr>
+<td>public int <code>read(byte b[ ], int off, int len)</code></td>
+<td>从输入流中最多读取len个字节的数据，存放到偏移量为off的b数组中</td>
+</tr>
+<tr>
+<td>public int available( )</td>
+<td>返回输入流中可以读取的字节数。注意：若输入阻塞，当前线程将被挂起，如果InputStream对象调用这个方法的话，它只会返回0，这个方法必须由继承InputStream类的子类对象调用才有用</td>
+</tr>
+<tr>
+<td>public long skip(long n)</td>
+<td>忽略输入流中的n个字节</td>
+<td>返回值是实际忽略的字节数</td>
+</tr>
+<tr>
+<td>public int close( )</td>
+<td>使用完后，必须对我们打开的流进行关闭。</td>
+</tr>
+</tbody>
+</table>
+<h2 id="定义"><a href="#定义" class="headerlink" title="定义"></a>定义</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> io;</span><br><span class="line"><span class="keyword">import</span> java.io.Closeable;</span><br><span class="line"><span class="keyword">import</span> java.io.IOException;</span><br><span class="line"></span><br><span class="line"><span class="comment">//输入流超类-装饰者模式超类 ,实现可关闭接口</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">abstract</span> <span class="class"><span class="keyword">class</span> <span class="title">InputStream</span> <span class="keyword">implements</span> <span class="title">Closeable</span> </span>&#123;</span><br></pre></td></tr></table></figure>
+<h2 id="读取数据—read"><a href="#读取数据—read" class="headerlink" title="读取数据—read( )"></a>读取数据—<code>read( )</code></h2><h3 id="read"><a href="#read" class="headerlink" title="read( )"></a>read( )</h3><p>抽象方法，没有具体实现，因为子类必须实现此方法的一个实现。</p>
+<ul>
+<li>用法</li>
+</ul>
+<blockquote>
+<p>Reads the next byte of data from the input stream. </p>
+</blockquote>
+<ul>
+<li>返回值</li>
+</ul>
+<blockquote>
+<p>The value byte is returned as an int in the range 0 to 255.<br> If no byte is available because the end of the stream has been reached, the value -1 is returned.</p>
+</blockquote>
+<ul>
+<li>代码</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">abstract</span> <span class="keyword">int</span> <span class="title">read</span><span class="params">()</span> <span class="keyword">throws</span> IOException</span></span><br></pre></td></tr></table></figure>
+<h3 id="read-byte-b"><a href="#read-byte-b" class="headerlink" title="read(byte b[ ])"></a>read(byte b[ ])</h3><p>从输入流中读取数据的一定数量字节，并存储在缓存字节数组b。</p>
+<ul>
+<li>用法</li>
+</ul>
+<blockquote>
+<p>Reads some number of bytes from the input stream and stores them into the buffer array b.</p>
+</blockquote>
+<ul>
+<li>返回值</li>
+</ul>
+<blockquote>
+<p>the total number of bytes read into the buffer,<br>or -1 if there is no more data because the end of the stream has been reached.</p>
+</blockquote>
+<ul>
+<li>代码</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">read</span><span class="params">(<span class="keyword">byte</span> b[])</span> <span class="keyword">throws</span> IOException </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> read(b, <span class="number">0</span>, b.length);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="read-byte-b-int-off-int-len"><a href="#read-byte-b-int-off-int-len" class="headerlink" title="read(byte b[ ], int off, int len)"></a>read(byte b[ ], int off, int len)</h3><p>在输入数据可用、检测到流末尾或者抛出异常前，此方法一直阻塞。</p>
+<ul>
+<li>用法<br>让b[]偏移off个字节读取len长度的字节到b[]数组</li>
+</ul>
+<blockquote>
+<p>Reads up to len bytes of data from the input stream into an array of bytes. An attempt is made to read as many as len bytes, but a smaller number may be read. The number of bytes actually read is returned as an integer.</p>
+</blockquote>
+<ul>
+<li>顺序<br>将读取的第一个字节存储在元素 b[off] 中，下一个存储在 b[off+1] 中</li>
+<li><p>取出后偏移<br>此处的偏移并非要读取的in中的偏移，而是读取出字节后，从b[]数组的那个位置开始放起，也就是让b[]数组偏移off个字节</p>
+</li>
+<li><p>代码</p>
+</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"> <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">read</span><span class="params">(<span class="keyword">byte</span> b[], <span class="keyword">int</span> off, <span class="keyword">int</span> len)</span> <span class="keyword">throws</span> IOException </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (b == <span class="keyword">null</span>) &#123;</span><br><span class="line">            <span class="keyword">throw</span> <span class="keyword">new</span> NullPointerException();</span><br><span class="line">        &#125; <span class="keyword">else</span> <span class="keyword">if</span> (off &lt; <span class="number">0</span> || len &lt; <span class="number">0</span> || len &gt; b.length - off) &#123;</span><br><span class="line">            <span class="keyword">throw</span> <span class="keyword">new</span> IndexOutOfBoundsException();</span><br><span class="line">        &#125; <span class="keyword">else</span> <span class="keyword">if</span> (len == <span class="number">0</span>) &#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">int</span> c = read(); <span class="comment">//c表示读取到的字节-------------</span></span><br><span class="line">        <span class="comment">//读取到字节数为-1，表示没有可读字节</span></span><br><span class="line">        <span class="keyword">if</span> (c == -<span class="number">1</span>) &#123;</span><br><span class="line">            <span class="keyword">return</span> -<span class="number">1</span>;<span class="comment">//则返回-1：告知调用者，没有可读字节</span></span><br><span class="line">        &#125;</span><br><span class="line">        <span class="comment">//将读取到的字节从b[]数组偏移的下标处开始存入</span></span><br><span class="line">        b[off] = (<span class="keyword">byte</span>)c;</span><br><span class="line">        <span class="keyword">int</span> i = <span class="number">1</span>;  <span class="comment">////因为上面调用了一次read(),所以设置i为1，表示读取了1个字节-------</span></span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            <span class="comment">//循环读取，直到 i(读取了的字节) 不小于 len(要读取的字节)</span></span><br><span class="line">            <span class="keyword">for</span> (; i &lt; len ; i++) &#123;</span><br><span class="line">                c = read();<span class="comment">//读取下一个字节</span></span><br><span class="line">                <span class="keyword">if</span> (c == -<span class="number">1</span>) &#123; <span class="comment">//没读取到，跳出循环</span></span><br><span class="line">                    <span class="keyword">break</span>;</span><br><span class="line">                &#125;</span><br><span class="line">                b[off + i] = (<span class="keyword">byte</span>)c; <span class="comment">//读取到了，就转为字节，然后存入b[]数组</span></span><br><span class="line">            &#125;</span><br><span class="line">        &#125; <span class="keyword">catch</span> (IOException ee) &#123;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> i;<span class="comment">//返回读取到了的字节数</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>参数</p>
+<blockquote>
+<p>b - the buffer into which the data is read.<br>   off - the start offset in array b at which the data is written.<br>   len - the maximum number of bytes to read.</p>
+</blockquote>
+<p>返回值</p>
+<blockquote>
+<p>the total number of bytes read into the buffer, or -1 if there is no more data because the end of the stream has been reached.</p>
+</blockquote>
+<h3 id="流结束的判断"><a href="#流结束的判断" class="headerlink" title="流结束的判断"></a>流结束的判断</h3><p>方法read()的返回值为-1时；readLine()的返回值为null时。</p>
+<h2 id="其他"><a href="#其他" class="headerlink" title="其他"></a>其他</h2><h3 id="skip-long-n"><a href="#skip-long-n" class="headerlink" title="skip(long n)"></a>skip(long n)</h3><p>跳过n个字节,所谓的跳过也就是读取后抛弃</p>
+<blockquote>
+<p> @param      n   the number of bytes to be skipped.<br>    @return     the actual number of bytes skipped.</p>
+</blockquote>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">long</span> <span class="title">skip</span><span class="params">(<span class="keyword">long</span> n)</span> <span class="keyword">throws</span> IOException </span>&#123;</span><br><span class="line">    <span class="keyword">long</span> remaining = n; <span class="comment">//复制 总的跳过字节大小 到 剩余要跳过字节大小</span></span><br><span class="line">    <span class="keyword">int</span> nr;</span><br><span class="line">    <span class="comment">//如果要跳过的字节小于0，直接返回0，表示跳过了0个字节</span></span><br><span class="line">    <span class="keyword">if</span> (n &lt;= <span class="number">0</span>) &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">//从 要跳过的字节数 和 最大允许跳过的字节数 中取最小值</span></span><br><span class="line">    <span class="keyword">int</span> size = (<span class="keyword">int</span>)Math.min(MAX_SKIP_BUFFER_SIZE, remaining);</span><br><span class="line">    <span class="keyword">byte</span>[] skipBuffer = <span class="keyword">new</span> <span class="keyword">byte</span>[size];<span class="comment">//创建临时的要跳过字节大小的字节数组</span></span><br><span class="line">    <span class="keyword">while</span> (remaining &gt; <span class="number">0</span>) &#123;  <span class="comment">// 剩余要跳过字节大小 &gt; 0</span></span><br><span class="line">             <span class="comment">//A:如果 要跳过的字节数 &lt; 最大允许跳过数</span></span><br><span class="line">             <span class="comment">//则直接读取 要 要跳过的字节数 大小的字节到临时数组</span></span><br><span class="line">             <span class="comment">// B:如果 要跳过的字节数 &gt; 最大允许跳过数</span></span><br><span class="line">             <span class="comment">//则每次读取 最大允许跳过数 大小的字节到临时数组，循环，直到读取完成</span></span><br><span class="line">        nr = read(skipBuffer, <span class="number">0</span>, (<span class="keyword">int</span>)Math.min(size, remaining));</span><br><span class="line">             <span class="comment">//如果read()返回值小于0,表示没有可读字节，直接跳出循环</span></span><br><span class="line">             <span class="comment">// 该情况出现在，当要跳过的字节大小 大于 输入流剩余字节大小的时候</span></span><br><span class="line">        <span class="keyword">if</span> (nr &lt; <span class="number">0</span>) &#123;</span><br><span class="line">            <span class="keyword">break</span>;</span><br><span class="line">        &#125;</span><br><span class="line">             <span class="comment">//如果是A，则相减后==0，相当于只执行一次循环</span></span><br><span class="line">             <span class="comment">// 如果是B，则每次读取最大允许跳过数大小的字节，循环读取，直到读取/跳过到指定大小的字节数</span></span><br><span class="line">        remaining -= nr;</span><br><span class="line">    &#125;  </span><br><span class="line">        <span class="keyword">return</span> n - remaining;<span class="comment">//返回跳过了多少个字节数</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">int</span> MAX_SKIP_BUFFER_SIZE = <span class="number">2048</span>;<span class="comment">//最大可跳过缓冲数组大小</span></span><br></pre></td></tr></table></figure>
+<h2 id="available"><a href="#available" class="headerlink" title="available()"></a>available()</h2><ul>
+<li>返回输入流中可以读取的字节数</li>
+<li>若输入阻塞，当前线程将被挂起，如果InputStream对象调用这个方法的话，它只会返回0</li>
+<li>这个方法必须由继承InputStream类的子类对象调用</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">available</span><span class="params">()</span> <span class="keyword">throws</span> IOException </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="close"><a href="#close" class="headerlink" title="close()"></a>close()</h2><p>我们在使用完后，必须对我们打开的流进行关闭</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">close</span><span class="params">()</span> <span class="keyword">throws</span> IOException </span>&#123;&#125;</span><br></pre></td></tr></table></figure>
+<p>参考文章<br><a href="https://docs.oracle.com/javase/8/docs/api/" target="_blank" rel="noopener">官方文档</a><br><a href="https://blog.csdn.net/qq_22063697/article/details/52137369" target="_blank" rel="noopener">java回忆录—输入输出流详细讲解（入门经典）</a><br><a href="https://www.ibm.com/developerworks/cn/java/j-lo-javaio/index.html" target="_blank" rel="noopener">深入分析 Java I/O 的工作机制</a></p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Java-I-O/" rel="tag"><i class="fa fa-tag"></i> Java I/O</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/06/23/数据库理论（一）/" rel="next" title="数据库理论（一）">
+                <i class="fa fa-chevron-left"></i> 数据库理论（一）
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/06/25/数据库理论（二）/" rel="prev" title="数据库理论（二）">
+                数据库理论（二） <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/avatar.jpg"
+                alt="杨旭东" />
+            
+              <p class="site-author-name" itemprop="name">杨旭东</p>
+              <p class="site-description motion-element" itemprop="description">种一棵树最好的时间是十年前，其次是现在</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">71</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">16</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">38</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/stoneyang94" target="_blank" title="GitHub">
+                      
+                        <i class="fa fa-fw fa-github"></i>GitHub</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="https://www.jianshu.com/u/f7b90f4a10ae" target="_blank" title="简书">
+                      
+                        <i class="fa fa-fw fa-book"></i>简书</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#装饰者模式"><span class="nav-number">1.</span> <span class="nav-text">装饰者模式</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#几种不同的InputStream"><span class="nav-number">2.</span> <span class="nav-text">几种不同的InputStream</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#InputStream源码"><span class="nav-number">3.</span> <span class="nav-text">InputStream源码</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#常用方法"><span class="nav-number">3.1.</span> <span class="nav-text">常用方法</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#定义"><span class="nav-number">3.2.</span> <span class="nav-text">定义</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#读取数据—read"><span class="nav-number">3.3.</span> <span class="nav-text">读取数据—read( )</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#read"><span class="nav-number">3.3.1.</span> <span class="nav-text">read( )</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#read-byte-b"><span class="nav-number">3.3.2.</span> <span class="nav-text">read(byte b[ ])</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#read-byte-b-int-off-int-len"><span class="nav-number">3.3.3.</span> <span class="nav-text">read(byte b[ ], int off, int len)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#流结束的判断"><span class="nav-number">3.3.4.</span> <span class="nav-text">流结束的判断</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#其他"><span class="nav-number">3.4.</span> <span class="nav-text">其他</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#skip-long-n"><span class="nav-number">3.4.1.</span> <span class="nav-text">skip(long n)</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#available"><span class="nav-number">3.5.</span> <span class="nav-text">available()</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#close"><span class="nav-number">3.6.</span> <span class="nav-text">close()</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">杨旭东</span>
+
+  
+</div>
+
+<!-- 20180426 -->
+<div class="powered-by">
+<i class="fa fa-user-md"></i><span id="busuanzi_container_site_uv">
+  本站访客数:<span id="busuanzi_value_site_uv"></span>
+</span>
+</div>
+
+
+<!-- 20180425
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+-->
+
+<!-- 20180425
+
+  <span class="post-meta-divider">|</span>
+
+-->
+
+<!-- 20180425
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Gemini</a> v5.1.4</div>
+
+-->
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+  <!--页面点击小红心 -->
+  <script type="text/javascript" src="/js/src/love.js"></script>>
+    <!--背景动画 -->
+  <script type="text/javascript" src="/js/src/background.js"></script>>
+</body>
+</html>

@@ -1,0 +1,910 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next gemini use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+<!-- 20180426-->
+<script src="//cdn.bootcss.com/pace/1.0.2/pace.min.js"></script>
+<link href="//cdn.bootcss.com/pace/1.0.2/themes/pink/pace-theme-flash.css" rel="stylesheet">
+<style>
+    .pace .pace-progress {
+        background: #1E92FB; /*进度条颜色*/
+        height: 3px;
+    }
+    .pace .pace-progress-inner {
+         box-shadow: 0 0 10px #1E92FB, 0 0 5px     #1E92FB; /*阴影颜色*/
+    }
+    .pace .pace-activity {
+        border-top-color: #1E92FB;    /*上边框颜色*/
+        border-left-color: #1E92FB;    /*左边框颜色*/
+    }
+</style>
+
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon.ico?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="Java I/O," />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="本文主要Java 的 I/O最重要5个类、一个接口。">
+<meta name="keywords" content="Java I&#x2F;O">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Java I&#x2F;O一.总览">
+<meta property="og:url" content="http://yoursite.com/2018/06/18/Java IO一.总览/index.html">
+<meta property="og:site_name" content="Xudong&#39;s blogs">
+<meta property="og:description" content="本文主要Java 的 I/O最重要5个类、一个接口。">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/11861611-468a8ecb4fd207d4.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/11861611-39e7b6547e8d18c3.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:updated_time" content="2018-08-08T12:16:58.750Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Java I&#x2F;O一.总览">
+<meta name="twitter:description" content="本文主要Java 的 I/O最重要5个类、一个接口。">
+<meta name="twitter:image" content="http://upload-images.jianshu.io/upload_images/11861611-468a8ecb4fd207d4.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2018/06/18/Java IO一.总览/"/>
+
+
+
+
+
+  <title>Java I/O一.总览 | Xudong's blogs</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Xudong's blogs</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">email:2228998096@qq.com    wechat:yxd19940114</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/06/18/Java IO一.总览/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="杨旭东">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Xudong's blogs">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">Java I/O一.总览</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-06-18T23:52:28+08:00">
+                2018-06-18
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Java-I-O/" itemprop="url" rel="index">
+                    <span itemprop="name">Java I/O</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>本文主要Java 的 I/O最重要5个类、一个接口。</p>
+<a id="more"></a>
+<h1 id="数据流"><a href="#数据流" class="headerlink" title="数据流"></a>数据流</h1><h2 id="数据流是什么"><a href="#数据流是什么" class="headerlink" title="数据流是什么"></a>数据流是什么</h2><p>数据流是一组有序，有起点和终点的字节的数据序列，包括输入流和输出流。</p>
+<ul>
+<li>数据流是一串连续不断的数据的集合，就象水管里的水流，在水管的一端一点一点地供水，而在水管的另一端看到的是一股连续不断的水流。</li>
+<li>写入<br>数据写入程序可以是一段、一段地向数据流管道中写入数据，这些数据段会按<strong>先后顺序</strong>形成一个长的数据流。</li>
+<li>读取<br>对数据读取程序来说，看不到数据流在写入时的分段情况，每次可以读取其中的任意长度的数据，但<strong>只能先读取前面的数据后，再读取后面的数据（不能随机读取）</strong>。</li>
+<li>效果<br>不管写入时是将数据分多次写入，还是作为一个整体一次写入，读取时的效果都是完全一样的。</li>
+</ul>
+<h2 id="数据流分类"><a href="#数据流分类" class="headerlink" title="数据流分类"></a>数据流分类</h2><h3 id="按类型"><a href="#按类型" class="headerlink" title="按类型"></a>按类型</h3><p>流序列中的数据既可以是未经加工的原始二进制数据，也可以是经一定编码处理后符合某种格式规定的特定数据。</p>
+<ol>
+<li>字节流：数据流中最小的数据单元是字节</li>
+<li>字符流：数据流中最小的数据单元是字符， Java中的字符是Unicode编码，一个字符占用两个字节</li>
+</ol>
+<h3 id="按方向（站在程序的角度）"><a href="#按方向（站在程序的角度）" class="headerlink" title="按方向（站在程序的角度）"></a>按方向（站在程序的角度）</h3><ul>
+<li>输入流<br>程序从输入流读取数据源。数据源包括外界(键盘、文件、网络…)，即是将数据源读入到程序的通信通道。</li>
+<li>输出流<br>程序向输出流写入数据。将程序中的数据输出到外界（显示器、打印机、文件、网络…）的通信通道。</li>
+</ul>
+<h3 id="意义"><a href="#意义" class="headerlink" title="意义"></a>意义</h3><ul>
+<li>采用数据流的目的就是使得输出输入独立于设备<br>Input Stream不关心数据源来自何种设备（键盘，文件，网络）<br>Output Stream不关心数据的目的是何种设备（键盘，文件，网络）</li>
+</ul>
+<h1 id="存储"><a href="#存储" class="headerlink" title="存储"></a>存储</h1><h2 id="存储方式"><a href="#存储方式" class="headerlink" title="存储方式"></a>存储方式</h2><p>在电脑上的数据有三种存储方式<br>外存：电脑上的硬盘，磁盘，U盘<br>内存：内存条<br>缓存：CPU</p>
+<h2 id="对比"><a href="#对比" class="headerlink" title="对比"></a>对比</h2><p>存储量（依次递减）：    外存–&gt;内存–&gt;缓存<br>读取速度（依次递减）：  缓存–&gt;内存–&gt;外存</p>
+<h1 id="Java-的-I-O"><a href="#Java-的-I-O" class="headerlink" title="Java 的 I/O"></a>Java 的 I/O</h1><ul>
+<li>主要是指使用Java进行输入，输出操作</li>
+<li>Java 的 I/O 操作类在包 java.io 下</li>
+<li>Java所有的I/O机制<strong>都是基于数据流</strong>进行输入输出，这些数据流表示了字符或者字节数据的流动序列</li>
+</ul>
+<h2 id="最重要5个类、一个接口"><a href="#最重要5个类、一个接口" class="headerlink" title="最重要5个类、一个接口"></a>最重要5个类、一个接口</h2><ul>
+<li>5个类指的是File、OutputStream、InputStream、Writer、Reader</li>
+<li>一个接口指的是Serializable</li>
+</ul>
+<ol>
+<li>File（文件特征与管理）：用于文件或者目录的描述信息，例如生成新目录，修改文件名，删除文件，判断文件所在路径等。</li>
+<li>InputStream（字节流，二进制格式操作）：抽象类，基于字节的输入操作，是所有输入流的父类。定义了所有输入流都具有的共同特征。</li>
+<li>OutputStream（字节流，二进制格式操作）：抽象类。基于字节的输出操作。是所有输出流的父类。定义了所有输出流都具有的共同特征。</li>
+<li>Reader（字符流，文本格式操作）：抽象类，基于字符的输入操作。</li>
+<li>Writer（字符流，文本格式操作）：抽象类，基于字符的输出操作。</li>
+<li>RandomAccessFile（随机文件操作）：它的功能丰富，<strong>可以从文件的任意位置进行存取（输入输出）操作</strong>。</li>
+</ol>
+<p><img src="http://upload-images.jianshu.io/upload_images/11861611-468a8ecb4fd207d4.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="I/O体系"></p>
+<p>主要包括如下三个层次：</p>
+<ol>
+<li><strong>流式</strong>部分――IO的主体部分；</li>
+<li><strong>非流式</strong>部分――主要包含一些辅助流式部分的类，如：File类、RandomAccessFile类和FileDescriptor等类；</li>
+<li>其他类–文件<strong>读取</strong>部分的与<strong>安全</strong>相关的类，如：SerializablePermission类，以及与本地操作系统相关的文件系统的类，如：FileSystem类和Win32FileSystem类和WinNTFileSystem类。</li>
+</ol>
+<h1 id="I-O流"><a href="#I-O流" class="headerlink" title="I/O流"></a>I/O流</h1><p><img src="http://upload-images.jianshu.io/upload_images/11861611-39e7b6547e8d18c3.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="I/O流"></p>
+<p>java I/O 的设计使用到了 Decorator(装饰器)模式，按功能划分Stream，您可以动态装配这些 Stream，以便获得您需要的功能。<br>如FilterInputStream和FilterOutputStream是抽象装饰角色，而其他派生自它们的类则是具体装饰角色。</p>
+<h1 id="常用方法"><a href="#常用方法" class="headerlink" title="常用方法"></a>常用方法</h1><h2 id="Inputstream"><a href="#Inputstream" class="headerlink" title="Inputstream"></a>Inputstream</h2><table>
+<thead>
+<tr>
+<th>方法</th>
+<th>作用</th>
+<th>一些返回值</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>public abstract int <code>read( )</code></td>
+<td>读取一个byte的数据</td>
+<td>若返回值=-1说明没有读取到任何字节读取工作结束</td>
+</tr>
+<tr>
+<td>public int <code>read(byte b[ ])</code></td>
+<td>读取b.length个字节的数据放到b数组中。该方法实际上是调用下一个方法实现的</td>
+<td>返回值是读取的字节数</td>
+</tr>
+<tr>
+<td>public int <code>read(byte b[ ], int off, int len)</code></td>
+<td>从输入流中最多读取len个字节的数据，存放到偏移量为off的b数组中</td>
+</tr>
+<tr>
+<td>public int available( )</td>
+<td>返回输入流中可以读取的字节数。注意：若输入阻塞，当前线程将被挂起，如果InputStream对象调用这个方法的话，它只会返回0，这个方法必须由继承InputStream类的子类对象调用才有用</td>
+</tr>
+<tr>
+<td>public long skip(long n)</td>
+<td>忽略输入流中的n个字节</td>
+<td>返回值是实际忽略的字节数</td>
+</tr>
+<tr>
+<td>public int close( )</td>
+<td>使用完后，必须对我们打开的流进行关闭。</td>
+</tr>
+</tbody>
+</table>
+<h2 id="OutputStream"><a href="#OutputStream" class="headerlink" title="OutputStream"></a>OutputStream</h2><table>
+<thead>
+<tr>
+<th>方法</th>
+<th>作用</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>public void <code>write(byte b[ ])</code></td>
+<td>将参数b中的字节写到输出流</td>
+</tr>
+<tr>
+<td>public void <code>write(byte b[ ], int off, int len)</code></td>
+<td>将参数b的从偏移量off开始的len个字节写到输出流</td>
+</tr>
+<tr>
+<td>public abstract void <code>write(int b)</code></td>
+<td>先将int转换为byte类型，把低字节写入到输出流中</td>
+</tr>
+<tr>
+<td>public void flush( )</td>
+<td>将数据缓冲区中数据全部输出，并清空缓冲区</td>
+</tr>
+<tr>
+<td>public void close( )</td>
+<td>关闭输出流并释放与流相关的系统资源</td>
+</tr>
+</tbody>
+</table>
+<p>参考文章<br><a href="https://www.ibm.com/developerworks/cn/java/j-lo-javaio/index.html" target="_blank" rel="noopener">深入分析 Java I/O 的工作机制</a><br><a href="https://blog.csdn.net/qq_22063697/article/details/52137369" target="_blank" rel="noopener">java回忆录—输入输出流详细讲解（入门经典）</a><br><a href="https://docs.oracle.com/javase/8/docs/api/" target="_blank" rel="noopener">官方文档</a></p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Java-I-O/" rel="tag"><i class="fa fa-tag"></i> Java I/O</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/06/14/堆排序/" rel="next" title="堆排序">
+                <i class="fa fa-chevron-left"></i> 堆排序
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/06/20/Java IO二.File常用方法/" rel="prev" title="Java I/O二.File常用方法">
+                Java I/O二.File常用方法 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/avatar.jpg"
+                alt="杨旭东" />
+            
+              <p class="site-author-name" itemprop="name">杨旭东</p>
+              <p class="site-description motion-element" itemprop="description">种一棵树最好的时间是十年前，其次是现在</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">71</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">16</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">38</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/stoneyang94" target="_blank" title="GitHub">
+                      
+                        <i class="fa fa-fw fa-github"></i>GitHub</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="https://www.jianshu.com/u/f7b90f4a10ae" target="_blank" title="简书">
+                      
+                        <i class="fa fa-fw fa-book"></i>简书</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#数据流"><span class="nav-number">1.</span> <span class="nav-text">数据流</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#数据流是什么"><span class="nav-number">1.1.</span> <span class="nav-text">数据流是什么</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#数据流分类"><span class="nav-number">1.2.</span> <span class="nav-text">数据流分类</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#按类型"><span class="nav-number">1.2.1.</span> <span class="nav-text">按类型</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#按方向（站在程序的角度）"><span class="nav-number">1.2.2.</span> <span class="nav-text">按方向（站在程序的角度）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#意义"><span class="nav-number">1.2.3.</span> <span class="nav-text">意义</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#存储"><span class="nav-number">2.</span> <span class="nav-text">存储</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#存储方式"><span class="nav-number">2.1.</span> <span class="nav-text">存储方式</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#对比"><span class="nav-number">2.2.</span> <span class="nav-text">对比</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Java-的-I-O"><span class="nav-number">3.</span> <span class="nav-text">Java 的 I/O</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#最重要5个类、一个接口"><span class="nav-number">3.1.</span> <span class="nav-text">最重要5个类、一个接口</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#I-O流"><span class="nav-number">4.</span> <span class="nav-text">I/O流</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#常用方法"><span class="nav-number">5.</span> <span class="nav-text">常用方法</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Inputstream"><span class="nav-number">5.1.</span> <span class="nav-text">Inputstream</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#OutputStream"><span class="nav-number">5.2.</span> <span class="nav-text">OutputStream</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">杨旭东</span>
+
+  
+</div>
+
+<!-- 20180426 -->
+<div class="powered-by">
+<i class="fa fa-user-md"></i><span id="busuanzi_container_site_uv">
+  本站访客数:<span id="busuanzi_value_site_uv"></span>
+</span>
+</div>
+
+
+<!-- 20180425
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+-->
+
+<!-- 20180425
+
+  <span class="post-meta-divider">|</span>
+
+-->
+
+<!-- 20180425
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Gemini</a> v5.1.4</div>
+
+-->
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+  <!--页面点击小红心 -->
+  <script type="text/javascript" src="/js/src/love.js"></script>>
+    <!--背景动画 -->
+  <script type="text/javascript" src="/js/src/background.js"></script>>
+</body>
+</html>
