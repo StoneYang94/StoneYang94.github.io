@@ -1,5 +1,5 @@
 ---
-title: JVM内存
+title: JVM一.运行时数据区域
 date: 2018-07-01 15:32:07
 tags: JVM
 categories: JVM
@@ -14,14 +14,14 @@ categories: JVM
 # Java与JVM
 
 ## JVM定义
-[百度百科定义](https://baike.baidu.com/item/JVM)
+[百度百科定义](https://baike.baidu.com/item/JVM)：
 
 > JVM是Java Virtual Machine（Java虚拟机）的缩写，是一种用于计算设备的规范，它是一个虚构出来的计算机，是通过在实际的计算机上仿真模拟各种计算机功能来实现的。
 
 
 ## JVM意义---实现平台无关
 
-[百度百科定义](https://baike.baidu.com/item/JVM)
+[百度百科定义](https://baike.baidu.com/item/JVM)：
 
 > Java语言的一个非常重要的特点就是与平台的无关性。而使用Java虚拟机是实现这一特点的关键。一般的高级语言如果要在不同的平台上运行，至少需要编译成不同的目标代码。而引入Java语言虚拟机后，Java语言在不同平台上运行时不需要重新编译。
 Java语言使用Java虚拟机屏蔽了与具体平台相关的信息，使得Java语言编译程序只需生成在Java虚拟机上运行的目标代码字节码，就可以在多种平台上不加修改地运行。Java虚拟机在执行字节码时，把字节码解释成具体平台上的机器指令执行。这就是Java的能够“一次编译，到处运行”的原因。
@@ -39,7 +39,7 @@ Java语言使用Java虚拟机屏蔽了与具体平台相关的信息，使得Jav
 源程序经过**编译、汇编和连接**得到输出目标代码，然后由计算机执行目标代码(机器指令)。
 代表语言：C 、C++
 - 解释型语言
-由可以理解源代码的解释程序(解释器)执行，解释器的任务是将源代码(中间代码)解释成可执行的机器指令。 代码执行时逐一解释成可执行的机器指令。 
+由可以理解源代码的解释程序(解释器)执行，解释器的任务是将源代码(中间代码)解释成可执行的机器指令。 **代码执行时逐一解释**成可执行的机器指令。 
 代表语言：Ruby、JS，大多动态语言都是解释型的。
 
 ### Java的方式
@@ -65,6 +65,9 @@ Java虚拟机在执行Java程序过程中，会把所管理的内存划分为几
 
 ![运行时数据区](http://upload-images.jianshu.io/upload_images/11861611-a013fa13eff1368b.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
 
+![更立体的表示 ](http://upload-images.jianshu.io/upload_images/11861611-ccf1fa09497cd789.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+
+
 ## 1. 程序计数器（Program Counter Register）
 
 ### 定义
@@ -77,6 +80,7 @@ Java虚拟机在执行Java程序过程中，会把所管理的内存划分为几
 ### 注意
 - 此区域是**唯一**在Java虚拟机规范中没有规定任何`OutOfMemoryError`的区域
 - 线程私有
+- 如果正在执行的是本地方法则为空
 
 
 ## 2. 虚拟机栈（Java Virtual Machine Stacks）
@@ -88,7 +92,7 @@ Java虚拟机在执行Java程序过程中，会把所管理的内存划分为几
 
 ### 具体细节
 每个方法在执行的同时都会创建一个栈帧（Stack Frame）用于存储局部变量表、操作数栈、动态链接、方法出口等信息。**每个方法从调用直至执行完成的过程，就对应一个栈帧在虚拟机栈中入栈到出栈的过程。**
-一个线程中的方法可能还会调用其他方法，这样就会构成方法调用链，而且这个链可能会很长，而且每个线程都有方法处于执行状态。对于执行引擎来说，只有活动线程栈顶的栈帧才是有效的，称为当前栈帧（Current Stack Frame），这个栈帧关联的方法称为当前方法（Current Method）。
+一个线程中的方法可能还会调用其他方法，这样就会构成方法调用链，而且这个链可能会很长，而且每个线程都有方法处于执行状态。对于执行引擎来说，只有活动线程`栈顶`的栈帧才是有效的，称为当前栈帧（Current Stack Frame），这个栈帧关联的方法称为当前方法（Current Method）。
 
 ### 局部变量表
 局部变量表存放了
@@ -130,7 +134,6 @@ Java虚拟机规范并未强制规定其具体实现，如**HotSpot**虚拟机�
   - 所以Java Heap细分为：新生代和老年代
   - 再细分新生代可分为：Eden、From Survivor、To Survivor，比例为8：1：1
 
-
 ### 异常
 如果在堆中**没有内存完成实例分配，并且堆无法扩展时**，将会抛出`OutOfMemoryError`异常。
 
@@ -143,19 +146,15 @@ Java虚拟机规范并未强制规定其具体实现，如**HotSpot**虚拟机�
 
 ![堆](http://upload-images.jianshu.io/upload_images/11861611-ef8633f78265ef3a.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
 
-从JKD1.7开始，永久代Perm逐渐被移除，最新的JDK1.8中已经使用元空间（MetaSpace）代替永久代。
+JDK8中把存放元数据中的永久内存从堆内存中移到了本地内存(native memory)中，JDK8中JVM堆内存结构就变成了如下：
 
-可通过如下参数设置内存空间
+![JDK8中JVM堆内存](http://upload-images.jianshu.io/upload_images/11861611-cfa3773a40258c1f.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
 
-|参数|作用|
-|---|---|
-|Xms|设置堆的最小空间大小。
-|Xmx|设置堆的最大空间大小。
-|XX:NewSize|设置新生代最小空间大小。
-|XX:MaxNewSize|设置新生代最大空间大小。
-|XX:PermSize|设置永久代最小空间大小。
-|XX:MaxPermSize|设置永久代最大空间大小。
-|Xss|设置每个线程的堆栈大小。     
+这样永久内存就不再占用堆内存，它可以通过自动增长来避免JDK7以及前期版本中常见的永久内存错误(java.lang.OutOfMemoryError: PermGen)。当然JDK8也提供了一个新的设置Matespace内存大小的参数，通过这个参数可以设置Matespace内存大小，这样我们可以根据自己项目的实际情况，避免过度浪费本地内存，达到有效利用。
+
+```
+-XX:MaxMetaspaceSize=128m //设置最大的元内存空间128兆
+```
 
 ## 5. 方法区（Method Area）
 
@@ -189,10 +188,25 @@ Class文件中除了有类的版本、字段、方法、接口等信息外，还
 ### 异常
 会抛出`OutOfMemoryError`
 
+## 7. HotSpot 方法区变迁
+
+### 1、JDK1.2 ~ JDK6
+在 JDK1.2 ~ JDK6 的实现中，HotSpot 使用永久代实现方法区；HotSpot 使用 GC 分代实现方法区带来了很大便利
+
+### 2、JDK7
+由于 GC 分代技术的影响，使之许多优秀的内存调试工具无法在 Oracle HotSpot之上运行，必须单独处理；并且 Oracle 同时收购了 BEA 和 Sun 公司，同时拥有 JRockit 和 HotSpot，在将 JRockit 许多优秀特性移植到 HotSpot 时由于 GC 分代技术遇到了种种困难，**所以从 JDK7 开始 Oracle HotSpot 开始移除永久代。**
+
+**JDK7中符号表被移动到 Native Heap中，字符串常量和类引用被移动到 Java Heap中。**
+
+### 3、JDK8
+**在 JDK8 中，永久代已完全被元空间(Meatspace)所取代。**
+
+
 参考文章
 [百度百科的JVM定义](https://baike.baidu.com/item/JVM)
 周志明，深入理解Java虚拟机：JVM高级特性与最佳实践，机械工业出版社
 [《深入理解Java虚拟机》读书笔记](http://geosmart.github.io/2016/02/22/%E3%80%8A%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3Java%E8%99%9A%E6%8B%9F%E6%9C%BA%E3%80%8B%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/)
 [Java跨平台性](https://blog.csdn.net/u010046451/article/details/79121397)
 [Java 是编译型语言还是解释型语言？](https://www.zhihu.com/question/19608553)
+[HotSpot 方法区变迁](https://mritd.me/2016/03/22/Java-%E5%86%85%E5%AD%98%E4%B9%8B%E6%96%B9%E6%B3%95%E5%8C%BA%E5%92%8C%E8%BF%90%E8%A1%8C%E6%97%B6%E5%B8%B8%E9%87%8F%E6%B1%A0/)
 
