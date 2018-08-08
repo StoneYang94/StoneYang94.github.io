@@ -1,0 +1,903 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next gemini use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+<!-- 20180426-->
+<script src="//cdn.bootcss.com/pace/1.0.2/pace.min.js"></script>
+<link href="//cdn.bootcss.com/pace/1.0.2/themes/pink/pace-theme-flash.css" rel="stylesheet">
+<style>
+    .pace .pace-progress {
+        background: #1E92FB; /*进度条颜色*/
+        height: 3px;
+    }
+    .pace .pace-progress-inner {
+         box-shadow: 0 0 10px #1E92FB, 0 0 5px     #1E92FB; /*阴影颜色*/
+    }
+    .pace .pace-activity {
+        border-top-color: #1E92FB;    /*上边框颜色*/
+        border-left-color: #1E92FB;    /*左边框颜色*/
+    }
+</style>
+
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon.ico?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="JVM," />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="博主最近复习深入理解JVM一书，整理归纳，以形成系统认识和方便日后复习。本文主要介绍  类的生命周期 类初始化时机 类加载的过程">
+<meta name="keywords" content="JVM">
+<meta property="og:type" content="article">
+<meta property="og:title" content="JVM四.类加载机制">
+<meta property="og:url" content="http://yoursite.com/2018/08/01/JVM四.类加载机制/index.html">
+<meta property="og:site_name" content="Xudong&#39;s blogs">
+<meta property="og:description" content="博主最近复习深入理解JVM一书，整理归纳，以形成系统认识和方便日后复习。本文主要介绍  类的生命周期 类初始化时机 类加载的过程">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/11861611-944dde0b477d53cb.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:updated_time" content="2018-08-08T11:52:52.122Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="JVM四.类加载机制">
+<meta name="twitter:description" content="博主最近复习深入理解JVM一书，整理归纳，以形成系统认识和方便日后复习。本文主要介绍  类的生命周期 类初始化时机 类加载的过程">
+<meta name="twitter:image" content="http://upload-images.jianshu.io/upload_images/11861611-944dde0b477d53cb.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2018/08/01/JVM四.类加载机制/"/>
+
+
+
+
+
+  <title>JVM四.类加载机制 | Xudong's blogs</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Xudong's blogs</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">email:2228998096@qq.com    wechat:yxd19940114</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/08/01/JVM四.类加载机制/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="杨旭东">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Xudong's blogs">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">JVM四.类加载机制</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-08-01T19:05:36+08:00">
+                2018-08-01
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/JVM/" itemprop="url" rel="index">
+                    <span itemprop="name">JVM</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>博主最近复习深入理解JVM一书，整理归纳，以形成系统认识和方便日后复习。<br>本文主要介绍</p>
+<ol>
+<li>类的生命周期</li>
+<li>类初始化时机</li>
+<li>类加载的过程</li>
+</ol>
+<a id="more"></a>
+<h1 id="一-类的生命周期"><a href="#一-类的生命周期" class="headerlink" title="一. 类的生命周期"></a>一. 类的生命周期</h1><h2 id="类是在运行期间动态加载的。"><a href="#类是在运行期间动态加载的。" class="headerlink" title="类是在运行期间动态加载的。"></a>类是在<strong>运行期间动态加载</strong>的。</h2><p>类的加载指的是将类的<code>.class</code>文件中的二进制数据读入到内存中，将其放在运行时数据区的方法区内，然后在堆区创建一个<code>java.lang.Class</code>对象，用来封装类在方法区内的数据结构。</p>
+<p>类的加载的<strong>最终产品是位于堆区中的Class对象</strong>，Class对象封装了类在方法区内的数据结构，并且向Java程序员提供了访问方法区内的数据结构的接口。</p>
+<h2 id="类的生命周期"><a href="#类的生命周期" class="headerlink" title="类的生命周期"></a>类的生命周期</h2><p><img src="http://upload-images.jianshu.io/upload_images/11861611-944dde0b477d53cb.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="类的生命周期"></p>
+<p>包括以下 7 个阶段：</p>
+<ul>
+<li>加载（Loading）</li>
+<li>验证（Verification）</li>
+<li>准备（Preparation）</li>
+<li>解析（Resolution）</li>
+<li>初始化（Initialization）</li>
+<li>使用（Using）</li>
+<li>卸载（Unloading）</li>
+</ul>
+<p>其中解析过程在某些情况下可以在初始化阶段之后再开始，这是为了支持 Java 的动态绑定。</p>
+<h1 id="二-类初始化时机"><a href="#二-类初始化时机" class="headerlink" title="二.类初始化时机"></a>二.类初始化时机</h1><p>那么什么情况下需要开始类加载过程的第一个阶段，加载到内存中呢？</p>
+<ul>
+<li>由主动引用触发，被动引用不会触发。</li>
+</ul>
+<h2 id="有且仅有5类主动引用："><a href="#有且仅有5类主动引用：" class="headerlink" title="有且仅有5类主动引用："></a>有且仅有5类主动引用：</h2><p>虚拟机规范中并没有强制约束何时进行加载，但是规范严格规定了有且只有下列五种情况<strong>必须</strong>对类进行初始化（加载、验证、准备都会随着发生）：</p>
+<h3 id="1-特殊字节码指令"><a href="#1-特殊字节码指令" class="headerlink" title="1.  特殊字节码指令"></a>1.  特殊字节码指令</h3><p>遇到 <strong>new、getstatic、putstatic、invokestatic</strong> 这四条字节码指令时，如果类没有进行过初始化，则必须先触发其初始化。最常见的生成这 4 条指令的场景是：</p>
+<ul>
+<li>使用 new 关键字实例化对象的时候</li>
+<li>读取或设置一个类的静态字段（被 final 修饰、已在编译器把结果放入常量池的静态字段除外）的时候</li>
+<li>调用一个类的静态方法的时候</li>
+</ul>
+<h3 id="2-反射调用"><a href="#2-反射调用" class="headerlink" title="2.  反射调用"></a>2.  反射调用</h3><p>使用 <code>java.lang.reflect</code> 包的方法<strong>对类进行反射调用</strong>的时候，如果类没有进行初始化，则需要先触发其初始化。</p>
+<h3 id="3-父类"><a href="#3-父类" class="headerlink" title="3.  父类"></a>3.  父类</h3><p>当初始化一个类的时候，如果发现其父类还没有进行过初始化，则需要先触发其父类的初始化。</p>
+<h3 id="4-主类"><a href="#4-主类" class="headerlink" title="4.  主类"></a>4.  主类</h3><p>当虚拟机启动时，用户需要指定一个要执行的主类（包含 main() 方法的那个类），虚拟机会先初始化这个主类。</p>
+<h3 id="5-特殊方法句柄"><a href="#5-特殊方法句柄" class="headerlink" title="5.  特殊方法句柄"></a>5.  特殊方法句柄</h3><p>当使用 JDK.7 的动态语言支持时，如果一个 java.lang.invoke.MethodHandle 实例最后的解析结果为 REF_getStatic, REF_putStatic, REF_invokeStatic 的方法句柄，并且这个方法句柄所对应的类没有进行过初始化，则需要先触发其初始化；</p>
+<p>以上 5 种场景中的行为称为对一个类进行主动引用。除此之外，所有引用类的方式都不会触发初始化，称为被动引用。</p>
+<h2 id="被动引用的常见例子"><a href="#被动引用的常见例子" class="headerlink" title="被动引用的常见例子"></a>被动引用的常见例子</h2><h3 id="1-通过子类引用父类的静态字段"><a href="#1-通过子类引用父类的静态字段" class="headerlink" title="1. 通过子类引用父类的静态字段"></a>1. 通过子类引用父类的静态字段</h3><p>这种情况不会导致子类的初始化，因为对于静态字段，只有直接定义静态字段的类才会被触发初始化，子类不是定义这个静态字段的类，自然不能被实例化。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">System.out.println(SubClass.value); <span class="comment">// value 字段在 SuperClass 中定义</span></span><br></pre></td></tr></table></figure>
+<h3 id="2-通过数组定义来引用类，不会触发该类的初始化"><a href="#2-通过数组定义来引用类，不会触发该类的初始化" class="headerlink" title="2. 通过数组定义来引用类，不会触发该类的初始化"></a>2. 通过数组定义来引用类，不会触发该类的初始化</h3><p>该过程会对数组类进行初始化，数组类是一个由虚拟机自动生成的、直接继承自 Object 的子类，其中包含了数组的属性和方法。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">SuperClass[] sca = <span class="keyword">new</span> SuperClass[<span class="number">10</span>];</span><br></pre></td></tr></table></figure>
+<h3 id="3-常量不会触发定义常量的类的初始化"><a href="#3-常量不会触发定义常量的类的初始化" class="headerlink" title="3. 常量不会触发定义常量的类的初始化"></a>3. 常量不会触发定义常量的类的初始化</h3><p>因为常量在编译阶段会存入调用常量的类的常量池中，本质上并没有引用定义这个常量的类，所以不会触发定义这个常量的类的初始化。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">System.out.println(ConstClass.HELLOWORLD);</span><br></pre></td></tr></table></figure>
+<h1 id="三-类加载过程"><a href="#三-类加载过程" class="headerlink" title="三. 类加载过程"></a>三. 类加载过程</h1><p>包含了加载、验证、准备、解析和初始化这 5 个阶段。</p>
+<h2 id="1-加载"><a href="#1-加载" class="headerlink" title="1. 加载"></a>1. 加载</h2><p>加载是类加载的一个阶段，不要混淆。</p>
+<ul>
+<li>加载过程完成以下三件事：</li>
+</ul>
+<ol>
+<li>通过一个类的全限定名来<code>获取</code>定义此类的<strong>二进制字节流</strong></li>
+<li>将这个字节流所代表的<strong>静态存储结构</strong><code>转化</code>为<strong>方法区</strong>的运行时存储结构</li>
+<li>在内存中<code>生成</code>一个代表这个类的<strong>Class 对象</strong>，作为方法区这个类的各种数据的<strong>访问入口</strong></li>
+</ol>
+<p>相对于类加载的其他阶段而言，加载阶段（准确地说，是加载阶段获取类的二进制字节流的动作）是可控性最强的阶段，因为开发人员既可以使用系统提供的类加载器来完成加载，也可以自定义自己的类加载器来完成加载。<br>其中二进制字节流可以从以下方式中获取：</p>
+<ul>
+<li>从 ZIP 包读取<br>这很常见，最终成为日后 JAR、EAR、WAR 格式的基础。</li>
+<li>从网络中获取<br>这种场景最典型的应用是 Applet。</li>
+<li>运行时计算生成<br>这种场景使用得最多得就是动态代理技术，在 java.lang.reflect.Proxy 中，就是用了 ProxyGenerator.generateProxyClass 的代理类的二进制字节流。</li>
+<li>由其他文件生成<br>典型场景是 JSP 应用，即由 JSP 文件生成对应的 Class 类。</li>
+<li>从数据库读取<br>这种场景相对少见，例如有些中间件服务器（如 SAP Netweaver）可以选择把程序安装到数据库中来完成程序代码在集群间的分发。</li>
+</ul>
+<p>加载阶段完成后，虚拟机外部的<strong>二进制字节流</strong>就按照虚拟机所需的格式存储在<strong>方法区</strong>之中，而且在Java堆中也创建一个java.lang.Class类的对象，这样便可以通过该对象访问方法区中的这些数据。</p>
+<h2 id="2-验证–确保被加载的类的正确性"><a href="#2-验证–确保被加载的类的正确性" class="headerlink" title="2. 验证–确保被加载的类的正确性"></a>2. 验证–确保被加载的类的正确性</h2><p>确保 Class 文件的字节流中包含的信息符合当前虚拟机的要求，并且不会危害虚拟机自身的安全。</p>
+<p>验证阶段大致会完成4个阶段的检验动作：</p>
+<h3 id="1-文件格式验证"><a href="#1-文件格式验证" class="headerlink" title="1)文件格式验证"></a>1)文件格式验证</h3><p>验证字节流是否<code>符合</code> Class 文件<strong>格式</strong>的规范，并且能被当前版本的虚拟机处理。</p>
+<ol>
+<li>是否以<strong>魔数0xCAFEBABE开头</strong></li>
+<li><strong>主、次版本号</strong>是否在当前虚拟机处理范围之内。 </li>
+<li><strong>常量池的常量</strong>中是否有不被支持的常量类型（检查常量tag标志）。</li>
+<li>指向常量的<strong>各种索引值</strong>中是否有指向<strong>不存在的常量</strong>或<strong>不符合类型的常量</strong>。 </li>
+<li>Class文件中各部分及文件本身是否有<strong>被删除或附加</strong>的其他信息<br>……</li>
+</ol>
+<h3 id="2-元数据验证"><a href="#2-元数据验证" class="headerlink" title="2)元数据验证"></a>2)元数据验证</h3><p>对字节码描述的信息进行<strong>语义</strong>分析，以保证其描述的信息符合 Java 语言规范的要求。</p>
+<p>1.这个类是否有<strong>父类</strong>（除了java.lang.Object之外，所有的类都应当有父类）。<br>2.这个类的<strong>父类</strong>是否继承了不允许被继承的类（被final修饰的类）；<br>3.如果这个类不是抽象类，是否实现了其父类或接口中要求实现的所有方法。<br>4.类中的字段、方法是否与父类产生矛盾（例如覆盖了父类的final字段，或者出现不符合规则的方法重载。）<br>……</p>
+<h3 id="3-字节码验证"><a href="#3-字节码验证" class="headerlink" title="3)字节码验证"></a>3)字节码验证</h3><p>通过数据流和控制流分析，确保程序语义是合法、符合逻辑的。</p>
+<h3 id="4-符号引用验证"><a href="#4-符号引用验证" class="headerlink" title="4)符号引用验证"></a>4)符号引用验证</h3><p>发生在虚拟机将符号引用转换为直接引用的时候，对类自身以外（常量池中的各种符号引用）的信息进行<strong>匹配性校验</strong></p>
+<p>验证阶段是非常重要的，但不是必须的，它对程序运行期没有影响，如果所引用的类经过反复验证，那么可以考虑采用-Xverifynone参数来关闭大部分的类验证措施，以缩短虚拟机类加载的时间。</p>
+<h3 id="3-准备–为类的静态变量分配内存，并将其初始化为默认值"><a href="#3-准备–为类的静态变量分配内存，并将其初始化为默认值" class="headerlink" title="3. 准备–为类的静态变量分配内存，并将其初始化为默认值"></a>3. 准备–为类的静态变量分配内存，并将其初始化为默认值</h3><p><code>类变量</code>是被 static 修饰的变量，准备阶段为类变量分配内存并设置初始值，使用的是<strong>方法区的内存</strong></p>
+<ul>
+<li>注意：</li>
+</ul>
+<ol>
+<li><code>实例变量</code><strong>不会在这阶段分配内存</strong>，它将会在对象实例化时随着对象一起分配在 Java 堆中。</li>
+<li>初始值“通常情况”下是<strong>数据类型的零值</strong></li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">public  static  int value =  123;</span><br></pre></td></tr></table></figure>
+<p>那变量value在准备阶段过后的初始值为<code>0</code>而不是<del>123</del>，因为这时候尚未开始执行任何Java方法，而value赋值为123的putstatic指令是程序被编译后，存放于类构造器<clinit>方法之中，所以把value赋值为123的动作在初始化阶段才会执行。<br>而“特殊情况”，如：</clinit></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">int</span> value = <span class="number">123</span>；</span><br></pre></td></tr></table></figure>
+<p>如果类变量是常量，那么会按照表达式来进行初始化(例子中的<code>123</code>)，而不是赋值为 <del>0</del></p>
+<h3 id="4-解析–把类中的符号引用转换为直接引用"><a href="#4-解析–把类中的符号引用转换为直接引用" class="headerlink" title="4. 解析–把类中的符号引用转换为直接引用"></a>4. 解析–把类中的符号引用转换为直接引用</h3><p>将常量池的符号引用替换为直接引用的过程。</p>
+<p>解析阶段是虚拟机将常量池内的符号引用替换为直接引用的过程，解析动作主要针对类或接口、字段、类方法、接口方法、方法类型、方法句柄和调用点限定符7类符号引用进行。</p>
+<p>符号引用就是一组符号来描述目标，可以是任何字面量。<br>直接引用就是直接指向目标的指针、相对偏移量或一个间接定位到目标的句柄。</p>
+<h3 id="5-初始化"><a href="#5-初始化" class="headerlink" title="5. 初始化"></a>5. 初始化</h3><p>初始化阶段才真正开始执行类中的定义的 Java 程序代码。初始化阶段即虚拟机执行<strong>类构造器 <code>&lt;clinit&gt;()</code> 方法</strong>的过程。</p>
+<p>在准备阶段，类变量已经赋过一次系统要求的初始值，而在初始化阶段，根据程序员通过程序制定的主观计划去初始化类变量和其它资源。</p>
+<h4 id="1-lt-clinit-gt-特点"><a href="#1-lt-clinit-gt-特点" class="headerlink" title="1. &lt;clinit&gt;()特点"></a>1. <code>&lt;clinit&gt;()</code>特点</h4><p>是由编译器自动收集类中所有<strong>类变量</strong>的赋值动作和<strong>静态语句块</strong>（static{} 块）中的语句合并产生的，编译器收集的顺序由语句在源文件中出现的顺序决定。</p>
+<p>特别注意的是，静态语句块只能访问到定义在它之前的类变量，<code>定义在它之后的类变量只能赋值，不能访问</code>。例如以下代码：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span>  <span class="class"><span class="keyword">class</span>  <span class="title">Test</span>  </span>&#123;</span><br><span class="line">    <span class="keyword">static</span>  &#123;</span><br><span class="line">    i =  <span class="number">0</span>;  <span class="comment">// 给变量赋值可以正常编译通过</span></span><br><span class="line">    System.out.print(i);  <span class="comment">// 这句编译器会提示“非法向前引用”</span></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">static</span>  <span class="keyword">int</span> i =  <span class="number">1</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="2-lt-clinit-gt-超类和派生类"><a href="#2-lt-clinit-gt-超类和派生类" class="headerlink" title="2.&lt;clinit&gt;()超类和派生类"></a>2.<code>&lt;clinit&gt;()</code>超类和派生类</h4><p>与类的构造函数（或者说实例构造器 <init>()）不同，不需要显式的调用父类的构造器。<strong>虚拟机会自动保证在子类的<code>&lt;clinit&gt;()</code>方法运行之前，<code>父类</code>的 <code>&lt;clinit&gt;()</code> 方法已经执行结束`</strong>。因此虚拟机中第一个执行 <code>&lt;clinit&gt;()</code>方法的类肯定为 java.lang.Object。</init></p>
+<p>由于父类的 <code>&lt;clinit&gt;()</code> 方法先执行，也就意味着父类中定义的静态语句块要优于子类的变量赋值操作。如下面的例子所示，输出结果为2而不是1。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">public class Parent &#123;  </span><br><span class="line">    public static int A = 1;  </span><br><span class="line">    static&#123;  </span><br><span class="line">       A = 2;  </span><br><span class="line">    &#125;  </span><br><span class="line">&#125;    </span><br><span class="line"></span><br><span class="line">public class Sub extends Parent&#123;  </span><br><span class="line">    public static int B = A;  </span><br><span class="line">&#125;   </span><br><span class="line"></span><br><span class="line">public class Test &#123;  </span><br><span class="line">    public static void main(String[] args) &#123;  </span><br><span class="line">       System.out.println(Sub.B);  </span><br><span class="line">    &#125;  </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h5 id="3-lt-clinit-gt-不必须"><a href="#3-lt-clinit-gt-不必须" class="headerlink" title="3. &lt;clinit&gt;()不必须"></a>3. <code>&lt;clinit&gt;()</code>不必须</h5><p><code>&lt;clinit&gt;()</code> 方法对于类或接口不是必须的，如果一个类中不包含静态语句块，也没有对类变量的赋值操作，编译器可以不为该类生成 <code>&lt;clinit&gt;()</code> 方法。</p>
+<h5 id="4-接口的-lt-clinit-gt-用到才执行"><a href="#4-接口的-lt-clinit-gt-用到才执行" class="headerlink" title="4. 接口的&lt;clinit&gt;() 用到才执行"></a>4. 接口的<code>&lt;clinit&gt;()</code> 用到才执行</h5><p>接口中不可以使用静态语句块，但仍然有类变量初始化的赋值操作，因此接口与类一样都会生成 <clinit>() 方法。但接口与类不同的是，执行接口的 <clinit>() 方法不需要先执行父接口的 <clinit>() 方法。只有当父接口中定义的变量使用时，父接口才会初始化。另外，接口的实现类在初始化时也一样不会执行接口的 <clinit>() 方法。(对比第二点)</clinit></clinit></clinit></clinit></p>
+<h5 id="5-lt-clinit-gt-多线程安全"><a href="#5-lt-clinit-gt-多线程安全" class="headerlink" title="5. &lt;clinit&gt;() 多线程安全"></a>5. <code>&lt;clinit&gt;()</code> 多线程安全</h5><p><strong>虚拟机会保证</strong>一个类的 <code>&lt;clinit&gt;()</code> 方法在多线程环境下被正确的加锁和同步，如果多个线程同时初始化一个类，只会有一个线程执行这个类的 <code>&lt;clinit&gt;()</code> 方法，其它线程都会阻塞等待，直到活动线程执行 <code>&lt;clinit&gt;()</code> 方法完毕。如果在一个类的 <code>&lt;clinit&gt;()</code> 方法中有耗时的操作，就可能造成多个进程阻塞，在实际过程中此种阻塞很隐蔽。</p>
+<h3 id="init和clinit方法的不同"><a href="#init和clinit方法的不同" class="headerlink" title="init和clinit方法的不同"></a>init和clinit方法的不同</h3><h4 id="init和clinit方法执行时机不同"><a href="#init和clinit方法执行时机不同" class="headerlink" title="init和clinit方法执行时机不同"></a>init和clinit方法执行时机不同</h4><p>init是对象构造器方法，也就是说在程序执行 new 一个对象调用该对象类的 <strong>constructor 方法</strong>时才会执行init方法，而clinit是类构造器方法，也就是在jvm进行类加载—–验证—-解析—–初始化，中的<strong>初始化阶段</strong>jvm会调用clinit方法。</p>
+<h4 id="init和clinit方法执行目的不同"><a href="#init和clinit方法执行目的不同" class="headerlink" title="init和clinit方法执行目的不同"></a>init和clinit方法执行目的不同</h4><blockquote>
+<p>init is the (or one of the) constructor(s) for the instance, and non-static field initialization.<br>clinit are the static initialization blocks for the class, and static field initialization. </p>
+</blockquote>
+<ul>
+<li>init是instance实例构造器，对非静态变量解析初始化</li>
+<li>而clinit是class类构造器对静态变量，静态代码块进行初始化。</li>
+</ul>
+<p>参考文章<br>周志明，深入理解Java虚拟机：JVM高级特性与最佳实践，机械工业出版社<br><a href="https://blog.csdn.net/u011080472/article/details/51329315" target="_blank" rel="noopener">【深入理解JVM】：类加载机制</a><br><a href="https://blog.csdn.net/u010046451/article/details/79156790" target="_blank" rel="noopener">Jvm笔记总结(八)：虚拟机类加载机制</a></p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/JVM/" rel="tag"><i class="fa fa-tag"></i> JVM</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/07/31/项目学习总结/" rel="next" title="项目学习总结">
+                <i class="fa fa-chevron-left"></i> 项目学习总结
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/08/02/切金条/" rel="prev" title="切金条">
+                切金条 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/avatar.jpg"
+                alt="杨旭东" />
+            
+              <p class="site-author-name" itemprop="name">杨旭东</p>
+              <p class="site-description motion-element" itemprop="description">种一棵树最好的时间是十年前，其次是现在</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">69</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">16</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">38</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/stoneyang94" target="_blank" title="GitHub">
+                      
+                        <i class="fa fa-fw fa-github"></i>GitHub</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="https://www.jianshu.com/u/f7b90f4a10ae" target="_blank" title="简书">
+                      
+                        <i class="fa fa-fw fa-book"></i>简书</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#一-类的生命周期"><span class="nav-number">1.</span> <span class="nav-text">一. 类的生命周期</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#类是在运行期间动态加载的。"><span class="nav-number">1.1.</span> <span class="nav-text">类是在运行期间动态加载的。</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#类的生命周期"><span class="nav-number">1.2.</span> <span class="nav-text">类的生命周期</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#二-类初始化时机"><span class="nav-number">2.</span> <span class="nav-text">二.类初始化时机</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#有且仅有5类主动引用："><span class="nav-number">2.1.</span> <span class="nav-text">有且仅有5类主动引用：</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-特殊字节码指令"><span class="nav-number">2.1.1.</span> <span class="nav-text">1.  特殊字节码指令</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-反射调用"><span class="nav-number">2.1.2.</span> <span class="nav-text">2.  反射调用</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-父类"><span class="nav-number">2.1.3.</span> <span class="nav-text">3.  父类</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-主类"><span class="nav-number">2.1.4.</span> <span class="nav-text">4.  主类</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5-特殊方法句柄"><span class="nav-number">2.1.5.</span> <span class="nav-text">5.  特殊方法句柄</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#被动引用的常见例子"><span class="nav-number">2.2.</span> <span class="nav-text">被动引用的常见例子</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-通过子类引用父类的静态字段"><span class="nav-number">2.2.1.</span> <span class="nav-text">1. 通过子类引用父类的静态字段</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-通过数组定义来引用类，不会触发该类的初始化"><span class="nav-number">2.2.2.</span> <span class="nav-text">2. 通过数组定义来引用类，不会触发该类的初始化</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-常量不会触发定义常量的类的初始化"><span class="nav-number">2.2.3.</span> <span class="nav-text">3. 常量不会触发定义常量的类的初始化</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#三-类加载过程"><span class="nav-number">3.</span> <span class="nav-text">三. 类加载过程</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-加载"><span class="nav-number">3.1.</span> <span class="nav-text">1. 加载</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-验证–确保被加载的类的正确性"><span class="nav-number">3.2.</span> <span class="nav-text">2. 验证–确保被加载的类的正确性</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-文件格式验证"><span class="nav-number">3.2.1.</span> <span class="nav-text">1)文件格式验证</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-元数据验证"><span class="nav-number">3.2.2.</span> <span class="nav-text">2)元数据验证</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-字节码验证"><span class="nav-number">3.2.3.</span> <span class="nav-text">3)字节码验证</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-符号引用验证"><span class="nav-number">3.2.4.</span> <span class="nav-text">4)符号引用验证</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-准备–为类的静态变量分配内存，并将其初始化为默认值"><span class="nav-number">3.2.5.</span> <span class="nav-text">3. 准备–为类的静态变量分配内存，并将其初始化为默认值</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-解析–把类中的符号引用转换为直接引用"><span class="nav-number">3.2.6.</span> <span class="nav-text">4. 解析–把类中的符号引用转换为直接引用</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5-初始化"><span class="nav-number">3.2.7.</span> <span class="nav-text">5. 初始化</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-lt-clinit-gt-特点"><span class="nav-number">3.2.7.1.</span> <span class="nav-text">1. &lt;clinit&gt;()特点</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-lt-clinit-gt-超类和派生类"><span class="nav-number">3.2.7.2.</span> <span class="nav-text">2.&lt;clinit&gt;()超类和派生类</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#3-lt-clinit-gt-不必须"><span class="nav-number">3.2.7.2.1.</span> <span class="nav-text">3. &lt;clinit&gt;()不必须</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#4-接口的-lt-clinit-gt-用到才执行"><span class="nav-number">3.2.7.2.2.</span> <span class="nav-text">4. 接口的&lt;clinit&gt;() 用到才执行</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#5-lt-clinit-gt-多线程安全"><span class="nav-number">3.2.7.2.3.</span> <span class="nav-text">5. &lt;clinit&gt;() 多线程安全</span></a></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#init和clinit方法的不同"><span class="nav-number">3.2.8.</span> <span class="nav-text">init和clinit方法的不同</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#init和clinit方法执行时机不同"><span class="nav-number">3.2.8.1.</span> <span class="nav-text">init和clinit方法执行时机不同</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#init和clinit方法执行目的不同"><span class="nav-number">3.2.8.2.</span> <span class="nav-text">init和clinit方法执行目的不同</span></a></li></ol></li></ol></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">杨旭东</span>
+
+  
+</div>
+
+<!-- 20180426 -->
+<div class="powered-by">
+<i class="fa fa-user-md"></i><span id="busuanzi_container_site_uv">
+  本站访客数:<span id="busuanzi_value_site_uv"></span>
+</span>
+</div>
+
+
+<!-- 20180425
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+-->
+
+<!-- 20180425
+
+  <span class="post-meta-divider">|</span>
+
+-->
+
+<!-- 20180425
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Gemini</a> v5.1.4</div>
+
+-->
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+  <!--页面点击小红心 -->
+  <script type="text/javascript" src="/js/src/love.js"></script>>
+    <!--背景动画 -->
+  <script type="text/javascript" src="/js/src/background.js"></script>>
+</body>
+</html>
