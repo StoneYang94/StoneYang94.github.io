@@ -86,7 +86,7 @@
 
 
 
-  <meta name="keywords" content="Java集合," />
+  <meta name="keywords" content="Java容器," />
 
 
 
@@ -98,17 +98,17 @@
 
 
 <meta name="description" content="一. 概览容器主要包括 Collection 和 Map 两种，Collection 又包含了 List、Set 以及 Queue。">
-<meta name="keywords" content="Java集合">
+<meta name="keywords" content="Java容器">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Java集合总览">
-<meta property="og:url" content="http://yoursite.com/2018/06/08/Java集合总览/index.html">
+<meta property="og:title" content="Java容器一.总览">
+<meta property="og:url" content="http://yoursite.com/2018/06/08/Java容器一.总览/index.html">
 <meta property="og:site_name" content="Xudong&#39;s blogs">
 <meta property="og:description" content="一. 概览容器主要包括 Collection 和 Map 两种，Collection 又包含了 List、Set 以及 Queue。">
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="http://upload-images.jianshu.io/upload_images/11861611-a8bfa90b89587dd5.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
-<meta property="og:updated_time" content="2018-06-08T12:18:49.266Z">
+<meta property="og:updated_time" content="2018-08-09T14:44:09.222Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Java集合总览">
+<meta name="twitter:title" content="Java容器一.总览">
 <meta name="twitter:description" content="一. 概览容器主要包括 Collection 和 Map 两种，Collection 又包含了 List、Set 以及 Queue。">
 <meta name="twitter:image" content="http://upload-images.jianshu.io/upload_images/11861611-a8bfa90b89587dd5.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
 
@@ -140,13 +140,13 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/2018/06/08/Java集合总览/"/>
+  <link rel="canonical" href="http://yoursite.com/2018/06/08/Java容器一.总览/"/>
 
 
 
 
 
-  <title>Java集合总览 | Xudong's blogs</title>
+  <title>Java容器一.总览 | Xudong's blogs</title>
   
 
 
@@ -273,7 +273,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/06/08/Java集合总览/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/06/08/Java容器一.总览/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="杨旭东">
@@ -290,7 +290,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">Java集合总览</h1>
+          <h1 class="post-title" itemprop="name headline">Java容器一.总览</h1>
         
 
         <div class="post-meta">
@@ -325,8 +325,8 @@
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Java集合/" itemprop="url" rel="index">
-                    <span itemprop="name">Java集合</span>
+                  <a href="/categories/Java容器/" itemprop="url" rel="index">
+                    <span itemprop="name">Java容器</span>
                   </a>
                 </span>
 
@@ -365,24 +365,48 @@
         <h1 id="一-概览"><a href="#一-概览" class="headerlink" title="一. 概览"></a>一. 概览</h1><p>容器主要包括 Collection 和 Map 两种，Collection 又包含了 List、Set 以及 Queue。</p>
 <a id="more"></a>
 <p><img src="http://upload-images.jianshu.io/upload_images/11861611-a8bfa90b89587dd5.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="绿色表示接口；红色表示常用的类"></p>
-<h2 id="基本概念"><a href="#基本概念" class="headerlink" title="基本概念"></a>基本概念</h2><p>Java容器类类库的用途是持有对象</p>
+<h2 id="基本概念"><a href="#基本概念" class="headerlink" title="基本概念"></a>基本概念</h2><p>Java容器类类库的用途是<strong>持有对象</strong></p>
 <ol>
-<li>Collection<br>一个独立元素的序列，这些元素都服从一条或多条规则。其中List必须按照插入的顺序保存元素、Set不能有重复的元素、Queue按照排队规则来确定对象的产生顺序（通常也是和插入顺序相同）</li>
-<li>Map<br>一组成对的值键对对象，允许用键来查找值。Map允许我们使用一个对象来查找某个对象<h2 id="Collection"><a href="#Collection" class="headerlink" title="Collection"></a>Collection</h2><h3 id="List"><a href="#List" class="headerlink" title="List"></a>List</h3></li>
+<li>Collection<br><strong>一个独立元素的序列</strong>，这些元素都服从一条或多条规则。其中List必须按照插入的顺序保存元素、Set不能有重复的元素、Queue按照排队规则来确定对象的产生顺序（通常也是和插入顺序相同）</li>
+<li>Map<br><strong>一组成对的值键对对象</strong>，允许用键来查找值。Map允许我们使用一个对象来查找某个对象</li>
+<li>Iterator<br>Iterator是对迭代器模式的抽象，基本方法包括：</li>
 </ol>
-<ul>
-<li>ArrayList：<strong>基于动态数组</strong>实现，支持随机访问</li>
-<li>LinkedList：<strong>基于双向循环链表</strong>实现，只能顺序访问，但是可以快速地在链表中间插入和删除元素。不仅如此，LinkedList 还可以用作栈、队列和双端队列</li>
-<li>Vector：和 ArrayList 类似，但它是线程安全的</li>
+<table>
+<thead>
+<tr>
+<th>方法</th>
+<th>作用</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>hasNext()</td>
+<td>判断是否有下一个元素</td>
+</tr>
+<tr>
+<td>next()</td>
+<td>获取下一个元素</td>
+</tr>
+<tr>
+<td>remove()</td>
+<td>删除本元素</td>
+</tr>
+</tbody>
+</table>
+<p>Collection框架中的所有集合类都实现了其对应的Iterator，其中只有<strong>List</strong>接口的实现类能安全使用remove()方法，别的实现类会抛出ConcurrentModificationException异常</p>
+<h2 id="Collection"><a href="#Collection" class="headerlink" title="Collection"></a>Collection</h2><h3 id="List"><a href="#List" class="headerlink" title="List"></a>List</h3><ul>
+<li>ArrayList：<br><strong>基于动态数组</strong>实现，支持随机访问</li>
+<li>LinkedList：<br><strong>基于双向链表</strong>实现，只能顺序访问，但是可以快速地在链表中间插入和删除元素。不仅如此，LinkedList 还可以用作栈、队列和双端队列</li>
+<li>Vector：<br>和 ArrayList 类似，但它是线程安全的</li>
 </ul>
 <h3 id="Set"><a href="#Set" class="headerlink" title="Set"></a>Set</h3><ul>
-<li>HashSet：基于哈希实现，支持快速查找，但不支持有序性操作，例如根据一个范围查找元素的操作。并且失去了元素的插入顺序信息，也就是说<strong>使用 Iterator 遍历 HashSet 得到的结果是不确定的</strong></li>
-<li>TreeSet：基于红黑树实现，支持有序性操作，但是<strong>查找效率不如 HashSet</strong>，HashSet 查找时间复杂度为 O(1)，TreeSet 则为 O(logn)</li>
-<li>LinkedHashSet：具有 HashSet 的查找效率，且内部使用链表维护元素的插入顺序。</li>
+<li>HashSet：<br>基于哈希实现，支持快速查找，但不支持有序性操作，例如根据一个范围查找元素的操作。<br>失去了元素的插入顺序信息，也就是说<strong>使用 Iterator 遍历 HashSet 得到的结果是不确定的</strong></li>
+<li>TreeSet：<br>基于红黑树实现，支持有序性操作，但是<strong>查找效率不如 HashSet</strong>，HashSet 查找时间复杂度为 O(1)，TreeSet 则为 O(logn)</li>
+<li>LinkedHashSet：<br>具有 HashSet 的查找效率，且内部使用链表维护元素的插入顺序</li>
 </ul>
 <h3 id="Queue"><a href="#Queue" class="headerlink" title="Queue"></a>Queue</h3><ul>
-<li>LinkedList：可以用它来支持<strong>双向队列</strong></li>
-<li>PriorityQueue ：是基于堆结构实现，可以用它来实现<strong>优先级队列</strong></li>
+<li>LinkedList：<br>可以用它来支持<strong>双向队列</strong></li>
+<li>PriorityQueue ：<br>是基于堆结构实现，可以用它来实现<strong>优先级队列</strong></li>
 </ul>
 <h2 id="Map"><a href="#Map" class="headerlink" title="Map"></a>Map</h2><ul>
 <li>HashMap：基于哈希实现</li>
@@ -407,7 +431,7 @@
       
         <div class="post-tags">
           
-            <a href="/tags/Java集合/" rel="tag"><i class="fa fa-tag"></i> Java集合</a>
+            <a href="/tags/Java容器/" rel="tag"><i class="fa fa-tag"></i> Java容器</a>
           
         </div>
       
@@ -524,7 +548,7 @@
               
               <div class="site-state-item site-state-categories">
                 <a href="/categories/index.html">
-                  <span class="site-state-item-count">16</span>
+                  <span class="site-state-item-count">17</span>
                   <span class="site-state-item-name">分类</span>
                 </a>
               </div>
@@ -535,7 +559,7 @@
               
               <div class="site-state-item site-state-tags">
                 <a href="/tags/index.html">
-                  <span class="site-state-item-count">38</span>
+                  <span class="site-state-item-count">39</span>
                   <span class="site-state-item-name">标签</span>
                 </a>
               </div>
