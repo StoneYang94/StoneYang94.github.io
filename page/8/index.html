@@ -270,7 +270,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/05/15/剑指offer-18/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/06/05/工厂模式/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="杨旭东">
@@ -289,7 +289,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2018/05/15/剑指offer-18/" itemprop="url">剑指offer_18</a></h1>
+                <a class="post-title-link" href="/2018/06/05/工厂模式/" itemprop="url">工厂模式</a></h1>
         
 
         <div class="post-meta">
@@ -301,8 +301,454 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-05-15T19:53:20+08:00">
-                2018-05-15
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-06-05T19:41:48+08:00">
+                2018-06-05
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/设计模式/" itemprop="url" rel="index">
+                    <span itemprop="name">设计模式</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          <h1 id="工厂模式概述"><a href="#工厂模式概述" class="headerlink" title="工厂模式概述"></a>工厂模式概述</h1><h2 id="意义"><a href="#意义" class="headerlink" title="意义"></a>意义</h2><ul>
+<li>问题引出<br>在面向对象编程中, 最通常的方法是一个new操作符产生一个对象实例,new操作符就是用来构造对象实例的。当我们使用 new 来构造一个新的类实例时，其实是告诉了 JVM 我需要一个新的实例。<strong>JVM 就会自动在内存中开辟一片空间，然后调用构造函数来初始化成员变量，最终把引用返回给调用方。</strong><br>但是在一些情况下, new操作符直接生成对象会带来一些问题。举例来说, 许多类型对象的创造需要一系列的步骤: 你可能需要计算或取得对象的初始设置; 选择生成哪个子对象实例; 或在生成你需要的对象之前必须先生成一些辅助功能的对象。<strong>在这些情况,新对象的建立就是一个 “过程”，不仅是一个操作，像一部大机器中的一个齿轮传动。</strong>
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2018/06/05/工厂模式/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/06/04/设计模式原则/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="杨旭东">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Xudong's blogs">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/06/04/设计模式原则/" itemprop="url">设计模式原则</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-06-04T18:33:37+08:00">
+                2018-06-04
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/设计模式/" itemprop="url" rel="index">
+                    <span itemprop="name">设计模式</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          <h1 id="设计模式（Design-Pattern）"><a href="#设计模式（Design-Pattern）" class="headerlink" title="设计模式（Design Pattern）"></a>设计模式（Design Pattern）</h1><ul>
+<li>是什么<br>是一套被反复使用、多数人知晓的、经过反复编写的、代码设计<strong>经验的总结</strong></li>
+<li>目的：<br>使用设计模式是为了可重用代码、让代码更容易被他人理解、保证代码可靠性</li>
+</ul>
+<h1 id="设计模式的六大原则："><a href="#设计模式的六大原则：" class="headerlink" title="设计模式的六大原则："></a>设计模式的六大原则：</h1><h2 id="总原则－开闭原则"><a href="#总原则－开闭原则" class="headerlink" title="总原则－开闭原则"></a>总原则－开闭原则</h2><p>对扩展开放，对修改封闭。<br><strong>在程序需要进行拓展的时候，不能去修改原有的代码，而是要扩展原有代码，实现一个热插拔的效果</strong>。所以一句话概括就是：为了使程序的扩展性好，易于维护和升级。<br>想要达到这样的效果，我们需要使用接口和抽象类等，后面的具体设计中我们会提到这点。<br>
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2018/06/04/设计模式原则/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/05/31/单例模式/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="杨旭东">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Xudong's blogs">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/05/31/单例模式/" itemprop="url">单例模式</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-05-31T22:25:12+08:00">
+                2018-05-31
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/设计模式/" itemprop="url" rel="index">
+                    <span itemprop="name">设计模式</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          <h1 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h1><ol>
+<li>单例类只能有一个实例</li>
+<li>单例类必须自己创建自己的唯一实例</li>
+<li>单例类必须给所有其他对象提供这一实例
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2018/05/31/单例模式/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/05/30/选择排序/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="杨旭东">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Xudong's blogs">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/05/30/选择排序/" itemprop="url">选择排序</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-05-30T00:23:06+08:00">
+                2018-05-30
               </time>
             
 
@@ -362,13 +808,16 @@
 
       
         
-          <p>题目：</p>
+          <h1 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h1><ol>
+<li>开始在整个数组上，也就是0~N-1上，选出一个最小值，把它放在位置0上</li>
+<li>然后在1~N-1上选出一个最小值，放到位置1上</li>
+<li>依次进行，直到整个数组有序</li>
+</ol>
 <ul>
-<li>在O(1)的时间内删除链表节点</li>
-<li>删除链表中重复的节点
+<li>n个记录的文件的直接选择排序可经过n－1趟直接选择排序得到有序结果。
           <!--noindex-->
           <div class="post-button text-center">
-            <a class="btn" href="/2018/05/15/剑指offer-18/#more" rel="contents">
+            <a class="btn" href="/2018/05/30/选择排序/#more" rel="contents">
               阅读全文 &raquo;
             </a>
           </div>
@@ -419,7 +868,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/05/14/剑指offer-13/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/05/26/冒泡排序/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="杨旭东">
@@ -438,7 +887,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2018/05/14/剑指offer-13/" itemprop="url">剑指offer_13</a></h1>
+                <a class="post-title-link" href="/2018/05/26/冒泡排序/" itemprop="url">冒泡排序</a></h1>
         
 
         <div class="post-meta">
@@ -450,8 +899,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-05-14T19:13:16+08:00">
-                2018-05-14
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-05-26T14:18:51+08:00">
+                2018-05-26
               </time>
             
 
@@ -511,10 +960,13 @@
 
       
         
-          <h1 id="题目：机器人的运动范围"><a href="#题目：机器人的运动范围" class="headerlink" title="题目：机器人的运动范围"></a>题目：机器人的运动范围</h1><p>地上有个m行n列的方格。一个机器人从坐标(0,0)的格子开始移动，它每一次可以向左、右、上、下移动一格，但不能进入行坐标和列坐标的数位之和大于k的格子。<br>
+          <h1 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h1><ol>
+<li><strong>开始交换的区间是0~N-1</strong>，即数组整体：<br>6 3 5 7 0 4 1 2—&gt;第一个数和第二个数比较，哪个大哪个就放在后面，第二个数和第三个数比较，哪个大哪个放在后面，这样一次冒泡以后，最大的数就排在了数组的最后面。</li>
+<li><strong>再对0~N-2的区间进行同样的操作：</strong><br>3 5 6 0 4 1 2 7—&gt;</li>
+<li>依次进行，直到区间只有一个元素的时候，整个数组就变得有序了。
           <!--noindex-->
           <div class="post-button text-center">
-            <a class="btn" href="/2018/05/14/剑指offer-13/#more" rel="contents">
+            <a class="btn" href="/2018/05/26/冒泡排序/#more" rel="contents">
               阅读全文 &raquo;
             </a>
           </div>
@@ -565,7 +1017,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/05/12/剑指offer-12/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/05/23/MySQL入门/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="杨旭东">
@@ -584,7 +1036,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2018/05/12/剑指offer-12/" itemprop="url">剑指offer_12</a></h1>
+                <a class="post-title-link" href="/2018/05/23/MySQL入门/" itemprop="url">MySQL入门</a></h1>
         
 
         <div class="post-meta">
@@ -596,8 +1048,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-05-12T14:06:27+08:00">
-                2018-05-12
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-05-23T19:02:49+08:00">
+                2018-05-23
               </time>
             
 
@@ -619,8 +1071,8 @@
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/简单算法/" itemprop="url" rel="index">
-                    <span itemprop="name">简单算法</span>
+                  <a href="/categories/数据库/" itemprop="url" rel="index">
+                    <span itemprop="name">数据库</span>
                   </a>
                 </span>
 
@@ -657,10 +1109,14 @@
 
       
         
-          <h1 id="题目：矩阵中的路径"><a href="#题目：矩阵中的路径" class="headerlink" title="题目：矩阵中的路径"></a>题目：矩阵中的路径</h1><p>请设计一个函数，用来判断在一个矩阵中是否存在一条包含某字符串所有字符的路径。路径可以从矩阵中任意一格开始，每一步可以在矩阵中间向左、右、上、下移动一格。如果一条路径经过了矩阵的某一格，那么该路径不能再次进入该格子。<br>
+          <ul>
+<li>本文主要内容来自<a href="http://www.imooc.com/" target="_blank" rel="noopener">慕课网</a>。配合<a href="https://www.imooc.com/learn/122" target="_blank" rel="noopener">视频</a>食用口味更佳</li>
+<li>主要是顺着已经学习的视频顺序总结一遍，以深化理解和方便日后复习</li>
+<li>添加了自己的实践和理解</li>
+</ul>
           <!--noindex-->
           <div class="post-button text-center">
-            <a class="btn" href="/2018/05/12/剑指offer-12/#more" rel="contents">
+            <a class="btn" href="/2018/05/23/MySQL入门/#more" rel="contents">
               阅读全文 &raquo;
             </a>
           </div>
@@ -711,7 +1167,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/05/12/剑指offer-08/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/05/22/Spring事务管理入门/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="杨旭东">
@@ -730,7 +1186,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2018/05/12/剑指offer-08/" itemprop="url">剑指offer_08</a></h1>
+                <a class="post-title-link" href="/2018/05/22/Spring事务管理入门/" itemprop="url">Spring事务管理入门</a></h1>
         
 
         <div class="post-meta">
@@ -742,588 +1198,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-05-12T14:06:03+08:00">
-                2018-05-12
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/简单算法/" itemprop="url" rel="index">
-                    <span itemprop="name">简单算法</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <h1 id="题目：二叉树中序遍历顺序的下一个结点"><a href="#题目：二叉树中序遍历顺序的下一个结点" class="headerlink" title="题目：二叉树中序遍历顺序的下一个结点"></a>题目：二叉树中序遍历顺序的下一个结点</h1><p>给定一棵二叉树和其中的一个结点，如何找出中序遍历顺序的下一个结点？树中的结点除了有两个分别指向左右子结点的指针以外，还有一个指向父节点的指针。<br>
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2018/05/12/剑指offer-08/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/05/10/UML类图入门/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="杨旭东">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Xudong's blogs">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/05/10/UML类图入门/" itemprop="url">UML类图入门</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-05-10T21:36:11+08:00">
-                2018-05-10
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/基础工具/" itemprop="url" rel="index">
-                    <span itemprop="name">基础工具</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <h1 id="UML初识"><a href="#UML初识" class="headerlink" title="UML初识"></a>UML初识</h1><h2 id="UML的维基百科的定义"><a href="#UML的维基百科的定义" class="headerlink" title="UML的维基百科的定义"></a><a href="https://zh.wikipedia.org/wiki/%E7%BB%9F%E4%B8%80%E5%BB%BA%E6%A8%A1%E8%AF%AD%E8%A8%80" target="_blank" rel="noopener">UML的维基百科的定义</a></h2><p><strong>统一建模语言</strong>（英语：Unified Modeling Language，缩写 UML）是非专利的第三代<a href="https://zh.wikipedia.org/w/index.php?title=%E5%AF%B9%E8%B1%A1%E5%BB%BA%E6%A8%A1%E8%AF%AD%E8%A8%80&amp;action=edit&amp;redlink=1" title="对象建模语言（页面不存在）" target="_blank" rel="noopener">建模</a>和<a href="https://zh.wikipedia.org/wiki/%E8%A7%84%E7%BA%A6%E8%AF%AD%E8%A8%80" title="规约语言" target="_blank" rel="noopener">规约语言</a>。UML是一种开放的方法，用于说明、可视化、构建和编写一个正在开发的、面向对象的、软件密集系统的制品的开放方法。UML展现了一系列最佳工程实践，这些最佳实践在对大规模，复杂系统进行建模方面，特别是在软件架构层次已经被验证有效。<br>
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2018/05/10/UML类图入门/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/05/07/剑指offer-03/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="杨旭东">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Xudong's blogs">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/05/07/剑指offer-03/" itemprop="url">剑指offer_03</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-05-07T23:32:07+08:00">
-                2018-05-07
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/简单算法/" itemprop="url" rel="index">
-                    <span itemprop="name">简单算法</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <h1 id="题目-数组中重复的数字"><a href="#题目-数组中重复的数字" class="headerlink" title="题目 数组中重复的数字"></a>题目 数组中重复的数字</h1><p>在一个长度为n的数组里的所有数字都在0到n-1的范围内。数组中某些数字是重复的，但不知道有几个数字重复了，也不知道每个数字重复了几次。请找出数组中任意一个重复的数字。</p>
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2018/05/07/剑指offer-03/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/05/07/剑指offer/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="杨旭东">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Xudong's blogs">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/05/07/剑指offer/" itemprop="url">剑指offer</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-05-07T23:28:30+08:00">
-                2018-05-07
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/简单算法/" itemprop="url" rel="index">
-                    <span itemprop="name">简单算法</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>之前就刷了剑指offer，这里复习的时候在博客上总结一下，为了清晰思路和方便归纳。<br>剑指offer是用c和c++实现的，博主主要语言是Java，故用Java实现。过程中也参考借鉴许多前辈大佬的思路和写法。</p>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/05/04/Spring入门/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="杨旭东">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Xudong's blogs">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/05/04/Spring入门/" itemprop="url">Spring入门</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-05-04T22:33:04+08:00">
-                2018-05-04
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-05-22T20:58:17+08:00">
+                2018-05-22
               </time>
             
 
@@ -1383,10 +1259,10 @@
 
       
         
-          <p>说明：本文主要内容来自<a href="http://www.imooc.com/" target="_blank" rel="noopener">慕课网</a>。配合<a href="http://www.imooc.com/learn/196" target="_blank" rel="noopener">视频</a>食用口味更佳。<br>主要是顺着已经学习的视频顺序总结一遍，以深化理解和方便日后复习。<br>本部分只包含IOC和AOP。</p>
+          <p>说明：本文主要内容来自<a href="http://www.imooc.com/" target="_blank" rel="noopener">慕课网</a>。配合<a href="https://www.imooc.com/learn/478" target="_blank" rel="noopener">视频</a>食用口味更佳。<br>主要是顺着已经学习的视频顺序总结一遍，以深化理解和方便日后复习。<br>
           <!--noindex-->
           <div class="post-button text-center">
-            <a class="btn" href="/2018/05/04/Spring入门/#more" rel="contents">
+            <a class="btn" href="/2018/05/22/Spring事务管理入门/#more" rel="contents">
               阅读全文 &raquo;
             </a>
           </div>
@@ -1437,7 +1313,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/05/02/Java反射/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/05/20/Java泛型/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="杨旭东">
@@ -1456,7 +1332,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2018/05/02/Java反射/" itemprop="url">Java反射</a></h1>
+                <a class="post-title-link" href="/2018/05/20/Java泛型/" itemprop="url">Java泛型</a></h1>
         
 
         <div class="post-meta">
@@ -1468,8 +1344,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-05-02T23:19:33+08:00">
-                2018-05-02
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-05-20T23:44:41+08:00">
+                2018-05-20
               </time>
             
 
@@ -1529,10 +1405,10 @@
 
       
         
-          <p>Java反射机制是指在运行状态中，对于任意一个类，都能够<strong>知道</strong>这个类的所有属性和方法；对于任意一个对象，都能够<strong>调用</strong>它的任意一个方法和属性。这种动态获取的信息以及动态调用对象的方法的功能称为java语言的反射机制。<br>用一句话总结就是反射可以实现在<strong>运行时(Runtime)</strong>知道任意一个类的属性和方法。</p>
+          <p>将集合中的元素限定为一个特定的类型。<br>
           <!--noindex-->
           <div class="post-button text-center">
-            <a class="btn" href="/2018/05/02/Java反射/#more" rel="contents">
+            <a class="btn" href="/2018/05/20/Java泛型/#more" rel="contents">
               阅读全文 &raquo;
             </a>
           </div>
@@ -1583,7 +1459,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/04/27/markdown入门/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/05/19/Java多线程入门/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="杨旭东">
@@ -1602,7 +1478,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2018/04/27/markdown入门/" itemprop="url">markdown入门</a></h1>
+                <a class="post-title-link" href="/2018/05/19/Java多线程入门/" itemprop="url">Java多线程入门</a></h1>
         
 
         <div class="post-meta">
@@ -1614,8 +1490,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-04-27T16:43:17+08:00">
-                2018-04-27
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-05-19T15:11:17+08:00">
+                2018-05-19
               </time>
             
 
@@ -1637,8 +1513,8 @@
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/基础工具/" itemprop="url" rel="index">
-                    <span itemprop="name">基础工具</span>
+                  <a href="/categories/编程语言/" itemprop="url" rel="index">
+                    <span itemprop="name">编程语言</span>
                   </a>
                 </span>
 
@@ -1675,10 +1551,156 @@
 
       
         
-          <p>简单介绍了markdown，使用原因和基础语法。</p>
+          <p>本文主要介绍线程的定义，创建，使用，停止，状态图和常用方法。<br>主要用于概念扫盲和梳理。<br>
           <!--noindex-->
           <div class="post-button text-center">
-            <a class="btn" href="/2018/04/27/markdown入门/#more" rel="contents">
+            <a class="btn" href="/2018/05/19/Java多线程入门/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/05/18/剑指offer-23/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="杨旭东">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Xudong's blogs">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/05/18/剑指offer-23/" itemprop="url">剑指offer_23</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-05-18T21:36:59+08:00">
+                2018-05-18
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/简单算法/" itemprop="url" rel="index">
+                    <span itemprop="name">简单算法</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          <h1 id="题目：链表中环的入口节点"><a href="#题目：链表中环的入口节点" class="headerlink" title="题目：链表中环的入口节点"></a>题目：链表中环的入口节点</h1><p>如果一个链表中包含环，请找出该链表的环的入口结点。<br>
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2018/05/18/剑指offer-23/#more" rel="contents">
               阅读全文 &raquo;
             </a>
           </div>
@@ -1720,7 +1742,7 @@
 
   
   <nav class="pagination">
-    <a class="extend prev" rel="prev" href="/page/7/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/7/">7</a><span class="page-number current">8</span>
+    <a class="extend prev" rel="prev" href="/page/7/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/7/">7</a><span class="page-number current">8</span><a class="page-number" href="/page/9/">9</a><a class="page-number" href="/page/10/">10</a><a class="extend next" rel="next" href="/page/9/"><i class="fa fa-angle-right"></i></a>
   </nav>
 
 
@@ -1770,7 +1792,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">80</span>
+                  <span class="site-state-item-count">92</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -1781,7 +1803,7 @@
               
               <div class="site-state-item site-state-categories">
                 <a href="/categories/index.html">
-                  <span class="site-state-item-count">19</span>
+                  <span class="site-state-item-count">20</span>
                   <span class="site-state-item-name">分类</span>
                 </a>
               </div>
@@ -1792,7 +1814,7 @@
               
               <div class="site-state-item site-state-tags">
                 <a href="/tags/index.html">
-                  <span class="site-state-item-count">45</span>
+                  <span class="site-state-item-count">46</span>
                   <span class="site-state-item-name">标签</span>
                 </a>
               </div>
