@@ -1,0 +1,805 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next gemini use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+<!-- 20180426-->
+<script src="//cdn.bootcss.com/pace/1.0.2/pace.min.js"></script>
+<link href="//cdn.bootcss.com/pace/1.0.2/themes/pink/pace-theme-flash.css" rel="stylesheet">
+<style>
+    .pace .pace-progress {
+        background: #1E92FB; /*进度条颜色*/
+        height: 3px;
+    }
+    .pace .pace-progress-inner {
+         box-shadow: 0 0 10px #1E92FB, 0 0 5px     #1E92FB; /*阴影颜色*/
+    }
+    .pace .pace-activity {
+        border-top-color: #1E92FB;    /*上边框颜色*/
+        border-left-color: #1E92FB;    /*左边框颜色*/
+    }
+</style>
+
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon.ico?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="剑指offer," />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="题目31：栈的压入、弹出序列输入两个整数序列，第一个序列表示栈的压入顺序，请判断二个序列是否为该栈的弹出顺序。假设压入栈的所有数字均不相等。">
+<meta name="keywords" content="剑指offer">
+<meta property="og:type" content="article">
+<meta property="og:title" content="31:栈的压入、弹出序列">
+<meta property="og:url" content="http://yoursite.com/2018/09/12/31-栈的压入、弹出序列/index.html">
+<meta property="og:site_name" content="Xudong&#39;s blogs">
+<meta property="og:description" content="题目31：栈的压入、弹出序列输入两个整数序列，第一个序列表示栈的压入顺序，请判断二个序列是否为该栈的弹出顺序。假设压入栈的所有数字均不相等。">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2018-09-12T13:19:44.869Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="31:栈的压入、弹出序列">
+<meta name="twitter:description" content="题目31：栈的压入、弹出序列输入两个整数序列，第一个序列表示栈的压入顺序，请判断二个序列是否为该栈的弹出顺序。假设压入栈的所有数字均不相等。">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2018/09/12/31-栈的压入、弹出序列/"/>
+
+
+
+
+
+  <title>31:栈的压入、弹出序列 | Xudong's blogs</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Xudong's blogs</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">email:2228998096@qq.com    wechat:yxd19940114</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/09/12/31-栈的压入、弹出序列/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="杨旭东">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Xudong's blogs">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">31:栈的压入、弹出序列</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-09-12T21:05:30+08:00">
+                2018-09-12
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/简单算法/" itemprop="url" rel="index">
+                    <span itemprop="name">简单算法</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="题目31：栈的压入、弹出序列"><a href="#题目31：栈的压入、弹出序列" class="headerlink" title="题目31：栈的压入、弹出序列"></a>题目31：栈的压入、弹出序列</h1><p>输入两个整数序列，第一个序列表示栈的压入顺序，请判断二个序列是否为该栈的弹出顺序。假设压入栈的所有数字均不相等。</p>
+<a id="more"></a>
+<h1 id="举例说明"><a href="#举例说明" class="headerlink" title="举例说明"></a>举例说明</h1><p>序列<code>1,2,3,4,5</code>是某栈的压入顺序，序列<code>4,5,3,2,1</code>是该压栈序列对应的一个弹出序列，但<code>4,3,5,1,2</code>就不可能是该压栈序列的弹出序列。（注意：这两个序列的长度是相等的）</p>
+<h1 id="思路"><a href="#思路" class="headerlink" title="思路"></a>思路</h1><p>解决这个问题很直观的想法就是建立一个辅助栈，把输入的第一个序列中的数字依次压入该辅助栈，并按照第二个序列的顺序依次从该栈中弹出数字。</p>
+<p>判断一个序列是不是栈的弹出序列的规律：</p>
+<ul>
+<li>压栈序列：<code>int[] push</code></li>
+<li>弹出序列：<code>int[] pop</code></li>
+<li>辅助栈：<code>Stack&lt;Integer&gt; help = new Stack&lt;&gt;();</code></li>
+<li>判断弹出元素是不是栈顶元素<br><code>help.peek() != pop[nextPop]</code></li>
+</ul>
+<ol>
+<li>如果Stack<strong>下一个弹出的数字刚好是栈顶数字</strong>，那么直接弹出</li>
+<li>如果Stack下一个弹出的数字不在栈顶，把push[]中还没有入栈的数字压入help，直到把下一个<strong>需要弹出的数字压入栈顶为止</strong></li>
+<li>如果所有的数字都压入栈了<strong>仍然没有找到下一个弹出的数字</strong>，那么该序列不可能是一个弹出序列</li>
+</ol>
+<h1 id="代码实现"><a href="#代码实现" class="headerlink" title="代码实现"></a>代码实现</h1><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">_31</span> </span>&#123;</span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">boolean</span> <span class="title">isPopOrder</span><span class="params">(<span class="keyword">int</span>[] push, <span class="keyword">int</span>[] pop)</span> </span>&#123;</span><br><span class="line">		<span class="keyword">boolean</span> isPossible = <span class="keyword">false</span>;</span><br><span class="line">		<span class="comment">// a. 都不为空 b. 都有数据，且数据个数都相等</span></span><br><span class="line">		<span class="keyword">if</span> (push != <span class="keyword">null</span> &amp;&amp; pop != <span class="keyword">null</span> &amp;&amp; push.length &gt; <span class="number">0</span> &amp;&amp; push.length == pop.length) &#123;</span><br><span class="line">			Stack&lt;Integer&gt; help = <span class="keyword">new</span> Stack&lt;&gt;();<span class="comment">// 用于存放入栈时的数据</span></span><br><span class="line">			<span class="keyword">int</span> nextPush = <span class="number">0</span>;</span><br><span class="line">			<span class="keyword">int</span> nextPop = <span class="number">0</span>;</span><br><span class="line"></span><br><span class="line">			<span class="keyword">while</span> (nextPop &lt; pop.length) &#123; <span class="comment">// 如果pop[] 没有处理完就继续进行处理</span></span><br><span class="line">				<span class="comment">// a. 栈为空 b. 栈顶的元素与当前处理的出栈元素不相同</span></span><br><span class="line">				<span class="keyword">while</span> (help.isEmpty() || help.peek() != pop[nextPop]) &#123;</span><br><span class="line">					<span class="keyword">if</span> (nextPush &gt;= push.length) &#123;<span class="comment">//若入栈的元素已经全部入栈了</span></span><br><span class="line">						<span class="keyword">break</span>;<span class="comment">//就退出内层循环</span></span><br><span class="line">					&#125;</span><br><span class="line">					<span class="comment">//说明没被break。nextPush &lt; push.length,还有push[] 可以入栈</span></span><br><span class="line">					help.push(push[nextPush]);<span class="comment">// 将push[]元素 入 help栈</span></span><br><span class="line">					nextPush++;<span class="comment">// 指向下一个要处理的入栈元素的位置</span></span><br><span class="line">				&#125;</span><br><span class="line">				<span class="comment">// 执行到此处有两种情况：</span></span><br><span class="line">				<span class="comment">// 第一种：在栈顶上找到了一个与入栈元素相等的元素</span></span><br><span class="line">				<span class="comment">// 第二种：在栈顶上没有找到一个与入栈元素相等的元素，但输入栈的元素已经全部入栈了</span></span><br><span class="line">				<span class="comment">// 对于第二种情况就说弹出栈的顺序是不符合要求的，退出外层循环</span></span><br><span class="line">				<span class="keyword">if</span> (help.peek() != pop[nextPop]) &#123;</span><br><span class="line">					<span class="keyword">break</span>;</span><br><span class="line">				&#125;</span><br><span class="line">				help.pop();<span class="comment">// 对应到第一种情况：需要要栈的栈顶元素弹出</span></span><br><span class="line">				nextPop++;<span class="comment">// 指向pop[]下一个要处理的出栈元素的位置</span></span><br><span class="line">			&#125;</span><br><span class="line"></span><br><span class="line">			<span class="comment">// 执行到此处有两种情况</span></span><br><span class="line">			<span class="comment">// 第一种：外层while循环被break</span></span><br><span class="line">			<span class="comment">// 第二种：所有的出栈元素都被正确匹配</span></span><br><span class="line"></span><br><span class="line">			<span class="comment">// 对于出现的第一种情况其stack.isEmpty()必不为空，原因为分析如下：</span></span><br><span class="line">			<span class="comment">// 所有的入栈元素一定会入栈，但是只有匹配的情况下才会出栈，</span></span><br><span class="line">			<span class="comment">// 匹配的次数最多与入栈元素个数元素相同（两个数组的长度相等），如果有不匹配的元素，</span></span><br><span class="line">			<span class="comment">// 必然会使出栈的次数比入栈的次数少，这样栈中至少会有一个元素</span></span><br><span class="line">			<span class="comment">// 对于第二种情况其stack.isEmpty()一定为空</span></span><br><span class="line">			<span class="comment">// 所以书本上的nextPop == pop.length（pNextPop-pPop==nLength）是多余的</span></span><br><span class="line">			<span class="keyword">if</span> (help.isEmpty()) &#123;</span><br><span class="line">				isPossible = <span class="keyword">true</span>;</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="keyword">return</span> isPossible;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">		<span class="keyword">int</span>[] push = &#123; <span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span> &#125;;</span><br><span class="line">		<span class="keyword">int</span>[] pop1 = &#123; <span class="number">4</span>, <span class="number">5</span>, <span class="number">3</span>, <span class="number">2</span>, <span class="number">1</span> &#125;;</span><br><span class="line">		<span class="keyword">int</span>[] pop2 = &#123; <span class="number">4</span>, <span class="number">3</span>, <span class="number">5</span>, <span class="number">1</span>, <span class="number">2</span> &#125;;</span><br><span class="line"></span><br><span class="line">		System.out.println(isPopOrder(push, pop1));<span class="comment">// true</span></span><br><span class="line">		System.out.println(isPopOrder(push, pop2));<span class="comment">// false</span></span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>输出：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">true</span><br><span class="line">false</span><br></pre></td></tr></table></figure>
+<p>参考文章<br><a href="http://www.cnblogs.com/edisonchou/p/4779755.html" target="_blank" rel="noopener">图解</a><br><a href="https://blog.csdn.net/derrantcm/article/details/46691083" target="_blank" rel="noopener">【剑指Offer学习】【面试题22：栈的压入、弹出序列】</a></p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/剑指offer/" rel="tag"><i class="fa fa-tag"></i> 剑指offer</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/09/12/33-二叉搜索树的后序遍历序列/" rel="next" title="33:二叉搜索树的后序遍历序列">
+                <i class="fa fa-chevron-left"></i> 33:二叉搜索树的后序遍历序列
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/avatar.jpg"
+                alt="杨旭东" />
+            
+              <p class="site-author-name" itemprop="name">杨旭东</p>
+              <p class="site-description motion-element" itemprop="description">种一棵树最好的时间是十年前，其次是现在</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">105</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">20</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">46</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/stoneyang94" target="_blank" title="GitHub">
+                      
+                        <i class="fa fa-fw fa-github"></i>GitHub</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="https://www.jianshu.com/u/f7b90f4a10ae" target="_blank" title="简书">
+                      
+                        <i class="fa fa-fw fa-book"></i>简书</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#题目31：栈的压入、弹出序列"><span class="nav-number">1.</span> <span class="nav-text">题目31：栈的压入、弹出序列</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#举例说明"><span class="nav-number">2.</span> <span class="nav-text">举例说明</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#思路"><span class="nav-number">3.</span> <span class="nav-text">思路</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#代码实现"><span class="nav-number">4.</span> <span class="nav-text">代码实现</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">杨旭东</span>
+
+  
+</div>
+
+<!-- 20180426 -->
+<div class="powered-by">
+<i class="fa fa-user-md"></i><span id="busuanzi_container_site_uv">
+  本站访客数:<span id="busuanzi_value_site_uv"></span>
+</span>
+</div>
+
+
+<!-- 20180425
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+-->
+
+<!-- 20180425
+
+  <span class="post-meta-divider">|</span>
+
+-->
+
+<!-- 20180425
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Gemini</a> v5.1.4</div>
+
+-->
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+  <!--页面点击小红心 -->
+  <script type="text/javascript" src="/js/src/love.js"></script>>
+    <!--背景动画 -->
+  <script type="text/javascript" src="/js/src/background.js"></script>>
+</body>
+</html>
